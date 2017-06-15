@@ -260,7 +260,9 @@ public class SuoCZGLorJs extends Fragment {
         builder.setPositiveButton("加锁确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+/**
+ * do what
+ */
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -299,6 +301,14 @@ public class SuoCZGLorJs extends Fragment {
 
 
         super.onActivityResult(requestCode, resultCode, data);
+        suo1_sbbh = null;
+        suo1_id = null;
+        suo1_ztbj = null;
+        suo2_id = null;
+        suo2_sbbh = null;
+        suo2_ztbj = null;
+        suo1.setText("");
+        suo2.setText("");
 
         Log.e("TAG", "requestCode=" + requestCode + "resultCode" + resultCode);
         if (requestCode == 1) {

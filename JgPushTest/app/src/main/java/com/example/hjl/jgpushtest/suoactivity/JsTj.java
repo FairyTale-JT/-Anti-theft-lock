@@ -11,8 +11,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
@@ -22,12 +24,13 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by Administrator on 2017/6/13.
  */
 
-public class JsTj extends AppCompatActivity {
+public class JsTj extends BaseActivity {
     @Bind(R.id.jstj_bt1)
     Button jstjBt1;
     @Bind(R.id.jstj_et1)
@@ -83,6 +86,7 @@ public class JsTj extends AppCompatActivity {
                         bundle.putString("suo1",date_id);
                         bundle.putString("sbbh1",date_sbbh);
                         bundle.putString("ztbj1",date_ztbj);
+                        doit(bundle);
                     }
                     if (isChoseList.size()==2) {
                         date_id=isChoseList.get(0).getSuo_haoma().toString();
@@ -97,19 +101,29 @@ public class JsTj extends AppCompatActivity {
                         bundle.putString("suo2",date2_id);
                         bundle.putString("sbbh2",date2_sbbh);
                         bundle.putString("ztbj2",date2_ztbj);
+                        doit(bundle);
                     }
+                    if (isChoseList.size()>2) {
+                        Toasty.warning(JsTj.this,"最多可以选择两把锁", Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    finish();
                 }
 
 
-                //设置返回数据
-                // 先设置ReaultCode,再设置存储数据的意图
-                Intent intent=new Intent();
-                intent.putExtras(bundle);
-                setResult(RESULT_OK,intent);
-                //关闭当前activity
-                finish();
+
             }
         });
+    }
+
+    private void doit(Bundle bundle) {
+        //设置返回数据
+        // 先设置ReaultCode,再设置存储数据的意图
+        Intent intent=new Intent();
+        intent.putExtras(bundle);
+        setResult(RESULT_OK,intent);
+        //关闭当前activity
+        finish();
     }
 
     private void JstjListView() {
