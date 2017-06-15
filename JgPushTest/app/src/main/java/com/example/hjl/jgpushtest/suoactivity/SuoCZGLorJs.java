@@ -184,6 +184,10 @@ public class SuoCZGLorJs extends Fragment {
         });
 
     }
+
+    private void init(){
+        
+    }
     //加锁确认对话框
     private void UDialog(String cxh) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
