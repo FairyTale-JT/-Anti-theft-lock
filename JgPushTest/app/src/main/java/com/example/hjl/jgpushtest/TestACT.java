@@ -2,27 +2,26 @@ package com.example.hjl.jgpushtest;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.suoactivity.SuoMainActivity;
-import com.example.hjl.jgpushtest.util.ToastUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by hjl on 2017/6/8.
  */
 
-public class TestACT extends AppCompatActivity{
+public class TestACT extends BaseActivity {
     @Bind(R.id.username)
     EditText useName;
     @Bind(R.id.password)
@@ -50,7 +49,8 @@ public class TestACT extends AppCompatActivity{
             public void onClick(View view) {
                 user_in=useName.getText().toString();
                 password_in=password.getText().toString();
-                ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
+                //ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
+                Toasty.success(TestACT.this,user_in+"\n"+password_in, Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(TestACT.this, SuoMainActivity.class);
                 startActivity(intent);
                 finish();

@@ -30,6 +30,8 @@ import com.example.hjl.jgpushtest.fragment.JsjlAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by hjl on 2017/6/12.
  */
@@ -41,9 +43,9 @@ public class SuoCZGLorJs extends Fragment {
     private JsjlAdapter jsadapter;
     private JiaSuoAdapter jiaSuoAdapter;
     private List<Jsjv> list;
-    private Button js_xzs,js_tj;
+    private Button js_xzs, js_tj;
     SwipeRefreshLayout swipeRefreshLayout;
-    private EditText suo1,suo2;
+    private EditText suo1, suo2;
 
     public static SuoCZGLorJs getnewInstance_Js(String param1) {
         SuoCZGLorJs my = new SuoCZGLorJs();
@@ -88,23 +90,23 @@ public class SuoCZGLorJs extends Fragment {
     }
 
     private void initView() {
-        swipeRefreshLayout=
+        swipeRefreshLayout =
                 (SwipeRefreshLayout) view.findViewById(R.id.suo_swip_item);
-        suo1= (EditText) view.findViewById(R.id.suo_suohao1_ed);
-        suo2= (EditText) view.findViewById(R.id.suo_suohao2_ed);
+        suo1 = (EditText) view.findViewById(R.id.suo_suohao1_ed);
+        suo2 = (EditText) view.findViewById(R.id.suo_suohao2_ed);
         js_rv = (RecyclerView) view.findViewById(R.id.suo_js_rev_fragment);
         js_xzs = (Button) view.findViewById(R.id.suo_js_xzsuo);
-        js_tj= (Button) view.findViewById(R.id.suo_js_tijiao);
+        js_tj = (Button) view.findViewById(R.id.suo_js_tijiao);
         js_rv.setLayoutManager(new LinearLayoutManager(context));
         js_rv.setItemAnimator(new DefaultItemAnimator());
-        jiaSuoAdapter=new JiaSuoAdapter();
+        jiaSuoAdapter = new JiaSuoAdapter();
         js_rv.setAdapter(jiaSuoAdapter);
     }
 
     /**
      * 下拉刷新的监听
      */
-    private void swipCheak()   {
+    private void swipCheak() {
         // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
         // 设置下拉进度的背景颜色，默认就是白色的
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
@@ -155,7 +157,8 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                Toast.makeText(context.getApplicationContext(), s + "---点击", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context.getApplicationContext(), s + "---点击", Toast.LENGTH_SHORT).show();
+                Toasty.info(context.getApplicationContext(), s + "---点击", Toast.LENGTH_SHORT, true).show();
                 UDialog(s);
             }
         });
@@ -163,7 +166,8 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onLongItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                Toast.makeText(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT).show();
+                Toasty.info(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT, true).show();
                 DeleteDialog(s);
             }
         });
@@ -180,13 +184,13 @@ public class SuoCZGLorJs extends Fragment {
                 startActivityForResult(intent, 1);//带返回参数的跳转
             }
         });
-    js_tj.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Jsjv jsjv = new Jsjv();
+        js_tj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Jsjv jsjv = new Jsjv();
 
-        }
-    });
+            }
+        });
     }
 
     //加锁确认对话框
@@ -209,6 +213,7 @@ public class SuoCZGLorJs extends Fragment {
         builder.create().show();
 
     }
+
     //删除对话框
     private void DeleteDialog(String cxh) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -233,28 +238,25 @@ public class SuoCZGLorJs extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
 
-            Log.e("TAG","requestCode="+requestCode+"resultCode"+resultCode);
-            if (requestCode ==1 )
-            {
-                if (resultCode == SuoMainActivity.RESULT_OK)
-                {
-                    //获取返回信息
-                    String string1 = data.getExtras().getString("suo1");
-                    String string2 = data.getExtras().getString("suo2");
-                    if (string2 != null) {
-                        suo2.setText(string2);
-                    }
-                    if (string1 != null) {
-                        suo1.setText(string1);
-                    }
-                    Toast.makeText(getContext(), "返回信息=" + string1, Toast.LENGTH_LONG);
+        Log.e("TAG", "requestCode=" + requestCode + "resultCode" + resultCode);
+        if (requestCode == 1) {
+            if (resultCode == SuoMainActivity.RESULT_OK) {
+                //获取返回信息
+                String string1 = data.getExtras().getString("suo1");
+                String string2 = data.getExtras().getString("suo2");
+                if (string2 != null) {
+                    suo2.setText(string2);
                 }
-                else {
-                    Toast.makeText(getContext(),"返回信息有问题",Toast.LENGTH_SHORT);
+                if (string1 != null) {
+                    suo1.setText(string1);
                 }
+                Toast.makeText(getContext(), "返回信息=" + string1, Toast.LENGTH_LONG);
+            } else {
+                Toast.makeText(getContext(), "返回信息有问题", Toast.LENGTH_SHORT);
             }
+        }
 
 
     }

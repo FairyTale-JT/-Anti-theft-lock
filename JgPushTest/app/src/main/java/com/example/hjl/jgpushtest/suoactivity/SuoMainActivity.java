@@ -7,18 +7,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.R;
+import com.gyf.barlibrary.ImmersionBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by hjl on 2017/6/12.
  */
 
-public class SuoMainActivity extends AppCompatActivity {
+public class SuoMainActivity extends BaseActivity {
     @Bind(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
     @Bind(R.id.layFrame)
@@ -48,11 +46,12 @@ public class SuoMainActivity extends AppCompatActivity {
 //        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //        }
-        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         super.onResume();
     }
+
     public int getNavigationBarHeight() {
 
         boolean hasMenuKey = ViewConfiguration.get(this).hasPermanentMenuKey();
@@ -63,8 +62,7 @@ public class SuoMainActivity extends AppCompatActivity {
             //获取NavigationBar的高度
             int height = resources.getDimensionPixelSize(resourceId);
             return height;
-        }
-        else{
+        } else {
             return 0;
         }
     }
@@ -74,6 +72,7 @@ public class SuoMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.suo_maintv);
         ButterKnife.bind(this);
+
         getWindow()
                 .getDecorView()
                 .findViewById(android.R.id.content)
@@ -114,6 +113,7 @@ public class SuoMainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void doit(int position) {
 
         FragmentManager fm = this.getSupportFragmentManager();
@@ -122,27 +122,27 @@ public class SuoMainActivity extends AppCompatActivity {
         switch (position) {
             case 0:
                 if (czgLfragment == null) {
-                    czgLfragment=SuoCZGLfragment.getnewInstance_czgl("加锁");
+                    czgLfragment = SuoCZGLfragment.getnewInstance_czgl("加锁");
                 }
-                transaction.replace(R.id.layFrame,czgLfragment);
+                transaction.replace(R.id.layFrame, czgLfragment);
                 break;
             case 1:
                 if (crKfragment == null) {
-                    crKfragment=SuoCRKfragment.getnewInstance_crk( "解锁");
+                    crKfragment = SuoCRKfragment.getnewInstance_crk("解锁");
                 }
-                transaction.replace(R.id.layFrame,crKfragment);
+                transaction.replace(R.id.layFrame, crKfragment);
                 break;
             case 2:
                 if (tzcXfragment == null) {
-                    tzcXfragment=SuoTZCXfragment.getnewInstance_tzcx("强拆");
+                    tzcXfragment = SuoTZCXfragment.getnewInstance_tzcx("强拆");
                 }
-                transaction.replace(R.id.layFrame,tzcXfragment);
+                transaction.replace(R.id.layFrame, tzcXfragment);
                 break;
             case 3:
                 if (wDfragment == null) {
-                    wDfragment=SuoWDfragment.getnewInstance_wd("补锁");
+                    wDfragment = SuoWDfragment.getnewInstance_wd("补锁");
                 }
-                transaction.replace(R.id.layFrame,wDfragment);
+                transaction.replace(R.id.layFrame, wDfragment);
                 break;
             default:
                 break;
@@ -150,19 +150,20 @@ public class SuoMainActivity extends AppCompatActivity {
         // 事务提交
         transaction.commit();
     }
+
     /**
      * 设置默认的
      */
     private void setDefaultFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        czgLfragment=SuoCZGLfragment.getnewInstance_czgl("加锁");
-        transaction.replace(R.id.layFrame,czgLfragment);
+        czgLfragment = SuoCZGLfragment.getnewInstance_czgl("加锁");
+        transaction.replace(R.id.layFrame, czgLfragment);
         transaction.commit();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
