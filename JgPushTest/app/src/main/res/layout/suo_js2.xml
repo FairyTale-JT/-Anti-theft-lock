@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--scroll|exitUntilCollapsed控制CollapsingToolbarLayout的折叠效果-->
+        <!--expandedTitleMarginEnd 没有扩张的时候标题显示的位置-->
+        <!--expandedTitleMarginStart扩张的时候标题向左填充的距离。-->
+        <!--statusBarScrim - 设置折叠时状态栏的颜色-->
+        <!--contentScrim 设置当完全折叠(收缩)后的背景颜色。-->
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/tv_white"
+            android:background="@color/gry"
+
+            >
+            <LinearLayout
+
+                app:layout_collapseMode="parallax"
+                android:background="@android:color/transparent"
+                app:layout_collapseParallaxMultiplier="0.7"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include layout="@layout/suo_head_js"/>
+
+            </LinearLayout>
+            <android.support.v7.widget.Toolbar
+                android:background="@color/tv_white"
+                android:id="@+id/id_toolbar_re_coll"
+                android:layout_gravity="bottom"
+                app:layout_collapseMode="pin"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <include layout="@layout/suo_js_bar_head"/>
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/suo_swip_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/suo_js_rev_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</android.support.design.widget.CoordinatorLayout>

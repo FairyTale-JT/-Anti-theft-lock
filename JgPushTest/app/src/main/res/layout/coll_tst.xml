@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--scroll|exitUntilCollapsed控制CollapsingToolbarLayout的折叠效果-->
+        <!--expandedTitleMarginEnd 没有扩张的时候标题显示的位置-->
+        <!--expandedTitleMarginStart扩张的时候标题向左填充的距离。-->
+        <!--statusBarScrim - 设置折叠时状态栏的颜色-->
+        <!--contentScrim 设置当完全折叠(收缩)后的背景颜色。-->
+<android.support.design.widget.CollapsingToolbarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+    android:fitsSystemWindows="true"
+    app:contentScrim="?attr/colorPrimary"
+>
+    <LinearLayout
+
+         app:layout_collapseMode="parallax"
+         android:background="@android:color/transparent"
+        app:layout_collapseParallaxMultiplier="0.7"
+         android:scaleType="centerCrop"
+         android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/head_item"/>
+
+    </LinearLayout>
+<!--“pin”： 固定模式。在收缩的时候最后固定在顶端（例如向上滚动的时候就固定toolBar）-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/id_toolbar_re_coll"
+
+        app:layout_collapseMode="pin"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <include layout="@layout/bar_item"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.CollapsingToolbarLayout>
+        <android.support.design.widget.TabLayout
+
+            app:tabTextAppearance="@android:style/TextAppearance.Holo.Large"
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="?attr/colorPrimary"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorHeight="2dp"
+            app:tabSelectedTextColor="#f30e0e10"
+            app:tabTextColor="#b31d1d"
+            app:tabBackground="@color/tabcolor"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabMinWidth="800dp"
+            app:tabMaxWidth="800dp"
+            >
+            <!--<android.support.design.widget.TabItem-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent" />-->
+            <!--<android.support.design.widget.TabItem-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent" />-->
+            <!--<android.support.design.widget.TabItem-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent" />-->
+            <!--<android.support.design.widget.TabItem-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent" />-->
+            <!--<android.support.design.widget.TabItem-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent" />-->
+        </android.support.design.widget.TabLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </android.support.v4.view.ViewPager>
+
+</android.support.design.widget.CoordinatorLayout>

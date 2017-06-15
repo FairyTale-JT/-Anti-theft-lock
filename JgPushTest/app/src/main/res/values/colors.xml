@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#f50414</color>
+    <color name="windowback">#d1ccce</color>
+    <color name="tabcolor">#ecd20f</color>
+    <color name="dailogbk">#00000000</color>
+    <color name="tv_white">#f8f8ff</color>
+    <color name="bt_blue">#63aeff</color>
+    <color name="bg_gray">#e5e5e5</color>
+    <color name="wbk_no">#919191</color>
+    <color name="bt1_blue">#63aeff</color>
+    <color name="tv_black">#333333</color>
+    <color name="gry">#b1adad</color>
+    <color name="dark">#121111</color>
+    <color name="my">#0b32f2</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+</resources>
