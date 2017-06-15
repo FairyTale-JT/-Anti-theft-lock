@@ -76,7 +76,7 @@ public class SuoCZGLorJs extends Fragment {
         }
         Bundle bundle = getArguments();
         String agrs1 = bundle.getString("agrs1");
-
+        list = new ArrayList<>();
         initView();
         JsListview();
         JsButton();
@@ -97,8 +97,6 @@ public class SuoCZGLorJs extends Fragment {
         js_tj= (Button) view.findViewById(R.id.suo_js_tijiao);
         js_rv.setLayoutManager(new LinearLayoutManager(context));
         js_rv.setItemAnimator(new DefaultItemAnimator());
-//        jsadapter = new JsjlAdapter();
-//        js_rv.setAdapter(jsadapter);
         jiaSuoAdapter=new JiaSuoAdapter();
         js_rv.setAdapter(jiaSuoAdapter);
     }
@@ -140,7 +138,7 @@ public class SuoCZGLorJs extends Fragment {
     //Listview 添加数据与操作
     private void JsListview() {
 
-        list = new ArrayList<>();
+
         for (int i = 0; i < 5; i++) {
             Jsjv jsjv = new Jsjv();
             jsjv.setCxh("100000" + i);
@@ -182,12 +180,15 @@ public class SuoCZGLorJs extends Fragment {
                 startActivityForResult(intent, 1);//带返回参数的跳转
             }
         });
+    js_tj.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Jsjv jsjv = new Jsjv();
 
+        }
+    });
     }
 
-    private void init(){
-        
-    }
     //加锁确认对话框
     private void UDialog(String cxh) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);

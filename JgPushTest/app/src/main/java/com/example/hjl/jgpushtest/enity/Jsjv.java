@@ -17,7 +17,23 @@ public class Jsjv {
     private String sbh;//设备号
     private String ccpc;//出厂批次
     private String cdts;//充电天数
+    private FdSuo fdSuo1;//
+    private FdSuo fdSuo2;//
 
+    public FdSuo getFdSuo1() {
+        return fdSuo1;
+    }
+
+    public void setFdSuo1(FdSuo fdSuo) {
+        this.fdSuo1 = fdSuo;
+    }
+    public FdSuo getFdSuo2() {
+        return fdSuo2;
+    }
+
+    public void setFdSuo2(FdSuo fdSuo) {
+        this.fdSuo2 = fdSuo;
+    }
     public String getJlh() {
         return jlh;
     }
