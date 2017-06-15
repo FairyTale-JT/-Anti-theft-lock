@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
 
 import java.util.List;
@@ -17,16 +18,16 @@ import java.util.List;
  */
 
 public class JsTjAdapter extends BaseAdapter {
-    private List<Jsjv> list;
-    private LayoutInflater layoutInflater;
+    private List<FdSuo> list;
+    public JsTjAdapter() {
 
-    public JsTjAdapter(List<Jsjv> list, Context context) {
-        this.list = list;
-        this.layoutInflater = LayoutInflater.from(context);
 
     }
 
-
+public void setsetDateJsTjAdapter(List<FdSuo> list){
+    this.list=list;
+    notifyDataSetChanged();
+}
     @Override
     public int getCount() {
         return list == null ? 0 : list.size();
@@ -44,20 +45,20 @@ public class JsTjAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        View view = layoutInflater.inflate(R.layout.jstj_list_item, null);
-        Jsjv jsxx = (Jsjv) getItem(i);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.jstj_list_item, null);
+        FdSuo fdSuo = (FdSuo) getItem(i);
         TextView tv1 = (TextView) view.findViewById(R.id.jstj_tv1);
         TextView tv2 = (TextView) view.findViewById(R.id.jstj_tv2);
         TextView tv3 = (TextView) view.findViewById(R.id.jstj_tv3);
         TextView tv4 = (TextView) view.findViewById(R.id.jstj_tv4);
         TextView tv5 = (TextView) view.findViewById(R.id.jstj_tv5);
         TextView tv6 = (TextView) view.findViewById(R.id.jstj_tv6);
-        tv1.setText(jsxx.getJlh());
-        tv2.setText(jsxx.getSuo1());
-        tv3.setText(jsxx.getSbh());
-        tv4.setText(jsxx.getCcpc());
-        tv5.setText(jsxx.getCdts());
-        tv6.setText(jsxx.getSzt());
+        tv1.setText(fdSuo.getSuo_sbBH());
+        tv2.setText(fdSuo.getSuo_haoma());
+//        tv3.setText(fdSuo.getSuo_sbBH());
+//        tv4.setText(fdSuo.getSuo_sbBH());
+        tv5.setText(fdSuo.getSuo_cdTS());
+        tv6.setText(fdSuo.getSuo_ztBJ());
         return view;
     }
 }

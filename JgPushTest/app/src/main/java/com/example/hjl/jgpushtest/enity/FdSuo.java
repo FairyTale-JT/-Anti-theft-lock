@@ -26,6 +26,8 @@ public class FdSuo {
     private String suo_bfSJ;//报废时间
     private String suo_sgID;//申购ID
     private String suo_LX;//锁类型0
+    private String suo_cdTS;//充电天数
+
 
     @Override
     public String toString() {
@@ -193,5 +195,5 @@ public class FdSuo {
         return suo_cdTS;
     }
 
-    private String suo_cdTS;//充电天数
+
 }

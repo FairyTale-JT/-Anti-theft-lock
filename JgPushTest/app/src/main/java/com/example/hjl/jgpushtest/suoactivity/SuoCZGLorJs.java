@@ -11,21 +11,22 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewItemClickListener;
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewLongItemClickListener;
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JiaSuoAdapter;
-import com.example.hjl.jgpushtest.fragment.JsjlAdapter;
+import com.example.hjl.jgpushtest.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +41,15 @@ public class SuoCZGLorJs extends Fragment {
     private RecyclerView js_rv;
     private View view;
     private Context context;
-    private JsjlAdapter jsadapter;
     private JiaSuoAdapter jiaSuoAdapter;
     private List<Jsjv> list;
     private Button js_xzs, js_tj;
     SwipeRefreshLayout swipeRefreshLayout;
-    private EditText suo1, suo2;
+
+    private EditText suo1, suo2, cx_NO, dz_Ming;
+    FdSuo fdSuo1 = null;
+    FdSuo fdSuo2 = null;
+    private String suo1_sbbh = null, suo1_id = null, suo1_ztbj = null, suo2_id = null, suo2_sbbh = null, suo2_ztbj = null;
 
     public static SuoCZGLorJs getnewInstance_Js(String param1) {
         SuoCZGLorJs my = new SuoCZGLorJs();
@@ -94,6 +98,8 @@ public class SuoCZGLorJs extends Fragment {
                 (SwipeRefreshLayout) view.findViewById(R.id.suo_swip_item);
         suo1 = (EditText) view.findViewById(R.id.suo_suohao1_ed);
         suo2 = (EditText) view.findViewById(R.id.suo_suohao2_ed);
+        cx_NO = (EditText) view.findViewById(R.id.suo_haoma_ed);
+        dz_Ming = (EditText) view.findViewById(R.id.suo_daoz_ed);
         js_rv = (RecyclerView) view.findViewById(R.id.suo_js_rev_fragment);
         js_xzs = (Button) view.findViewById(R.id.suo_js_xzsuo);
         js_tj = (Button) view.findViewById(R.id.suo_js_tijiao);
@@ -139,20 +145,18 @@ public class SuoCZGLorJs extends Fragment {
 
     //Listview 添加数据与操作
     private void JsListview() {
-
-
-        for (int i = 0; i < 5; i++) {
-            Jsjv jsjv = new Jsjv();
-            jsjv.setCxh("100000" + i);
-            jsjv.setFz("北京");
-            jsjv.setDz("成都");
-            jsjv.setSuo1("" + i);
-            jsjv.setSuo2("" + i);
-            jsjv.setSzt("--");
-            list.add(jsjv);
-
-        }
-        jiaSuoAdapter.setDateJiaSuoAdapter(list);
+//        for (int i = 0; i < 5; i++) {
+//            Jsjv jsjv = new Jsjv();
+//            jsjv.setCxh("100000" + i);
+//            jsjv.setFz("北京");
+//            jsjv.setDz("成都");
+//            jsjv.setSuo1("" + i);
+//            jsjv.setSuo2("" + i);
+//            jsjv.setSzt("--");
+//            list.add(jsjv);
+//
+//        }
+//        jiaSuoAdapter.setDateJiaSuoAdapter(list);
         jiaSuoAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -173,7 +177,10 @@ public class SuoCZGLorJs extends Fragment {
         });
     }
 
-    //选择锁
+
+    /**
+     * 选择锁以及提交按钮
+     */
     private void JsButton() {
 
         js_xzs.setOnClickListener(new View.OnClickListener() {
@@ -184,13 +191,65 @@ public class SuoCZGLorJs extends Fragment {
                 startActivityForResult(intent, 1);//带返回参数的跳转
             }
         });
+
         js_tj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Jsjv jsjv = new Jsjv();
 
+//            for (int i = 0; i < 5; i++) {
+//                Jsjv jsjv = new Jsjv();
+//                jsjv.setCxh("100000" + i);
+//                jsjv.setFz("北京");
+//                jsjv.setDz("成都");
+//                jsjv.setSuo1("" + i);
+//                jsjv.setSuo2("" + i);
+//                jsjv.setSzt("--");
+//                list.add(jsjv);
+//
+//            }
+
+                Jsjv jsjv = new Jsjv();
+                if (
+                        (!TextUtils.isEmpty(cx_NO.getText())) && (!TextUtils.isEmpty(dz_Ming.getText()))
+                                && (!TextUtils.isEmpty(suo1.getText()))
+                        ) {
+                    jsjv.setDz(cx_NO.getText().toString());
+                    fdSuo1 = new FdSuo();
+                    fdSuo2 = new FdSuo();
+                    if (suo1_id != null) {
+                        fdSuo1.setSuo_haoma(suo1_id);
+                        fdSuo1.setSuo_sbBH(suo1_sbbh);
+                        fdSuo1.setSuo_ztBJ(suo1_ztbj);
+                        jsjv.setFdSuo1(fdSuo1);
+                    }
+                    if (suo2_id != null) {
+                        fdSuo2.setSuo_haoma(suo2_id);
+                        fdSuo2.setSuo_sbBH(suo2_sbbh);
+                        fdSuo2.setSuo_ztBJ(suo2_ztbj);
+                        jsjv.setFdSuo2(fdSuo2);
+                    }
+                    jsjv.setCxh(cx_NO.getText().toString());
+                    jsjv.setFz(getFZ_bendi());
+                    //添加数据，重新绑定Adater刷新界面
+                    list.add(jsjv);
+                    js_rv.setAdapter(jiaSuoAdapter);
+                    jiaSuoAdapter.setDateJiaSuoAdapter(list);
+                    cx_NO.setText("");
+                    dz_Ming.setText("");
+                    suo1.setText("");
+                    suo2.setText("");
+                    suo1_sbbh = null;
+                    suo1_id = null;
+                    suo1_ztbj = null;
+                    suo2_id = null;
+                    suo2_sbbh = null;
+                    suo2_ztbj = null;
+                } else {
+                    ToastUtils.showToast(getContext(), "请输入完整信息");
+                }
             }
         });
+
     }
 
     //加锁确认对话框
@@ -238,6 +297,7 @@ public class SuoCZGLorJs extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.e("TAG", "requestCode=" + requestCode + "resultCode" + resultCode);
@@ -246,18 +306,39 @@ public class SuoCZGLorJs extends Fragment {
                 //获取返回信息
                 String string1 = data.getExtras().getString("suo1");
                 String string2 = data.getExtras().getString("suo2");
+                String sbbh1 = data.getExtras().getString("sbbh1");
+                String sbbh2 = data.getExtras().getString("sbbh2");
+                String ztbj1 = data.getExtras().getString("ztbj1");
+                String ztbj2 = data.getExtras().getString("ztbj2");
                 if (string2 != null) {
                     suo2.setText(string2);
+                    suo2_id = string2;
+                    suo2_sbbh = sbbh2;
+                    suo2_ztbj = ztbj2;
                 }
                 if (string1 != null) {
                     suo1.setText(string1);
+                    suo1_id = string1;
+                    suo1_sbbh = sbbh1;
+                    suo1_ztbj = ztbj1;
                 }
                 Toast.makeText(getContext(), "返回信息=" + string1, Toast.LENGTH_LONG);
-            } else {
-                Toast.makeText(getContext(), "返回信息有问题", Toast.LENGTH_SHORT);
+
             }
+
+        } else {
+            Toast.makeText(getContext(), "返回信息有问题", Toast.LENGTH_SHORT);
         }
 
 
+    }
+
+    /**
+     * 获取该用户设置的发站
+     *
+     * @return
+     */
+    String getFZ_bendi() {
+        return "x";
     }
 }
