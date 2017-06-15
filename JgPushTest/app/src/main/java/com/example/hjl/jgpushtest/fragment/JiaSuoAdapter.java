@@ -55,9 +55,22 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
                 ((MyViewHolder) holder).js_tv1.setText(list.get(position).getCxh());
                 ((MyViewHolder) holder).js_tv2.setText(list.get(position).getFz());
                 ((MyViewHolder) holder).js_tv3.setText(list.get(position).getDz());
-                ((MyViewHolder) holder).js_tv4.setText(list.get(position).getSuo1());
-                ((MyViewHolder) holder).js_tv5.setText(list.get(position).getSuo2());
-                ((MyViewHolder) holder).js_tv6.setText(list.get(position).getSzt());
+                if (list.get(position).getFdSuo1()!=null) {
+                    ((MyViewHolder) holder).
+                            js_tv4.setText(list.get(position).
+                            getFdSuo1().getSuo_haoma().toString());
+                    ((MyViewHolder) holder).js_tv6.setText(
+                            list.get(position).getFdSuo1().getSuo_ztBJ().toString());
+                }
+
+                if (list.get(position).getFdSuo2()!=null) {
+                    ((MyViewHolder) holder).
+                            js_tv5.setText(list.get(position).
+                            getFdSuo2().getSuo_haoma().toString());
+                    ((MyViewHolder) holder).js_tv7.setText(
+                            list.get(position).getFdSuo2().getSuo_ztBJ().toString());
+                }
+
             }
         }
 
@@ -78,6 +91,7 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
         private TextView js_tv4;
         private TextView js_tv5;
         private TextView js_tv6;
+        private TextView js_tv7;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
@@ -87,6 +101,7 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
             js_tv4 = (TextView) itemView.findViewById(R.id.js_list_tv4);
             js_tv5 = (TextView) itemView.findViewById(R.id.js_list_tv5);
             js_tv6 = (TextView) itemView.findViewById(R.id.js_list_tv6);
+            js_tv7= (TextView) itemView.findViewById(R.id.js_list_tv6_2);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

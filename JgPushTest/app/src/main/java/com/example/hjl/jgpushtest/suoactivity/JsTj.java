@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
 
@@ -35,7 +36,7 @@ public class JsTj extends AppCompatActivity {
     Button jstjBt2;
     @Bind(R.id.jstj_lv)
     ListView jstjLv;
-    private List<Jsjv> list,isChoseList;
+    private List<FdSuo> list,isChoseList;
     private JsTjAdapter jsTjAdapter;
 
     @Override
@@ -71,19 +72,31 @@ public class JsTj extends AppCompatActivity {
             public void onClick(View view) {
                 //存储返回数据   也要用intent
                 choseSuo();
-                String date=null;
-                String date2=null;
+                String date_id=null,date_sbbh=null,date_ztbj=null;
+                String date2_id=null,date2_sbbh=null,date2_ztbj=null;
                 Bundle bundle =new Bundle();
                 if (isChoseList != null&&isChoseList.size()>0) {
                     if (isChoseList.size()==1) {
-                        date=isChoseList.get(0).getSuo1().toString();
-                        bundle.putString("suo1",date);
+                        date_id=isChoseList.get(0).getSuo_haoma().toString();
+                        date_sbbh=isChoseList.get(0).getSuo_sbBH().toString();
+                        date_ztbj=isChoseList.get(0).getSuo_ztBJ().toString();
+                        bundle.putString("suo1",date_id);
+                        bundle.putString("sbbh1",date_sbbh);
+                        bundle.putString("ztbj1",date_ztbj);
                     }
                     if (isChoseList.size()==2) {
-                        date=isChoseList.get(0).getSuo1().toString();
-                        date2=isChoseList.get(1).getSuo1().toString();
-                        bundle.putString("suo1",date);
-                        bundle.putString("suo2",date2);
+                        date_id=isChoseList.get(0).getSuo_haoma().toString();
+                        date_sbbh=isChoseList.get(0).getSuo_sbBH().toString();
+                        date_ztbj=isChoseList.get(0).getSuo_ztBJ().toString();
+                        date2_id=isChoseList.get(1).getSuo_haoma().toString();
+                        date2_sbbh=isChoseList.get(1).getSuo_sbBH().toString();
+                        date2_ztbj=isChoseList.get(1).getSuo_ztBJ().toString();
+                        bundle.putString("suo1",date_id);
+                        bundle.putString("sbbh1",date_sbbh);
+                        bundle.putString("ztbj1",date_ztbj);
+                        bundle.putString("suo2",date2_id);
+                        bundle.putString("sbbh2",date2_sbbh);
+                        bundle.putString("ztbj2",date2_ztbj);
                     }
                 }
 
@@ -102,16 +115,15 @@ public class JsTj extends AppCompatActivity {
     private void JstjListView() {
         list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Jsjv jsjv = new Jsjv();
-            jsjv.setJlh("10000" + i);
-            jsjv.setSuo1("10000" + i);
-            jsjv.setSbh("10000" + i);
-            jsjv.setCcpc("10000" + i);
-            jsjv.setCdts("10" + i);
-            jsjv.setSzt("出库");
+            FdSuo jsjv = new FdSuo();
+            jsjv.setSuo_sbBH("10000" + i);
+            jsjv.setSuo_haoma("10000" + i);
+            jsjv.setSuo_cdTS("11" + i);
+            jsjv.setSuo_ztBJ("出库");
             list.add(jsjv);
         }
-        jsTjAdapter = new JsTjAdapter(list, JsTj.this);
+        jsTjAdapter = new JsTjAdapter();
         jstjLv.setAdapter(jsTjAdapter);
+        jsTjAdapter.setsetDateJsTjAdapter(list);
     }
 }

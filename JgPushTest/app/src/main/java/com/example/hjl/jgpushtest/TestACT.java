@@ -88,7 +88,7 @@ public class TestACT extends AppCompatActivity{
                 String s1,s2;
                 s1=useName.getText().toString();
                 s2=password.getText().toString();
-                if(s1!=null&&s2!=null&&s1.length()>8&&s2.length()>8){
+                if(s1!=null&&s2!=null&&s1.length()>6&&s2.length()>6){
                     //设置按钮可点击
                     denglu.setEnabled(true);
                     //设置按钮为正常状态
