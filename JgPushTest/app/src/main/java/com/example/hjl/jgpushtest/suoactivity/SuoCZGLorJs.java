@@ -158,6 +158,7 @@ public class SuoCZGLorJs extends Fragment {
             public void onItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
                 Toast.makeText(context.getApplicationContext(), s + "---点击", Toast.LENGTH_SHORT).show();
+                UDialog(s);
             }
         });
         jiaSuoAdapter.setOnLongItemClickListener(new OnRecyclerViewLongItemClickListener() {
@@ -183,11 +184,30 @@ public class SuoCZGLorJs extends Fragment {
         });
 
     }
+    //加锁确认对话框
+    private void UDialog(String cxh) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("车号/箱号为" + cxh + "加锁确认?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("加锁确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                builder.create().dismiss();
+            }
+        });
+        builder.create().show();
+
+    }
     //删除对话框
     private void DeleteDialog(String cxh) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("确定删除车号为" + cxh + "的记录?");
+        builder.setMessage("确定删除车号/箱号为" + cxh + "的记录?");
         builder.setTitle("提示");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
