@@ -79,10 +79,6 @@ public class SuoMainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.suo_maintv);
         ButterKnife.bind(this);
-        //状态栏 @ 顶部
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //导航栏 @ 底部
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         getWindow()
                 .getDecorView()
                 .findViewById(android.R.id.content)
