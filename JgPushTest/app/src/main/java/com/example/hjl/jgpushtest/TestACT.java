@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.suoactivity.SuoMainActivity;
+import com.gyf.barlibrary.ImmersionBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,14 +29,16 @@ public class TestACT extends BaseActivity {
     EditText password;
     @Bind(R.id.suo_login1)
     Button denglu;
-    boolean isDJ=false;
-    String user_in,password_in;
+    boolean isDJ = false;
+    String user_in, password_in;
     private Boolean isEmpty = true;
+
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_suo);
         ButterKnife.bind(this);
+        ImmersionBar.with(this).transparentBar().init();
         initview();
         initdate();
 
@@ -47,11 +50,11 @@ public class TestACT extends BaseActivity {
         denglu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user_in=useName.getText().toString();
-                password_in=password.getText().toString();
+                user_in = useName.getText().toString();
+                password_in = password.getText().toString();
                 //ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
-                Toasty.success(TestACT.this,user_in+"\n"+password_in, Toast.LENGTH_SHORT).show();
-                Intent intent =new Intent(TestACT.this, SuoMainActivity.class);
+                Toasty.success(TestACT.this, user_in + "\n" + password_in, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(TestACT.this, SuoMainActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -63,7 +66,7 @@ public class TestACT extends BaseActivity {
 
 
 ///////////////////////////////////
-        TextWatcher textWatch=new TextWatcher() {
+        TextWatcher textWatch = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s,
                                           int start,
@@ -73,6 +76,7 @@ public class TestACT extends BaseActivity {
                 // count:变化前的总字节数；after:变化后的字节数
 
             }
+
             @Override
             public void onTextChanged(CharSequence s,
                                       int start,
@@ -82,20 +86,21 @@ public class TestACT extends BaseActivity {
                 // before: 变化之前的总字节数；count:变化后的字节数
 
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 //s:变化后的所有字符
-                String s1,s2;
-                s1=useName.getText().toString();
-                s2=password.getText().toString();
-                if(s1!=null&&s2!=null&&s1.length()>6&&s2.length()>6){
+                String s1, s2;
+                s1 = useName.getText().toString();
+                s2 = password.getText().toString();
+                if (s1 != null && s2 != null && s1.length() > 8 && s2.length() > 8) {
                     //设置按钮可点击
                     denglu.setEnabled(true);
                     //设置按钮为正常状态
 //                    denglu.setPressed(true);
                     denglu.setBackgroundColor(TestACT.this.getResources().getColor(R.color.my));
 
-                }else{
+                } else {
                     //设置按钮不可点击
                     denglu.setEnabled(false);
                     //设置按钮为按下状态
@@ -119,7 +124,7 @@ public class TestACT extends BaseActivity {
 //        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //        }
-        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         super.onResume();

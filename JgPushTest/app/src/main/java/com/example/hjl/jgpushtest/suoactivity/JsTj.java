@@ -39,7 +39,7 @@ public class JsTj extends BaseActivity {
     Button jstjBt2;
     @Bind(R.id.jstj_lv)
     ListView jstjLv;
-    private List<FdSuo> list,isChoseList;
+    private List<FdSuo> list, isChoseList;
     private JsTjAdapter jsTjAdapter;
 
     @Override
@@ -58,13 +58,13 @@ public class JsTj extends BaseActivity {
              */
         //为多选时方法如下
         SparseBooleanArray array = jstjLv.getCheckedItemPositions();
-        isChoseList=new ArrayList<>();
+        isChoseList = new ArrayList<>();
         for (int x = 0; x < array.size(); x++) {
             int key = array.keyAt(x);
             boolean b = array.get(key);
-            if(b){
+            if (b) {
                 //key指的是该item在listview中的position
-               isChoseList.add(list.get(key));
+                isChoseList.add(list.get(key));
             }
         }
     }
@@ -75,38 +75,38 @@ public class JsTj extends BaseActivity {
             public void onClick(View view) {
                 //存储返回数据   也要用intent
                 choseSuo();
-                String date_id=null,date_sbbh=null,date_ztbj=null;
-                String date2_id=null,date2_sbbh=null,date2_ztbj=null;
-                Bundle bundle =new Bundle();
-                if (isChoseList != null&&isChoseList.size()>0) {
-                    if (isChoseList.size()==1) {
-                        date_id=isChoseList.get(0).getSuo_haoma().toString();
-                        date_sbbh=isChoseList.get(0).getSuo_sbBH().toString();
-                        date_ztbj=isChoseList.get(0).getSuo_ztBJ().toString();
-                        bundle.putString("suo1",date_id);
-                        bundle.putString("sbbh1",date_sbbh);
-                        bundle.putString("ztbj1",date_ztbj);
+                String date_id = null, date_sbbh = null, date_ztbj = null;
+                String date2_id = null, date2_sbbh = null, date2_ztbj = null;
+                Bundle bundle = new Bundle();
+                if (isChoseList != null && isChoseList.size() > 0) {
+                    if (isChoseList.size() == 1) {
+                        date_id = isChoseList.get(0).getSuo_haoma().toString();
+                        date_sbbh = isChoseList.get(0).getSuo_sbBH().toString();
+                        date_ztbj = isChoseList.get(0).getSuo_ztBJ().toString();
+                        bundle.putString("suo1", date_id);
+                        bundle.putString("sbbh1", date_sbbh);
+                        bundle.putString("ztbj1", date_ztbj);
                         doit(bundle);
                     }
-                    if (isChoseList.size()==2) {
-                        date_id=isChoseList.get(0).getSuo_haoma().toString();
-                        date_sbbh=isChoseList.get(0).getSuo_sbBH().toString();
-                        date_ztbj=isChoseList.get(0).getSuo_ztBJ().toString();
-                        date2_id=isChoseList.get(1).getSuo_haoma().toString();
-                        date2_sbbh=isChoseList.get(1).getSuo_sbBH().toString();
-                        date2_ztbj=isChoseList.get(1).getSuo_ztBJ().toString();
-                        bundle.putString("suo1",date_id);
-                        bundle.putString("sbbh1",date_sbbh);
-                        bundle.putString("ztbj1",date_ztbj);
-                        bundle.putString("suo2",date2_id);
-                        bundle.putString("sbbh2",date2_sbbh);
-                        bundle.putString("ztbj2",date2_ztbj);
+                    if (isChoseList.size() == 2) {
+                        date_id = isChoseList.get(0).getSuo_haoma().toString();
+                        date_sbbh = isChoseList.get(0).getSuo_sbBH().toString();
+                        date_ztbj = isChoseList.get(0).getSuo_ztBJ().toString();
+                        date2_id = isChoseList.get(1).getSuo_haoma().toString();
+                        date2_sbbh = isChoseList.get(1).getSuo_sbBH().toString();
+                        date2_ztbj = isChoseList.get(1).getSuo_ztBJ().toString();
+                        bundle.putString("suo1", date_id);
+                        bundle.putString("sbbh1", date_sbbh);
+                        bundle.putString("ztbj1", date_ztbj);
+                        bundle.putString("suo2", date2_id);
+                        bundle.putString("sbbh2", date2_sbbh);
+                        bundle.putString("ztbj2", date2_ztbj);
                         doit(bundle);
                     }
-                    if (isChoseList.size()>2) {
-                        Toasty.warning(JsTj.this,"最多可以选择两把锁", Toast.LENGTH_LONG).show();
+                    if (isChoseList.size() > 2) {
+                        Toasty.warning(JsTj.this, "最多可以选择两把锁", Toast.LENGTH_LONG).show();
                     }
-                }else {
+                } else {
                     finish();
                 }
             }
@@ -116,9 +116,9 @@ public class JsTj extends BaseActivity {
     private void doit(Bundle bundle) {
         //设置返回数据
         // 先设置ReaultCode,再设置存储数据的意图
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         intent.putExtras(bundle);
-        setResult(RESULT_OK,intent);
+        setResult(RESULT_OK, intent);
         //关闭当前activity
         finish();
     }

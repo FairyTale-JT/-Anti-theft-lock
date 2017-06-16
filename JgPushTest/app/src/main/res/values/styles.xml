@@ -14,6 +14,7 @@
         <item name="colorAccent">#000</item>
         <!-- toolbar的主题-->
         <item name="toolbarStyle">@style/ClubToolbar</item>
+
         <!--&lt;!&ndash; 用于修改item默认的分割线&ndash;&gt;-->
         <!--<item name="android:dropDownListViewStyle">@style/dropDownStyle</item>-->
         <!--<item name="dropDownListViewStyle">@style/dropDownStyle</item>-->

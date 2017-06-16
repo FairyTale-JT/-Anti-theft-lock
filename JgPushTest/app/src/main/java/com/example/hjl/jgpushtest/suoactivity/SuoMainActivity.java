@@ -1,5 +1,6 @@
 package com.example.hjl.jgpushtest.suoactivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -11,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
-import android.view.ViewTreeObserver;
+
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -20,6 +21,8 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.R;
 import com.gyf.barlibrary.ImmersionBar;
+
+import java.lang.reflect.Method;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,11 +57,11 @@ public class SuoMainActivity extends BaseActivity {
     }
 
     public int getNavigationBarHeight() {
-
-        boolean hasMenuKey = ViewConfiguration.get(this).hasPermanentMenuKey();
-        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
         Resources resources = getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        boolean hasMenuKey = ViewConfiguration.get(this).hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+
         int resourceIdX = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (!hasMenuKey && !hasBackKey) {
             //获取NavigationBar的高度
@@ -69,6 +72,7 @@ public class SuoMainActivity extends BaseActivity {
         }
 
     }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
