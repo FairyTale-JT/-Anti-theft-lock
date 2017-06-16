@@ -109,9 +109,6 @@ public class JsTj extends BaseActivity {
                 }else {
                     finish();
                 }
-
-
-
             }
         });
     }

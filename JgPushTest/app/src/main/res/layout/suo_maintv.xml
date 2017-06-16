@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
     <!--<android.support.design.widget.AppBarLayout-->
     <!--android:layout_width="match_parent"-->
@@ -36,10 +37,6 @@
 
     <!--</android.support.v7.widget.Toolbar>-->
     <!--</android.support.design.widget.AppBarLayout>-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/status_bar_height" />
-
     <FrameLayout
         android:id="@+id/layFrame"
         android:layout_width="match_parent"
@@ -47,6 +44,7 @@
         android:layout_weight="1" />
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
+
         android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
