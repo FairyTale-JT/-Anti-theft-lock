@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,33 +17,35 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:background="@color/gry"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/tv_white"
-            android:background="@color/gry"
-
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             >
+
             <LinearLayout
 
-                app:layout_collapseMode="parallax"
-                android:background="@android:color/transparent"
-                app:layout_collapseParallaxMultiplier="0.7"
-                android:scaleType="centerCrop"
-                android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7">
 
-                <include layout="@layout/suo_head_js"/>
+                <include layout="@layout/suo_head_js" />
 
             </LinearLayout>
+
             <android.support.v7.widget.Toolbar
-                android:background="@color/tv_white"
                 android:id="@+id/id_toolbar_re_coll"
-                android:layout_gravity="bottom"
-                app:layout_collapseMode="pin"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
-                <include layout="@layout/suo_js_bar_head"/>
+                android:layout_height="30dp"
+                android:layout_gravity="bottom"
+                android:background="@color/tv_white"
+                app:layout_collapseMode="pin">
+
+                <include layout="@layout/suo_js_bar_head" />
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -51,10 +53,11 @@
 
 
     <android.support.v4.widget.SwipeRefreshLayout
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/suo_swip_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/suo_js_rev_fragment"
             android:layout_width="match_parent"

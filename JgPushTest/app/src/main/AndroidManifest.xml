@@ -46,7 +46,7 @@
             android:name=".suoactivity.SuoMainActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".suoactivity.JsTj"
+            android:name=".suoactivity.SuoCZGLorJs_Tjs"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <receiver

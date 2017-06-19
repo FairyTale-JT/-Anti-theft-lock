@@ -16,17 +16,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewItemClickListener;
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewLongItemClickListener;
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.enity.BinCZB;
+import com.example.hjl.jgpushtest.enity.FaZhan;
 import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JiaSuoAdapter;
-import com.example.hjl.jgpushtest.util.ToastUtils;
+import com.example.hjl.jgpushtest.fragment.SpinnerAdapter;
+import com.example.hjl.jgpushtest.util.FindTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +50,16 @@ public class SuoCZGLorJs extends Fragment {
     private List<Jsjv> list;
     private Button js_xzs, js_tj;
     SwipeRefreshLayout swipeRefreshLayout;
-
     private EditText suo1, suo2, cx_NO, dz_Ming;
+    private Button daoz_bt;
     FdSuo fdSuo1 = null;
     FdSuo fdSuo2 = null;
     private String suo1_sbbh = null, suo1_id = null, suo1_ztbj = null, suo2_id = null, suo2_sbbh = null, suo2_ztbj = null;
+    private List<BinCZB> czbList;
+    private String[] areas;
+    private Spinner js_lx, js_dz;
+    private List<FaZhan> fa_list;
+    private SpinnerAdapter spinnerAdapter;
 
     public static SuoCZGLorJs getnewInstance_Js(String param1) {
         SuoCZGLorJs my = new SuoCZGLorJs();
@@ -86,13 +96,18 @@ public class SuoCZGLorJs extends Fragment {
         initView();
         JsListview();
         JsButton();
-        /**
-         * 下拉刷新的监听
-         */
+        //下拉刷新的监听
         swipCheak();
+        //车站选择
+        DzXz();
+        //类型和发站选择
+        ZSpinner();
         return view;
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         swipeRefreshLayout =
                 (SwipeRefreshLayout) view.findViewById(R.id.suo_swip_item);
@@ -100,13 +115,98 @@ public class SuoCZGLorJs extends Fragment {
         suo2 = (EditText) view.findViewById(R.id.suo_suohao2_ed);
         cx_NO = (EditText) view.findViewById(R.id.suo_haoma_ed);
         dz_Ming = (EditText) view.findViewById(R.id.suo_daoz_ed);
-        js_rv = (RecyclerView) view.findViewById(R.id.suo_js_rev_fragment);
+
+        daoz_bt = (Button) view.findViewById(R.id.suo_daoz_bt);
         js_xzs = (Button) view.findViewById(R.id.suo_js_xzsuo);
         js_tj = (Button) view.findViewById(R.id.suo_js_tijiao);
+
+        //RecyclerView显示数据
+        js_rv = (RecyclerView) view.findViewById(R.id.suo_js_rev_fragment);
         js_rv.setLayoutManager(new LinearLayoutManager(context));
         js_rv.setItemAnimator(new DefaultItemAnimator());
         jiaSuoAdapter = new JiaSuoAdapter();
         js_rv.setAdapter(jiaSuoAdapter);
+
+        //选择类型
+        js_lx = (Spinner) view.findViewById(R.id.suo_js_lx);
+        //选择发站
+        js_dz = (Spinner) view.findViewById(R.id.suo_js_dz);
+        fa_list = new ArrayList<FaZhan>();
+        fa_list.add(new FaZhan("北京"));
+        fa_list.add(new FaZhan("成都"));
+        spinnerAdapter = new SpinnerAdapter(context, fa_list);
+        js_dz.setAdapter(spinnerAdapter);
+        js_dz.setEnabled(false);
+
+    }
+
+    /**
+     * 车站选择
+     */
+    private void DzXz() {
+        daoz_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (!dz_Ming.getText().toString().equals("")) {
+                        //字典库里查询
+                        czbList = FindTest.FindShezhiZM(getResources().openRawResource(R.raw.czb),
+                                dz_Ming.getText().toString());
+                        areas = new String[czbList.size()];
+                        for (int i = 0; i < czbList.size(); i++) {
+                            areas[i] = czbList.get(i).getZM();
+                        }
+                        if (czbList.size() == 0) {
+                            dz_Ming.setText("");
+                        } else {
+                            new AlertDialog.Builder(context).setTitle("请选择车站")
+                                    .setCancelable(true)
+                                    .setSingleChoiceItems(areas, -1, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int i) {
+                                            dz_Ming.setText(czbList.get(i).getZM());
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                        }
+
+                    } else {
+                        Toasty.info(context, "请输入车站的名,再选择", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //Spinner发站/到站
+    private void ZSpinner() {
+        js_lx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] fa = getResources().getStringArray(R.array.spingarr);
+                Toasty.info(context, "你点击的是:" + fa[i], Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        js_dz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toasty.info(context, "你点击的是:" + fa_list.get(i).getFz(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     /**
@@ -145,18 +245,7 @@ public class SuoCZGLorJs extends Fragment {
 
     //Listview 添加数据与操作
     private void JsListview() {
-//        for (int i = 0; i < 5; i++) {
-//            Jsjv jsjv = new Jsjv();
-//            jsjv.setCxh("100000" + i);
-//            jsjv.setFz("北京");
-//            jsjv.setDz("成都");
-//            jsjv.setSuo1("" + i);
-//            jsjv.setSuo2("" + i);
-//            jsjv.setSzt("--");
-//            list.add(jsjv);
-//
-//        }
-//        jiaSuoAdapter.setDateJiaSuoAdapter(list);
+
         jiaSuoAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -187,7 +276,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(context, JsTj.class);
+                intent.setClass(context, SuoCZGLorJs_Tjs.class);
                 startActivityForResult(intent, 1);//带返回参数的跳转
             }
         });
@@ -195,25 +284,11 @@ public class SuoCZGLorJs extends Fragment {
         js_tj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//            for (int i = 0; i < 5; i++) {
-//                Jsjv jsjv = new Jsjv();
-//                jsjv.setCxh("100000" + i);
-//                jsjv.setFz("北京");
-//                jsjv.setDz("成都");
-//                jsjv.setSuo1("" + i);
-//                jsjv.setSuo2("" + i);
-//                jsjv.setSzt("--");
-//                list.add(jsjv);
-//
-//            }
-
                 Jsjv jsjv = new Jsjv();
                 if (
                         (!TextUtils.isEmpty(cx_NO.getText())) && (!TextUtils.isEmpty(dz_Ming.getText()))
-                                && (!TextUtils.isEmpty(suo1.getText()))
-                        ) {
-                    jsjv.setDz(cx_NO.getText().toString());
+                                && (!TextUtils.isEmpty(suo1.getText()))) {
+
                     fdSuo1 = new FdSuo();
                     fdSuo2 = new FdSuo();
                     if (suo1_id != null) {
@@ -228,6 +303,7 @@ public class SuoCZGLorJs extends Fragment {
                         fdSuo2.setSuo_ztBJ(suo2_ztbj);
                         jsjv.setFdSuo2(fdSuo2);
                     }
+                    jsjv.setDz(dz_Ming.getText().toString());
                     jsjv.setCxh(cx_NO.getText().toString());
                     jsjv.setFz(getFZ_bendi());
                     //添加数据，重新绑定Adater刷新界面
@@ -245,7 +321,8 @@ public class SuoCZGLorJs extends Fragment {
                     suo2_sbbh = null;
                     suo2_ztbj = null;
                 } else {
-                    ToastUtils.showToast(getContext(), "请输入完整信息");
+                    //ToastUtils.showToast(getContext(), "请输入完整信息");
+                    Toasty.warning(context, "请输入完整信息", Toast.LENGTH_SHORT).show();
                 }
             }
         });

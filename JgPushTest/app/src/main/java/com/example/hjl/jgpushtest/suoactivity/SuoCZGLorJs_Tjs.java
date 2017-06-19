@@ -3,11 +3,8 @@ package com.example.hjl.jgpushtest.suoactivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.ExpandedMenuView;
 import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -16,7 +13,6 @@ import android.widget.Toast;
 import com.example.hjl.jgpushtest.R;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.enity.FdSuo;
-import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
 
 import java.util.ArrayList;
@@ -27,10 +23,10 @@ import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 
 /**
- * Created by Administrator on 2017/6/13.
+ * 选择锁界面
  */
 
-public class JsTj extends BaseActivity {
+public class SuoCZGLorJs_Tjs extends BaseActivity {
     @Bind(R.id.jstj_bt1)
     Button jstjBt1;
     @Bind(R.id.jstj_et1)
@@ -47,15 +43,13 @@ public class JsTj extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.js_tj);
         ButterKnife.bind(this);
+        //Listview多选
         jstjLv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         JstjListView();
         tiaoZhuan_fanhui();
     }
 
     private void choseSuo() {
-/*
-             * 当为单选时，调用getCheckedItemPosition()获取选中的item的position
-             */
         //为多选时方法如下
         SparseBooleanArray array = jstjLv.getCheckedItemPositions();
         isChoseList = new ArrayList<>();
@@ -69,6 +63,9 @@ public class JsTj extends BaseActivity {
         }
     }
 
+    /**
+     * 多选数据存储
+     */
     private void tiaoZhuan_fanhui() {
         jstjBt2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +101,7 @@ public class JsTj extends BaseActivity {
                         doit(bundle);
                     }
                     if (isChoseList.size() > 2) {
-                        Toasty.warning(JsTj.this, "最多可以选择两把锁", Toast.LENGTH_LONG).show();
+                        Toasty.warning(SuoCZGLorJs_Tjs.this, "最多可以选择两把锁", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     finish();
@@ -115,6 +112,11 @@ public class JsTj extends BaseActivity {
         });
     }
 
+    /**
+     * 返回数据
+     *
+     * @param bundle
+     */
     private void doit(Bundle bundle) {
         //设置返回数据
         // 先设置ReaultCode,再设置存储数据的意图

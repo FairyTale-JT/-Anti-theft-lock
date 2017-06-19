@@ -1,6 +1,5 @@
 package com.example.hjl.jgpushtest.suoactivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -11,16 +10,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.R;
-import com.gyf.barlibrary.ImmersionBar;
-
-import java.lang.reflect.Method;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
