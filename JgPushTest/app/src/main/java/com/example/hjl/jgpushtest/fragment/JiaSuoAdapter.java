@@ -21,13 +21,23 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
     public OnRecyclerViewItemClickListener mOnItemClickListener = null;//点击
     public OnRecyclerViewLongItemClickListener mOnLongItemClickListener = null;//长按
     private List<Jsjv> list;
-    public void setDateJiaSuoAdapter(List<Jsjv> list){
+
+    public void setDateJiaSuoAdapter(List<Jsjv> list) {
         this.list = list;
         notifyDataSetChanged();
     }
 
-    public JiaSuoAdapter() {
+    public JiaSuoAdapter() {}
+
+    @Override
+    public int getItemCount() {
+        if (list == null || list.size() == 0) {
+            return 1;
+        } else {
+            return list.size();
+        }
     }
+
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
@@ -35,33 +45,34 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
     public void setOnLongItemClickListener(OnRecyclerViewLongItemClickListener listener) {
         this.mOnLongItemClickListener = listener;
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (list!=null&&list.size()>0) {
+        if (list != null && list.size() > 0) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.js_list_item, parent, false);
             MyViewHolder holder = new MyViewHolder(view);
             return holder;
-        }else {
+        } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tishi_no_date, parent, false);
-            MyViewHolderTwo viewHolderTwo=new MyViewHolderTwo(view);
+            MyViewHolderTwo viewHolderTwo = new MyViewHolderTwo(view);
             return viewHolderTwo;
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (list!=null&&list.size()>0) {
-            if (holder instanceof  MyViewHolder) {
+        if (list != null && list.size() > 0) {
+            if (holder instanceof MyViewHolder) {
                 ((MyViewHolder) holder).js_tv1.setText(list.get(position).getCxh());
                 ((MyViewHolder) holder).js_tv2.setText(list.get(position).getFz());
                 ((MyViewHolder) holder).js_tv3.setText(list.get(position).getDz());
-                    ((MyViewHolder) holder).
-                            js_tv4.setText(list.get(position).getFdSuo1_id().toString());
-                    ((MyViewHolder) holder).js_tv6.setText(
-                            list.get(position).getFdSuo1_ztbj().toString());
+                ((MyViewHolder) holder).
+                        js_tv4.setText(list.get(position).getFdSuo1_id().toString());
+                ((MyViewHolder) holder).js_tv6.setText(
+                        list.get(position).getFdSuo1_ztbj().toString());
 
 
-                if (list.get(position).getFdSuo2_id()!=null) {
+                if (list.get(position).getFdSuo2_id() != null) {
                     ((MyViewHolder) holder).
                             js_tv5.setText(list.get(position).getFdSuo2_id().toString());
                     ((MyViewHolder) holder).js_tv7.setText(
@@ -73,14 +84,6 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
 
     }
 
-    @Override
-    public int getItemCount() {
-        if (list==null||list.size()==0) {
-            return 1;
-        }else {
-            return list.size();
-        }
-    }
     class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView js_tv1;
         private TextView js_tv2;
@@ -98,7 +101,7 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
             js_tv4 = (TextView) itemView.findViewById(R.id.js_list_tv4);
             js_tv5 = (TextView) itemView.findViewById(R.id.js_list_tv5);
             js_tv6 = (TextView) itemView.findViewById(R.id.js_list_tv6);
-            js_tv7= (TextView) itemView.findViewById(R.id.js_list_tv6_2);
+            js_tv7 = (TextView) itemView.findViewById(R.id.js_list_tv6_2);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -118,7 +121,8 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
             });
         }
     }
-    class MyViewHolderTwo extends RecyclerView.ViewHolder{
+
+    class MyViewHolderTwo extends RecyclerView.ViewHolder {
 
         public MyViewHolderTwo(View itemView) {
             super(itemView);
