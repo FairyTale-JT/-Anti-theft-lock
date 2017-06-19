@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <!--配置说明：-->
+    <!--<dbname>用于设定数据库的名字-->
+    <!--<version>用于设定数据库的版本号-->
+    <!--<list>用于设定所有的映射模型-->
+    <!--防盗锁表-->
+    <!--加锁记录表-->
+    <dbname value="demo" ></dbname>
+
+    <version value="3" ></version>
+
+    <list>
+        <mapping class="com.example.hjl.jgpushtest.enity.FdSuo"></mapping>
+        <mapping class="com.example.hjl.jgpushtest.enity.Jsjv"></mapping>
+    </list>
+</litepal>

@@ -32,6 +32,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import static android.support.v7.widget.RecyclerView.*;
@@ -151,6 +152,7 @@ public class TstPageFragment extends Fragment {
         subscription=  HttpUtils.getMy_Retrofit(Url.BASE_URL_TWO,getContext()).
                 create(ApiService.class).getTopMovie(0,9)
                 .subscribeOn(Schedulers.io())
+
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
@@ -159,6 +161,7 @@ public class TstPageFragment extends Fragment {
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
                 .observeOn(AndroidSchedulers.mainThread())
+
                 .subscribe(new Subscriber<HttpResult<List<Subject>>>() {
                     @Override
                     public void onCompleted() {

@@ -28,6 +28,8 @@ import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JiaSuoAdapter;
 import com.example.hjl.jgpushtest.util.ToastUtils;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +86,7 @@ public class SuoCZGLorJs extends Fragment {
         String agrs1 = bundle.getString("agrs1");
         list = new ArrayList<>();
         initView();
+        initdata();
         JsListview();
         JsButton();
         /**
@@ -91,6 +94,22 @@ public class SuoCZGLorJs extends Fragment {
          */
         swipCheak();
         return view;
+    }
+
+    /**
+     * 初始化本地数据
+     */
+    private void initdata() {
+//        DataSupport.deleteAll(FdSuo.class);
+        List<Jsjv> li=DataSupport.where("isOk > ?","0").find(Jsjv.class);
+        if (li.size()>0) {
+            for (int i = 0; i <li.size() ; i++) {
+                list.add(li.get(i));
+            }
+        }
+        js_rv.setAdapter(jiaSuoAdapter);
+        jiaSuoAdapter.setDateJiaSuoAdapter(list);
+
     }
 
     private void initView() {
@@ -143,20 +162,9 @@ public class SuoCZGLorJs extends Fragment {
 
     }
 
-    //Listview 添加数据与操作
+    //Listview item监听
     private void JsListview() {
-//        for (int i = 0; i < 5; i++) {
-//            Jsjv jsjv = new Jsjv();
-//            jsjv.setCxh("100000" + i);
-//            jsjv.setFz("北京");
-//            jsjv.setDz("成都");
-//            jsjv.setSuo1("" + i);
-//            jsjv.setSuo2("" + i);
-//            jsjv.setSzt("--");
-//            list.add(jsjv);
-//
-//        }
-//        jiaSuoAdapter.setDateJiaSuoAdapter(list);
+
         jiaSuoAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -172,7 +180,7 @@ public class SuoCZGLorJs extends Fragment {
                 String s = list.get(position).getCxh();
                 //Toast.makeText(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT).show();
                 Toasty.info(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT, true).show();
-                DeleteDialog(s);
+                DeleteDialog(s,position);
             }
         });
     }
@@ -182,7 +190,7 @@ public class SuoCZGLorJs extends Fragment {
      * 选择锁以及提交按钮
      */
     private void JsButton() {
-
+//选择锁
         js_xzs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,47 +199,37 @@ public class SuoCZGLorJs extends Fragment {
                 startActivityForResult(intent, 1);//带返回参数的跳转
             }
         });
-
+//提交
         js_tj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-//            for (int i = 0; i < 5; i++) {
-//                Jsjv jsjv = new Jsjv();
-//                jsjv.setCxh("100000" + i);
-//                jsjv.setFz("北京");
-//                jsjv.setDz("成都");
-//                jsjv.setSuo1("" + i);
-//                jsjv.setSuo2("" + i);
-//                jsjv.setSzt("--");
-//                list.add(jsjv);
-//
-//            }
 
                 Jsjv jsjv = new Jsjv();
                 if (
                         (!TextUtils.isEmpty(cx_NO.getText())) && (!TextUtils.isEmpty(dz_Ming.getText()))
                                 && (!TextUtils.isEmpty(suo1.getText()))
                         ) {
-                    jsjv.setDz(cx_NO.getText().toString());
-                    fdSuo1 = new FdSuo();
-                    fdSuo2 = new FdSuo();
+
                     if (suo1_id != null) {
-                        fdSuo1.setSuo_haoma(suo1_id);
-                        fdSuo1.setSuo_sbBH(suo1_sbbh);
-                        fdSuo1.setSuo_ztBJ(suo1_ztbj);
-                        jsjv.setFdSuo1(fdSuo1);
+                        jsjv.setFdSuo1_id(suo1_id);
+                        jsjv.setFdSuo1_sbbh(suo1_sbbh);
+                        jsjv.setFdSuo1_ztbj(suo1_ztbj);
+
                     }
                     if (suo2_id != null) {
-                        fdSuo2.setSuo_haoma(suo2_id);
-                        fdSuo2.setSuo_sbBH(suo2_sbbh);
-                        fdSuo2.setSuo_ztBJ(suo2_ztbj);
-                        jsjv.setFdSuo2(fdSuo2);
+                        jsjv.setFdSuo2_id(suo2_id);
+                        jsjv.setFdSuo2_sbbh(suo2_sbbh);
+                        jsjv.setFdSuo2_ztbj(suo2_ztbj);
                     }
+                    jsjv.setDz(dz_Ming.getText().toString());
                     jsjv.setCxh(cx_NO.getText().toString());
                     jsjv.setFz(getFZ_bendi());
+                    jsjv.setIsOk(1);
+
                     //添加数据，重新绑定Adater刷新界面
                     list.add(jsjv);
+                    jsjv.save();
                     js_rv.setAdapter(jiaSuoAdapter);
                     jiaSuoAdapter.setDateJiaSuoAdapter(list);
                     cx_NO.setText("");
@@ -247,6 +245,8 @@ public class SuoCZGLorJs extends Fragment {
                 } else {
                     ToastUtils.showToast(getContext(), "请输入完整信息");
                 }
+
+
             }
         });
 
@@ -276,13 +276,18 @@ public class SuoCZGLorJs extends Fragment {
     }
 
     //删除对话框
-    private void DeleteDialog(String cxh) {
+    private void DeleteDialog(String cxh, final int position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("确定删除车号/箱号为" + cxh + "的记录?");
         builder.setTitle("提示");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                int a=list.get(position).getId();
+                list.remove(position);
+                js_rv.setAdapter(jiaSuoAdapter);
+                jiaSuoAdapter.setDateJiaSuoAdapter(list);
+                DataSupport.delete(Jsjv.class,a);
 
             }
         });

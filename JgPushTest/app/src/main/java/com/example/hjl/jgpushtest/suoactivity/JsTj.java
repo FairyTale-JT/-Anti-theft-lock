@@ -19,6 +19,8 @@ import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,10 +50,45 @@ public class JsTj extends BaseActivity {
         setContentView(R.layout.js_tj);
         ButterKnife.bind(this);
         jstjLv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        initView();
+        initDate();
         JstjListView();
         tiaoZhuan_fanhui();
     }
 
+    /**
+     * 初始化界面
+     */
+    private void initView() {
+    }
+    /**
+     * 初始化数据
+     */
+    private void initDate() {
+        list = new ArrayList<>();
+        for (int i = 0; i < 21; i++) {
+            FdSuo jsjv = new FdSuo();
+            jsjv.setSuo_sbBH("10000" + i);
+            jsjv.setSuo_haoma("10000" + i);
+            jsjv.setSuo_cdTS("11" + i);
+            jsjv.setSuo_ztBJ("出库");
+            jsjv.setSuo_isuse(1);
+            list.add(jsjv);
+        }
+        DataSupport.deleteAll(FdSuo.class);
+        DataSupport.saveAll(list);
+//        if (list!=null&&list.size()>0) {
+//            List<FdSuo> li=new ArrayList<>();
+//            for (int i = 0; i <list.size() ; i++) {
+//               String sbbh= list.get(i).getSuo_sbBH();
+//     if( DataSupport.where("suo_sbBH = ?",sbbh).find(FdSuo.class)==null){
+//         li.add(list.get(i));
+//            }
+//            }
+//            DataSupport.saveAll(li);
+//        }
+
+    }
     private void choseSuo() {
 /*
              * 当为单选时，调用getCheckedItemPosition()获取选中的item的position
@@ -124,17 +161,10 @@ public class JsTj extends BaseActivity {
     }
 
     private void JstjListView() {
-        list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            FdSuo jsjv = new FdSuo();
-            jsjv.setSuo_sbBH("10000" + i);
-            jsjv.setSuo_haoma("10000" + i);
-            jsjv.setSuo_cdTS("11" + i);
-            jsjv.setSuo_ztBJ("出库");
-            list.add(jsjv);
-        }
+        List<FdSuo> li=new ArrayList<>();
+        li=DataSupport.where("suo_isuse > ?","0").find(FdSuo.class);
         jsTjAdapter = new JsTjAdapter();
         jstjLv.setAdapter(jsTjAdapter);
-        jsTjAdapter.setsetDateJsTjAdapter(list);
+        jsTjAdapter.setsetDateJsTjAdapter(li);
     }
 }

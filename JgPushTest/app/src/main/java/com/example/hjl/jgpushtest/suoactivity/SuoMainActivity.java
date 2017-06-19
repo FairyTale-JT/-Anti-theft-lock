@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -20,10 +21,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.R;
-import com.gyf.barlibrary.ImmersionBar;
-
-import java.lang.reflect.Method;
-
+import org.litepal.tablemanager.Connector;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -83,6 +81,10 @@ public class SuoMainActivity extends BaseActivity {
                 .getDecorView()
                 .findViewById(android.R.id.content)
                 .setPadding(0, 0, 0, getNavigationBarHeight());//从新设置视图边距
+        ////////////////
+        //生成数据库
+        SQLiteDatabase db = Connector.getDatabase();
+        //////////////////
         bottomNavigationBar.
                 setMode(BottomNavigationBar.MODE_FIXED);
         //BottomNavigationBar.MODE_FIXED：固定大小
