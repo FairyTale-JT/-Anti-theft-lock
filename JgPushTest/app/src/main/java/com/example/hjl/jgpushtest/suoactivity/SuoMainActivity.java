@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
@@ -42,9 +43,7 @@ public class SuoMainActivity extends BaseActivity {
  * SCREEN_ORIENTATION_PORTRAIT 设置强制竖屏
  * SCREEN_ORIENTATION_LANDSCAPE 设置强制横屏
  */
-//        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
-//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        }
+
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
@@ -56,13 +55,16 @@ public class SuoMainActivity extends BaseActivity {
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         boolean hasMenuKey = ViewConfiguration.get(this).hasPermanentMenuKey();
         boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+
+        int resourceIdX = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (!hasMenuKey && !hasBackKey) {
             //获取NavigationBar的高度
-            int height = resources.getDimensionPixelSize(resourceId);
+            int height = (resources.getDimensionPixelSize(resourceId));
             return height;
         } else {
             return 0;
         }
+
     }
 
 
@@ -71,7 +73,6 @@ public class SuoMainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.suo_maintv);
         ButterKnife.bind(this);
-
         getWindow()
                 .getDecorView()
                 .findViewById(android.R.id.content)
@@ -165,4 +166,31 @@ public class SuoMainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        getWindow()
+//                .getDecorView()
+//                .findViewById(android.R.id.content)
+//                .setPadding(0, 0, 0, getNavigationBarHeight());//从新设置视图边距
+//
+//
+//    }
 }

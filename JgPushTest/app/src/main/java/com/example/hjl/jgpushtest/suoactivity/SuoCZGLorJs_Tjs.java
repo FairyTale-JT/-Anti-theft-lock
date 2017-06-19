@@ -106,8 +106,6 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                 } else {
                     finish();
                 }
-
-
             }
         });
     }
