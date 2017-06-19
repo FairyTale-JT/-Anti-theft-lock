@@ -1,14 +1,16 @@
 package com.example.hjl.jgpushtest.enity;
 
+import org.litepal.annotation.Column;
+import org.litepal.crud.DataSupport;
+
 /**
+ * 防盗锁属性实体类
  * Created by hjl on 2017/6/14.
  */
 
-public class FdSuo {
-    private String suo_haoma;//锁号
-    private String suo_rkryMz;//入库人员用户名
-    private String suo_rkczID;//入库车站ID
-    private String suo_rkSJ;//入库时间
+public class FdSuo extends DataSupport {
+    @Column(nullable = true)
+    private int id;
     /**
      * 状态标记
      * 0：入库
@@ -16,16 +18,56 @@ public class FdSuo {
      2：预加锁
      3：销号
      4：报废
+     5: 加锁
      */
+    @Column(nullable = false)
     private String suo_ztBJ;//状态标记
-    private String suo_ckryMZ;//出库人员用户名
-    private String suo_ckSJ;//出库时间
-    private String suo_lqrMZ;//领取人用户名
+
+    @Column(nullable = false)
+    private String suo_haoma;//锁号
+
+    @Column(nullable = false)
     private String suo_sbBH;//设备编号
+
+    /**
+     * 1==出库
+     * 2==已经编辑
+     * -9==已使用
+     */
+    @Column(nullable = false)
+    private int suo_isuse;//锁的使用状态
+
+    @Column(nullable = true)
+    private String suo_rkryMz;//入库人员用户名
+
+    @Column(nullable = true)
+    private String suo_rkczID;//入库车站ID
+
+    @Column(nullable = true)
+    private String suo_rkSJ;//入库时间
+
+    @Column(nullable = true)
+    private String suo_ckryMZ;//出库人员用户名
+
+    @Column(nullable = true)
+    private String suo_ckSJ;//出库时间
+
+    @Column(nullable = true)
+    private String suo_lqrMZ;//领取人用户名
+
+    @Column(nullable = true)
     private String suo_bfryMZ;//报废人员用户名
+
+    @Column(nullable = true)
     private String suo_bfSJ;//报废时间
+
+    @Column(nullable = true)
     private String suo_sgID;//申购ID
+
+    @Column(nullable = true)
     private String suo_LX;//锁类型0
+
+    @Column(nullable = true)
     private String suo_cdTS;//充电天数
 
 
@@ -80,6 +122,14 @@ public class FdSuo {
         this.suo_sgID = suo_sgID;
         this.suo_LX = suo_LX;
         this.suo_cdTS = suo_cdTS;
+    }
+
+    public int getSuo_isuse() {
+        return suo_isuse;
+    }
+
+    public void setSuo_isuse(int suo_isuse) {
+        this.suo_isuse = suo_isuse;
     }
 
     public void setSuo_haoma(String suo_haoma) {

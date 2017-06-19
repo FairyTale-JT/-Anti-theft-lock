@@ -66,6 +66,8 @@ dependencies {
 
     compile 'com.github.GrenderG:Toasty:1.1.3'//第三方Toast
     compile 'com.gyf.barlibrary:barlibrary:2.2.3'//沉浸式状态栏
+    compile 'org.litepal.android:core:1.5.1'//SQLITE框架litepal
+
 //    compile 'com.github.VictorAlbertos.RxCache:runtime:1.8.0-2.x'
 //    compile 'io.reactivex.rxjava2:rxjava:2.0.6'
 //    // To use Gson

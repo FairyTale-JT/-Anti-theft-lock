@@ -55,20 +55,17 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
                 ((MyViewHolder) holder).js_tv1.setText(list.get(position).getCxh());
                 ((MyViewHolder) holder).js_tv2.setText(list.get(position).getFz());
                 ((MyViewHolder) holder).js_tv3.setText(list.get(position).getDz());
-                if (list.get(position).getFdSuo1()!=null) {
                     ((MyViewHolder) holder).
-                            js_tv4.setText(list.get(position).
-                            getFdSuo1().getSuo_haoma().toString());
+                            js_tv4.setText(list.get(position).getFdSuo1_id().toString());
                     ((MyViewHolder) holder).js_tv6.setText(
-                            list.get(position).getFdSuo1().getSuo_ztBJ().toString());
-                }
+                            list.get(position).getFdSuo1_ztbj().toString());
 
-                if (list.get(position).getFdSuo2()!=null) {
+
+                if (list.get(position).getFdSuo2_id()!=null) {
                     ((MyViewHolder) holder).
-                            js_tv5.setText(list.get(position).
-                            getFdSuo2().getSuo_haoma().toString());
+                            js_tv5.setText(list.get(position).getFdSuo2_id().toString());
                     ((MyViewHolder) holder).js_tv7.setText(
-                            list.get(position).getFdSuo2().getSuo_ztBJ().toString());
+                            list.get(position).getFdSuo2_ztbj().toString());
                 }
 
             }

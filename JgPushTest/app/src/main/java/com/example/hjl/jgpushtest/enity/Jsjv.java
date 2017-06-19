@@ -1,71 +1,77 @@
 package com.example.hjl.jgpushtest.enity;
 
+import org.litepal.annotation.Column;
+import org.litepal.crud.DataSupport;
+
 /**
+ * 锁与车/箱号 任务链 实体类
  * Created by Administrator on 2017/6/13.
  */
 
-public class Jsjv {
+public class Jsjv extends DataSupport {
+    @Column(nullable = true)
+    private int id;
+
+    @Column(nullable = false)
+    private int isOk;//该任务链状态（-1=已经提交，1=暂没提交缓存在本地）
+
+    @Column(nullable = false)
     private String cxh;//车号
+
+    @Column(nullable = false)
     private String fz;//发站
+
+    @Column(nullable = false)
     private String dz;//到站
 
-    private String suo1;//锁1
-    private String suo2;//锁2
-    private String szt;//锁状态
+    @Column(nullable = false)
+    private String fdSuo1_id;//
+    @Column(nullable = false)
+    private String fdSuo1_sbbh;//
+    @Column(nullable = false)
+    private String fdSuo1_ztbj;//
 
-    private String jlh;//记录号
-    private String sbh;//设备号
-    private String ccpc;//出厂批次
-    private String cdts;//充电天数
-    private FdSuo fdSuo1;//
-    private FdSuo fdSuo2;//
+    @Column(nullable = true)
+    private String fdSuo2_id;//
+    @Column(nullable = true)
+    private String fdSuo2_sbbh;//
+    @Column(nullable = false)
+    private String fdSuo2_ztbj;//
 
-    public FdSuo getFdSuo1() {
-        return fdSuo1;
+    @Column(nullable = true)
+    private String cxType;//车类型（整车或者车厢）
+
+    public int getIsOk() {
+        return isOk;
     }
 
-    public void setFdSuo1(FdSuo fdSuo) {
-        this.fdSuo1 = fdSuo;
-    }
-    public FdSuo getFdSuo2() {
-        return fdSuo2;
+    public void setIsOk(int isOk) {
+        this.isOk = isOk;
     }
 
-    public void setFdSuo2(FdSuo fdSuo) {
-        this.fdSuo2 = fdSuo;
-    }
-    public String getJlh() {
-        return jlh;
+    public String getCxType() {
+        return cxType;
     }
 
-    public void setJlh(String jlh) {
-        this.jlh = jlh;
+    public void setCxType(String cxType) {
+        this.cxType = cxType;
     }
 
-    public String getSbh() {
-        return sbh;
+    public String getFdSuo1_id() {
+        return fdSuo1_id;
     }
 
-    public void setSbh(String sbh) {
-        this.sbh = sbh;
+    public String getFdSuo1_sbbh() {
+        return fdSuo1_sbbh;
     }
 
-    public String getCcpc() {
-        return ccpc;
+    public String getFdSuo2_id() {
+        return fdSuo2_id;
     }
 
-    public void setCcpc(String ccpc) {
-        this.ccpc = ccpc;
+    public String getFdSuo2_sbbh() {
+        return fdSuo2_sbbh;
     }
-
-    public String getCdts() {
-        return cdts;
-    }
-
-    public void setCdts(String cdts) {
-        this.cdts = cdts;
-    }
-
 
     public String getFz() {
         return fz;
@@ -92,27 +98,43 @@ public class Jsjv {
         this.cxh = cxh;
     }
 
-    public String getSuo1() {
-        return suo1;
+    public int getId() {
+        return id;
     }
 
-    public void setSuo1(String suo1) {
-        this.suo1 = suo1;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getSuo2() {
-        return suo2;
+    public void setFdSuo1_id(String fdSuo1_id) {
+        this.fdSuo1_id = fdSuo1_id;
     }
 
-    public void setSuo2(String suo2) {
-        this.suo2 = suo2;
+    public void setFdSuo1_sbbh(String fdSuo1_sbbh) {
+        this.fdSuo1_sbbh = fdSuo1_sbbh;
     }
 
-    public String getSzt() {
-        return szt;
+    public void setFdSuo2_id(String fdSuo2_id) {
+        this.fdSuo2_id = fdSuo2_id;
     }
 
-    public void setSzt(String szt) {
-        this.szt = szt;
+    public void setFdSuo2_sbbh(String fdSuo2_sbbh) {
+        this.fdSuo2_sbbh = fdSuo2_sbbh;
+    }
+
+    public String getFdSuo1_ztbj() {
+        return fdSuo1_ztbj;
+    }
+
+    public String getFdSuo2_ztbj() {
+        return fdSuo2_ztbj;
+    }
+
+    public void setFdSuo1_ztbj(String fdSuo1_ztbj) {
+        this.fdSuo1_ztbj = fdSuo1_ztbj;
+    }
+
+    public void setFdSuo2_ztbj(String fdSuo2_ztbj) {
+        this.fdSuo2_ztbj = fdSuo2_ztbj;
     }
 }
