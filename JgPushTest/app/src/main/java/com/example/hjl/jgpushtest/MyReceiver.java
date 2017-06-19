@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.hjl.jgpushtest.suoactivity.JsTj;
 import com.example.hjl.jgpushtest.suoactivity.SuoMainActivity;
 
 import cn.jpush.android.api.JPushInterface;

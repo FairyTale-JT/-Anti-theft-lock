@@ -3,11 +3,8 @@ package com.example.hjl.jgpushtest.suoactivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.ExpandedMenuView;
 import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -16,7 +13,6 @@ import android.widget.Toast;
 import com.example.hjl.jgpushtest.R;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.enity.FdSuo;
-import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
 
 import org.litepal.crud.DataSupport;
@@ -32,7 +28,7 @@ import es.dmoral.toasty.Toasty;
  * Created by Administrator on 2017/6/13.
  */
 
-public class JsTj extends BaseActivity {
+public class SuoCZGLorJs_Tjs extends BaseActivity {
     @Bind(R.id.jstj_bt1)
     Button jstjBt1;
     @Bind(R.id.jstj_et1)
@@ -141,7 +137,7 @@ public class JsTj extends BaseActivity {
                         doit(bundle);
                     }
                     if (isChoseList.size() > 2) {
-                        Toasty.warning(JsTj.this, "最多可以选择两把锁", Toast.LENGTH_LONG).show();
+                        Toasty.warning(SuoCZGLorJs_Tjs.this, "最多可以选择两把锁", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     finish();

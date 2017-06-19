@@ -6,237 +6,274 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="@color/bg_gray"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="15dp">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="8dp"
-                app:cardBackgroundColor="@color/bg_gray"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="15dp">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="44dp"
+                        android:text="类型:"
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/suo_js_lx"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/spingarr" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:paddingTop="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
 
                         <TextView
-                            android:id="@+id/textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="44dp"
-                            android:text="类型:"
+                            android:text="发站:"
                             android:textSize="16sp" />
 
                         <Spinner
-                            android:id="@+id/suo_js_spinner"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/suo_js_dz"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:entries="@array/spingarr" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="车号/箱号:"
-                                android:textSize="16sp" />
-
-                            <EditText
-                                android:imeOptions="flagNoExtractUi"
-                                android:id="@+id/suo_haoma_ed"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="2dp"
-                                android:text="到站:"
-                                android:textSize="16sp" />
-
-                            <EditText
-                                android:imeOptions="flagNoExtractUi"
-                                android:id="@+id/suo_daoz_ed"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="35dp"
-                                android:text="锁号1:"
-                                android:textSize="16sp" />
-
-                            <EditText
-
-                                android:imeOptions="flagNoExtractUi"
-                                android:id="@+id/suo_suohao1_ed"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.2"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="2dp"
-                                android:text="锁号2:"
-                                android:textSize="16sp" />
-
-                            <EditText
-                                android:imeOptions="flagNoExtractUi"
-                                android:id="@+id/suo_suohao2_ed"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <Button
-                            android:id="@+id/suo_js_tijiao"
-                            android:layout_width="80dp"
-                            android:layout_height="40dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginRight="50dp"
-                            android:text="提交"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1.5"
+                            android:gravity="right"
+                            android:text="到站:"
                             android:textSize="16sp" />
 
+                        <EditText
+                            android:id="@+id/suo_daoz_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.2"
+                            android:imeOptions="flagNoExtractUi" />
+
                         <Button
-                            android:id="@+id/suo_js_xzsuo"
-                            android:layout_width="80dp"
-                            android:layout_height="40dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginLeft="50dp"
-                            android:text="选择锁"
-                            android:textSize="16sp" />
+                            android:id="@+id/suo_daoz_bt"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1.5"
+                            android:text="选择站"
+                            android:textSize="8sp" />
+
                     </LinearLayout>
+
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                android:layout_marginTop="11dp"
-                android:background="@color/bg_gray"
-                android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="车号/箱号:"
+                        android:textSize="16sp" />
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="2"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="车号/箱号"-->
-                    <!--android:textSize="12sp" />-->
-
-                <!--<View-->
-                    <!--android:layout_width="1dp"-->
-                    <!--android:layout_height="25dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:background="@color/black" />-->
+                    <EditText
+                        android:id="@+id/suo_haoma_ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="flagNoExtractUi" />
+                </LinearLayout>
 
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="发到站"-->
-                    <!--android:textSize="12sp" />-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <!--<View-->
-                    <!--android:layout_width="1dp"-->
-                    <!--android:layout_height="25dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:background="@color/black" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="35dp"
+                            android:text="锁号1:"
+                            android:textSize="16sp" />
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="锁"-->
-                    <!--android:textSize="12sp" />-->
+                        <EditText
 
-                <!--<View-->
-                    <!--android:layout_width="1dp"-->
-                    <!--android:layout_height="25dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:background="@color/black" />-->
+                            android:id="@+id/suo_suohao1_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="flagNoExtractUi" />
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="0.5"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="锁状态"-->
-                    <!--android:textSize="12sp" />-->
+                    </LinearLayout>
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="加锁时间"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:visibility="gone" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:text="锁号2:"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/suo_suohao2_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="flagNoExtractUi" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/suo_js_tijiao"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="50dp"
+                        android:text="提交"
+
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/suo_js_xzsuo"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="50dp"
+                        android:text="选择锁"
+
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
+        </android.support.v7.widget.CardView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+
+            android:layout_marginTop="11dp"
+            android:background="@color/bg_gray"
+            android:orientation="horizontal">
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="center"-->
+            <!--android:text="车号/箱号"-->
+            <!--android:textSize="12sp" />-->
+
+            <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="@color/black" />-->
+
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="发到站"-->
+            <!--android:textSize="12sp" />-->
+
+            <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="@color/black" />-->
+
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1.5"-->
+            <!--android:gravity="center"-->
+            <!--android:text="锁"-->
+            <!--android:textSize="12sp" />-->
+
+            <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="@color/black" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="0.5"-->
+            <!--android:gravity="center"-->
+            <!--android:text="锁状态"-->
+            <!--android:textSize="12sp" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="加锁时间"-->
+            <!--android:textSize="12sp"-->
+            <!--android:visibility="gone" />-->
         </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

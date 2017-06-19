@@ -16,16 +16,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewItemClickListener;
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewLongItemClickListener;
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.enity.BinCZB;
+import com.example.hjl.jgpushtest.enity.FaZhan;
 import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JiaSuoAdapter;
+import com.example.hjl.jgpushtest.fragment.SpinnerAdapter;
+import com.example.hjl.jgpushtest.util.FindTest;
 import com.example.hjl.jgpushtest.util.ToastUtils;
 
 import org.litepal.crud.DataSupport;
@@ -49,9 +55,16 @@ public class SuoCZGLorJs extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
 
     private EditText suo1, suo2, cx_NO, dz_Ming;
+    private Button daoz_bt;
     FdSuo fdSuo1 = null;
     FdSuo fdSuo2 = null;
     private String suo1_sbbh = null, suo1_id = null, suo1_ztbj = null, suo2_id = null, suo2_sbbh = null, suo2_ztbj = null;
+    private List<BinCZB> czbList;
+    private String[] areas;
+    private Spinner js_lx, js_fz;
+    private List<FaZhan> fa_list;
+    private SpinnerAdapter spinnerAdapter;
+    private String jslx, fz;
 
     public static SuoCZGLorJs getnewInstance_Js(String param1) {
         SuoCZGLorJs my = new SuoCZGLorJs();
@@ -93,6 +106,10 @@ public class SuoCZGLorJs extends Fragment {
          * 下拉刷新的监听
          */
         swipCheak();
+        //车站选择
+        DzXz();
+        //类型和发站选择
+        ZSpinner();
         return view;
     }
 
@@ -101,9 +118,10 @@ public class SuoCZGLorJs extends Fragment {
      */
     private void initdata() {
 //        DataSupport.deleteAll(FdSuo.class);
-        List<Jsjv> li=DataSupport.where("isOk > ?","0").find(Jsjv.class);
-        if (li.size()>0) {
-            for (int i = 0; i <li.size() ; i++) {
+
+        List<Jsjv> li = DataSupport.where("isOk > ?", "0").find(Jsjv.class);
+        if (li.size() > 0) {
+            for (int i = 0; i < li.size(); i++) {
                 list.add(li.get(i));
             }
         }
@@ -119,6 +137,8 @@ public class SuoCZGLorJs extends Fragment {
         suo2 = (EditText) view.findViewById(R.id.suo_suohao2_ed);
         cx_NO = (EditText) view.findViewById(R.id.suo_haoma_ed);
         dz_Ming = (EditText) view.findViewById(R.id.suo_daoz_ed);
+        daoz_bt = (Button) view.findViewById(R.id.suo_daoz_bt);
+
         js_rv = (RecyclerView) view.findViewById(R.id.suo_js_rev_fragment);
         js_xzs = (Button) view.findViewById(R.id.suo_js_xzsuo);
         js_tj = (Button) view.findViewById(R.id.suo_js_tijiao);
@@ -126,7 +146,91 @@ public class SuoCZGLorJs extends Fragment {
         js_rv.setItemAnimator(new DefaultItemAnimator());
         jiaSuoAdapter = new JiaSuoAdapter();
         js_rv.setAdapter(jiaSuoAdapter);
+
+        //选择类型
+        js_lx = (Spinner) view.findViewById(R.id.suo_js_lx);
+        //选择发站
+        js_fz = (Spinner) view.findViewById(R.id.suo_js_dz);
+        fa_list = new ArrayList<FaZhan>();
+        fa_list.add(new FaZhan("北京"));
+        fa_list.add(new FaZhan("成都"));
+        spinnerAdapter = new SpinnerAdapter(context, fa_list);
+        js_fz.setAdapter(spinnerAdapter);
+//        js_dz.setEnabled(false);
     }
+
+    /**
+     * 车站选择
+     */
+    private void DzXz() {
+        daoz_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (!dz_Ming.getText().toString().equals("")) {
+                        //字典库里查询
+                        czbList = FindTest.FindShezhiZM(getResources().openRawResource(R.raw.czb),
+                                dz_Ming.getText().toString());
+                        areas = new String[czbList.size()];
+                        for (int i = 0; i < czbList.size(); i++) {
+                            areas[i] = czbList.get(i).getZM();
+                        }
+                        if (czbList.size() == 0) {
+                            dz_Ming.setText("");
+                        } else {
+                            new AlertDialog.Builder(context).setTitle("请选择车站")
+                                    .setCancelable(true)
+                                    .setSingleChoiceItems(areas, -1, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int i) {
+                                            dz_Ming.setText(czbList.get(i).getZM());
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                        }
+
+                    } else {
+                        Toasty.info(context, "请输入车站的名,再选择", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //Spinner发站/到站
+    private void ZSpinner() {
+        js_lx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] fa = getResources().getStringArray(R.array.spingarr);
+                jslx = fa[i];
+
+                Toasty.info(context, "你点击的是:" + jslx, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        js_fz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                fz = fa_list.get(i).getFz();
+                Toasty.info(context, "你点击的是:" + fa_list.get(i).getFz(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
 
     /**
      * 下拉刷新的监听
@@ -180,7 +284,8 @@ public class SuoCZGLorJs extends Fragment {
                 String s = list.get(position).getCxh();
                 //Toast.makeText(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT).show();
                 Toasty.info(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT, true).show();
-                DeleteDialog(s,position);
+
+                DeleteDialog(s, position);
             }
         });
     }
@@ -190,20 +295,22 @@ public class SuoCZGLorJs extends Fragment {
      * 选择锁以及提交按钮
      */
     private void JsButton() {
-//选择锁
+
+        //选择锁
         js_xzs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(context, JsTj.class);
+                intent.setClass(context, SuoCZGLorJs_Tjs.class);
                 startActivityForResult(intent, 1);//带返回参数的跳转
             }
         });
-//提交
+
+        //提交
+
         js_tj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 Jsjv jsjv = new Jsjv();
                 if (
@@ -283,11 +390,12 @@ public class SuoCZGLorJs extends Fragment {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                int a=list.get(position).getId();
+
+                int a = list.get(position).getId();
                 list.remove(position);
                 js_rv.setAdapter(jiaSuoAdapter);
                 jiaSuoAdapter.setDateJiaSuoAdapter(list);
-                DataSupport.delete(Jsjv.class,a);
+                DataSupport.delete(Jsjv.class, a);
 
             }
         });
@@ -354,6 +462,6 @@ public class SuoCZGLorJs extends Fragment {
      * @return
      */
     String getFZ_bendi() {
-        return "x";
+        return fz;
     }
 }

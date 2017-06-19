@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import com.example.hjl.jgpushtest.R;
 
 /**
- * Created by Administrator on 2017/6/13.
+ * Listview选择改变LinerLayout背景颜色
  */
 
 public class CheckableLinearLayout extends LinearLayout implements Checkable {
