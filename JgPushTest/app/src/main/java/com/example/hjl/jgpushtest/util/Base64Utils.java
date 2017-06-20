@@ -1,4 +1,4 @@
-package com.example.hjl.jgpushtest.astuetz;
+package com.example.hjl.jgpushtest.util;
 
 import android.util.Base64;
 
