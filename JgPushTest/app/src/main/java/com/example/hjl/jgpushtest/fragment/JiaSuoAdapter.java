@@ -27,7 +27,8 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public JiaSuoAdapter() {}
+    public JiaSuoAdapter() {
+    }
 
     @Override
     public int getItemCount() {
@@ -78,10 +79,8 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
                     ((MyViewHolder) holder).js_tv7.setText(
                             list.get(position).getFdSuo2_ztbj().toString());
                 }
-
             }
         }
-
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
