@@ -31,6 +31,7 @@ import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.fragment.JiaSuoAdapter;
 import com.example.hjl.jgpushtest.fragment.SpinnerAdapter;
+import com.example.hjl.jgpushtest.myview.CustomDialog;
 import com.example.hjl.jgpushtest.util.FindTest;
 import com.example.hjl.jgpushtest.util.ToastUtils;
 
@@ -40,6 +41,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by hjl on 2017/6/12.
@@ -53,11 +61,12 @@ public class SuoCZGLorJs extends Fragment {
     private List<Jsjv> list;
     private Button js_xzs, js_tj;
     SwipeRefreshLayout swipeRefreshLayout;
-
+    List<Subscription> subscriptions=new ArrayList<>();
     private EditText suo1, suo2, cx_NO, dz_Ming;
     private Button daoz_bt;
     FdSuo fdSuo1 = null;
     FdSuo fdSuo2 = null;
+
     private String suo1_sbbh = null, suo1_id = null, suo1_ztbj = null, suo2_id = null, suo2_sbbh = null, suo2_ztbj = null;
     private List<BinCZB> czbList;
     private String[] areas;
@@ -166,16 +175,48 @@ public class SuoCZGLorJs extends Fragment {
         daoz_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!dz_Ming.getText().toString().equals("")) {
+                    getDZ();
+                }else {
+                    Toasty.info(getContext(), "请输入车站的名,再选择", Toast.LENGTH_SHORT).show();
+                }
+//                getDZ();
+           }
+        });
+
+    }
+    void getDZ(){
+        final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
+    Subscription s=    Observable.create(new Observable.OnSubscribe<String[]>() {
+            @Override
+            public void call(Subscriber<? super String[]> subscriber) {
                 try {
-                    if (!dz_Ming.getText().toString().equals("")) {
-                        //字典库里查询
-                        czbList = FindTest.FindShezhiZM(getResources().openRawResource(R.raw.czb),
-                                dz_Ming.getText().toString());
-                        areas = new String[czbList.size()];
-                        for (int i = 0; i < czbList.size(); i++) {
-                            areas[i] = czbList.get(i).getZM();
-                        }
-                        if (czbList.size() == 0) {
+                    czbList = FindTest.FindShezhiZM(getResources().openRawResource(R.raw.czb),
+                            dz_Ming.getText().toString());
+                    areas = new String[czbList.size()];
+                    for (int i = 0; i < czbList.size(); i++) {
+                        areas[i] = czbList.get(i).getZM();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String[] s=areas;
+                subscriber.onNext(s);
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        customDialog.show();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
+        .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
+                .subscribe(new Observer<String[]>() {
+                    @Override
+                    public void onNext(String[] areas) {
+                        if (areas==null) {
                             dz_Ming.setText("");
                         } else {
                             new AlertDialog.Builder(context).setTitle("请选择车站")
@@ -188,19 +229,22 @@ public class SuoCZGLorJs extends Fragment {
                                         }
                                     }).show();
                         }
-
-                    } else {
-                        Toasty.info(context, "请输入车站的名,再选择", Toast.LENGTH_SHORT).show();
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+                    @Override
+                    public void onCompleted() {
+                        customDialog.dismiss();
+                    }
 
-    //Spinner发站/到站
+                    @Override
+                    public void onError(Throwable e) {
+                        customDialog.dismiss();
+                        ToastUtils.showmyToasty_Er(getContext(),"Error!");
+                    }
+                });
+        subscriptions.add(s);
+    }
+    //Spinner发站/类型
     private void ZSpinner() {
         js_lx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -208,7 +252,7 @@ public class SuoCZGLorJs extends Fragment {
                 String[] fa = getResources().getStringArray(R.array.spingarr);
                 jslx = fa[i];
 
-                Toasty.info(context, "你点击的是:" + jslx, Toast.LENGTH_SHORT).show();
+//                Toasty.info(context, "你点击的是:" + jslx, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -220,7 +264,6 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 fz = fa_list.get(i).getFz();
-                Toasty.info(context, "你点击的是:" + fa_list.get(i).getFz(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -273,8 +316,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                //Toast.makeText(context.getApplicationContext(), s + "---点击", Toast.LENGTH_SHORT).show();
-                Toasty.info(context.getApplicationContext(), s + "---点击", Toast.LENGTH_SHORT, true).show();
+                ToastUtils.showmyToasty_info(getContext(),s + "---点击");
                 UDialog(s);
             }
         });
@@ -282,9 +324,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onLongItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                //Toast.makeText(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT).show();
-                Toasty.info(context.getApplicationContext(), s + "---长按", Toast.LENGTH_SHORT, true).show();
-
+                ToastUtils.showmyToasty_info(getContext(),s + "---长按");
                 DeleteDialog(s, position);
             }
         });
@@ -350,7 +390,7 @@ public class SuoCZGLorJs extends Fragment {
                     suo2_sbbh = null;
                     suo2_ztbj = null;
                 } else {
-                    ToastUtils.showToast(getContext(), "请输入完整信息");
+                    ToastUtils.showmyToasty_Er(getContext(),"请输入完整");
                 }
 
 
@@ -445,12 +485,10 @@ public class SuoCZGLorJs extends Fragment {
                     suo1_sbbh = sbbh1;
                     suo1_ztbj = ztbj1;
                 }
-                Toast.makeText(getContext(), "返回信息=" + string1, Toast.LENGTH_LONG);
-
             }
 
         } else {
-            Toast.makeText(getContext(), "返回信息有问题", Toast.LENGTH_SHORT);
+            ToastUtils.showmyToasty_info(getContext(),"返回信息有问题");
         }
 
 
@@ -463,5 +501,16 @@ public class SuoCZGLorJs extends Fragment {
      */
     String getFZ_bendi() {
         return fz;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        context=null;//释放资源
+        if (subscriptions != null&&subscriptions.size()>0) {
+            for (int i = 0; i <subscriptions.size() ; i++) {
+                subscriptions.get(i).unsubscribe();//取消订阅
+            }
+        }
     }
 }

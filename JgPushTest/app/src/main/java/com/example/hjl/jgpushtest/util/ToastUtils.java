@@ -13,6 +13,7 @@ import es.dmoral.toasty.Toasty;
 
 public class ToastUtils {
     private static Toast mToast;
+
     /**
      * 非阻塞式显示Toast，防止出现连续点击Toast时的显示问题
      */
@@ -33,5 +34,14 @@ public class ToastUtils {
     }
     public static void showToast( CharSequence text) {
         showToast(App.getInstance().getApplicationContext(), text, Toast.LENGTH_SHORT);
+    }
+    public static void showmyToasty_info(Context context, String text){
+           Toasty.info(context,text, Toast.LENGTH_LONG).show();
+    }
+    public static void showmyToasty_Er(Context context, String text){
+        Toasty.error(context,text, Toast.LENGTH_LONG).show();
+    }
+    public static void showmyToasty_War(Context context, String text){
+        Toasty.warning(context,text, Toast.LENGTH_LONG).show();
     }
 }

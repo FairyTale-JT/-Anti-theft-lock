@@ -14,6 +14,7 @@ import com.example.hjl.jgpushtest.R;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
+import com.example.hjl.jgpushtest.util.ToastUtils;
 
 import org.litepal.crud.DataSupport;
 
@@ -137,7 +138,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                         doit(bundle);
                     }
                     if (isChoseList.size() > 2) {
-                        Toasty.warning(SuoCZGLorJs_Tjs.this, "最多可以选择两把锁", Toast.LENGTH_LONG).show();
+                        ToastUtils.showmyToasty_War(SuoCZGLorJs_Tjs.this, "最多可以选择两把锁");
                     }
                 } else {
                     finish();

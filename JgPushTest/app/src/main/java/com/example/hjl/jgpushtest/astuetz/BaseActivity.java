@@ -1,5 +1,6 @@
 package com.example.hjl.jgpushtest.astuetz;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,5 +27,20 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ImmersionBar.with(this).destroy();
+    }
+
+    @Override
+    protected void onResume() {
+/**
+ * SCREEN_ORIENTATION_PORTRAIT 设置强制竖屏
+ * SCREEN_ORIENTATION_LANDSCAPE 设置强制横屏
+ */
+//        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        }
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+        super.onResume();
     }
 }

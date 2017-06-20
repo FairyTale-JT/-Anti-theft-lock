@@ -98,7 +98,7 @@
                         <Button
                             android:id="@+id/suo_daoz_bt"
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1.5"
                             android:text="选择站"

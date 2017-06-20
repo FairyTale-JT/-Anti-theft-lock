@@ -41,19 +41,6 @@ public class SuoMainActivity extends BaseActivity {
     SuoTZCXfragment tzcXfragment;
 
 
-    @Override
-    protected void onResume() {
-/**
- * SCREEN_ORIENTATION_PORTRAIT 设置强制竖屏
- * SCREEN_ORIENTATION_LANDSCAPE 设置强制横屏
- */
-
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-        super.onResume();
-    }
-
     public int getNavigationBarHeight() {
         Resources resources = getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");

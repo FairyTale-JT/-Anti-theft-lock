@@ -52,8 +52,8 @@ public class TestACT extends BaseActivity {
             public void onClick(View view) {
                 user_in = useName.getText().toString();
                 password_in = password.getText().toString();
-                //ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
-                Toasty.success(TestACT.this, user_in + "\n" + password_in, Toast.LENGTH_SHORT).show();
+//                 ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
+//                Toasty.success(TestACT.this, user_in + "\n" + password_in, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(TestACT.this, SuoMainActivity.class);
                 startActivity(intent);
                 finish();
@@ -115,18 +115,4 @@ public class TestACT extends BaseActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-/**
- * SCREEN_ORIENTATION_PORTRAIT 设置强制竖屏
- * SCREEN_ORIENTATION_LANDSCAPE 设置强制横屏
- */
-//        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
-//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        }
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-        super.onResume();
-    }
 }
