@@ -65,6 +65,7 @@ public class SuoCZGLorJs extends Fragment {
     private Button daoz_bt;
     FdSuo fdSuo1 = null;
     FdSuo fdSuo2 = null;
+    private String cz_DBM;
 
     private String suo1_sbbh = null, suo1_id = null, suo1_ztbj = null, suo2_id = null, suo2_sbbh = null, suo2_ztbj = null;
     private List<BinCZB> czbList;
@@ -187,28 +188,23 @@ public class SuoCZGLorJs extends Fragment {
     void getDZ(){
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
     Subscription s=
-             Observable.create(new Observable.OnSubscribe<String[]>() {
+             Observable.create(new Observable.OnSubscribe<List<BinCZB>>() {
             @Override
-            public void call(Subscriber<? super String[]> subscriber) {
+            public void call(Subscriber<? super List<BinCZB>> subscriber) {
                 Throwable x=null;
                 try {
                     czbList =
                             FindTest.FindShezhiZM(getResources().
                                             openRawResource(R.raw.czb),
                             dz_Ming.getText().toString());
-                    areas = new String[czbList.size()];
-                    for (int i = 0; i < czbList.size(); i++) {
-                        areas[i] = czbList.get(i).getZM();
 
-                    }
                     Log.e("TAG","try");
                 } catch (Exception e) {
                     e.printStackTrace();
                      x=e;
                     Log.e("TAG","e1");
                 }
-                String[] s = areas;
-                subscriber.onNext(s);
+                subscriber.onNext(czbList);
                 subscriber.onCompleted();
                 subscriber.onError(x);
             }
@@ -221,20 +217,26 @@ public class SuoCZGLorJs extends Fragment {
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
                 .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
-                .subscribe(new Observer<String[]>() {
+                .subscribe(new Observer<List<BinCZB>>() {
                     @Override
 
-                    public void onNext(String[] ss) {
-                        if (!(ss.length>0)) {
+                    public void onNext(final List<BinCZB> li) {
+                        if (!(li.size()>0)) {
                             dz_Ming.setText("");
                             ToastUtils.showmyToasty_War(getContext(),"查无此站!");
                         } else {
+                            areas = new String[li.size()];
+                            for (int i = 0; i < li.size(); i++) {
+                                areas[i] = li.get(i).getZM();
+
+                            }
                             new AlertDialog.Builder(getContext()).setTitle("请选择车站")
                                     .setCancelable(true)
-                                    .setSingleChoiceItems(ss, -1, new DialogInterface.OnClickListener() {
+                                    .setSingleChoiceItems(areas, -1, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int i) {
                                             dz_Ming.setText(czbList.get(i).getZM());
+                                           cz_DBM=czbList.get(i).getCZID();
                                             dialog.dismiss();
                                         }
                                     }).show();
