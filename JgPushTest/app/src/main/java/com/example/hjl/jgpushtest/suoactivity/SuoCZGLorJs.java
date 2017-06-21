@@ -235,8 +235,9 @@ public class SuoCZGLorJs extends Fragment {
                                     .setSingleChoiceItems(areas, -1, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int i) {
-                                            dz_Ming.setText(czbList.get(i).getZM());
-                                           cz_DBM=czbList.get(i).getCZID();
+                                            dz_Ming.setText(li.get(i).getZM());
+                                            cz_DBM=li.get(i).getCZID();//电报码
+                                            Log.e("TAG","电报码=="+cz_DBM);
                                             dialog.dismiss();
                                         }
                                     }).show();
