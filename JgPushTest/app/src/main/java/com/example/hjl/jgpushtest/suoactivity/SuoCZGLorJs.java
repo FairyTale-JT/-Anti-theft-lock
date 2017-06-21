@@ -56,7 +56,6 @@ import rx.schedulers.Schedulers;
 public class SuoCZGLorJs extends Fragment {
     private RecyclerView js_rv;
     private View view;
-    private Context context;
     private JiaSuoAdapter jiaSuoAdapter;
     private List<Jsjv> list;
     private Button js_xzs, js_tj;
@@ -99,7 +98,6 @@ public class SuoCZGLorJs extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = getActivity();
         view = null;
         if (view == null) {
             view = inflater.inflate(R.layout.suo_js2, container, false);
@@ -151,7 +149,7 @@ public class SuoCZGLorJs extends Fragment {
         js_rv = (RecyclerView) view.findViewById(R.id.suo_js_rev_fragment);
         js_xzs = (Button) view.findViewById(R.id.suo_js_xzsuo);
         js_tj = (Button) view.findViewById(R.id.suo_js_tijiao);
-        js_rv.setLayoutManager(new LinearLayoutManager(context));
+        js_rv.setLayoutManager(new LinearLayoutManager(getContext()));
         js_rv.setItemAnimator(new DefaultItemAnimator());
         jiaSuoAdapter = new JiaSuoAdapter();
         js_rv.setAdapter(jiaSuoAdapter);
@@ -163,7 +161,7 @@ public class SuoCZGLorJs extends Fragment {
         fa_list = new ArrayList<FaZhan>();
         fa_list.add(new FaZhan("北京"));
         fa_list.add(new FaZhan("成都"));
-        spinnerAdapter = new SpinnerAdapter(context, fa_list);
+        spinnerAdapter = new SpinnerAdapter(getContext(), fa_list);
         js_fz.setAdapter(spinnerAdapter);
 //        js_dz.setEnabled(false);
     }
@@ -187,11 +185,14 @@ public class SuoCZGLorJs extends Fragment {
     }
     void getDZ(){
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
-    Subscription s=    Observable.create(new Observable.OnSubscribe<String[]>() {
+    Subscription s=
+             Observable.create(new Observable.OnSubscribe<String[]>() {
             @Override
             public void call(Subscriber<? super String[]> subscriber) {
                 try {
-                    czbList = FindTest.FindShezhiZM(getResources().openRawResource(R.raw.czb),
+                    czbList =
+                            FindTest.FindShezhiZM(getResources().
+                                            openRawResource(R.raw.czb),
                             dz_Ming.getText().toString());
                     areas = new String[czbList.size()];
                     for (int i = 0; i < czbList.size(); i++) {
@@ -199,6 +200,7 @@ public class SuoCZGLorJs extends Fragment {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    ToastUtils.showmyToasty_Er(getContext(),"文件读取Error!");
                 }
                 String[] s=areas;
                 subscriber.onNext(s);
@@ -219,7 +221,7 @@ public class SuoCZGLorJs extends Fragment {
                         if (areas==null) {
                             dz_Ming.setText("");
                         } else {
-                            new AlertDialog.Builder(context).setTitle("请选择车站")
+                            new AlertDialog.Builder(getContext()).setTitle("请选择车站")
                                     .setCancelable(true)
                                     .setSingleChoiceItems(areas, -1, new DialogInterface.OnClickListener() {
                                         @Override
@@ -341,7 +343,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(context, SuoCZGLorJs_Tjs.class);
+                intent.setClass(getContext(), SuoCZGLorJs_Tjs.class);
                 startActivityForResult(intent, 1);//带返回参数的跳转
             }
         });
@@ -401,7 +403,7 @@ public class SuoCZGLorJs extends Fragment {
 
     //加锁确认对话框
     private void UDialog(String cxh) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("车号/箱号为" + cxh + "加锁确认?");
         builder.setTitle("提示");
         builder.setPositiveButton("加锁确认", new DialogInterface.OnClickListener() {
@@ -424,7 +426,7 @@ public class SuoCZGLorJs extends Fragment {
 
     //删除对话框
     private void DeleteDialog(String cxh, final int position) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("确定删除车号/箱号为" + cxh + "的记录?");
         builder.setTitle("提示");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -506,7 +508,6 @@ public class SuoCZGLorJs extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        context=null;//释放资源
         if (subscriptions != null&&subscriptions.size()>0) {
             for (int i = 0; i <subscriptions.size() ; i++) {
                 subscriptions.get(i).unsubscribe();//取消订阅
