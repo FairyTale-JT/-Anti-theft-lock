@@ -184,24 +184,33 @@ public class SuoCZGLorJs extends Fragment {
 
     }
 
-    void getDZ() {
-        final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
-        Subscription s = Observable.create(new Observable.OnSubscribe<String[]>() {
+    void getDZ(){
+        final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
+    Subscription s=
+             Observable.create(new Observable.OnSubscribe<String[]>() {
             @Override
             public void call(Subscriber<? super String[]> subscriber) {
+                Throwable x=null;
                 try {
-                    czbList = FindTest.FindShezhiZM(getResources().openRawResource(R.raw.czb),
+                    czbList =
+                            FindTest.FindShezhiZM(getResources().
+                                            openRawResource(R.raw.czb),
                             dz_Ming.getText().toString());
                     areas = new String[czbList.size()];
                     for (int i = 0; i < czbList.size(); i++) {
                         areas[i] = czbList.get(i).getZM();
+
                     }
+                    Log.e("TAG","try");
                 } catch (Exception e) {
                     e.printStackTrace();
+                     x=e;
+                    Log.e("TAG","e1");
                 }
                 String[] s = areas;
                 subscriber.onNext(s);
                 subscriber.onCompleted();
+                subscriber.onError(x);
             }
         }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
                 .doOnSubscribe(new Action0() {
@@ -214,13 +223,15 @@ public class SuoCZGLorJs extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
                 .subscribe(new Observer<String[]>() {
                     @Override
-                    public void onNext(String[] areas) {
-                        if (areas == null) {
+
+                    public void onNext(String[] ss) {
+                        if (!(ss.length>0)) {
                             dz_Ming.setText("");
+                            ToastUtils.showmyToasty_War(getContext(),"查无此站!");
                         } else {
                             new AlertDialog.Builder(getContext()).setTitle("请选择车站")
                                     .setCancelable(true)
-                                    .setSingleChoiceItems(areas, -1, new DialogInterface.OnClickListener() {
+                                    .setSingleChoiceItems(ss, -1, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int i) {
                                             dz_Ming.setText(czbList.get(i).getZM());
@@ -228,6 +239,7 @@ public class SuoCZGLorJs extends Fragment {
                                         }
                                     }).show();
                         }
+                        Log.e("TAG","next");
                     }
 
                     @Override
@@ -238,7 +250,9 @@ public class SuoCZGLorJs extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         customDialog.dismiss();
-                        ToastUtils.showmyToasty_Er(getContext(), "Error!");
+
+                        Log.e("TAG","e2");
+                        ToastUtils.showmyToasty_Er(getContext(),"Error!");
                     }
                 });
         subscriptions.add(s);
@@ -508,8 +522,9 @@ public class SuoCZGLorJs extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (subscriptions != null && subscriptions.size() > 0) {
-            for (int i = 0; i < subscriptions.size(); i++) {
+
+        if (subscriptions != null&&subscriptions.size()>0) {
+            for (int i = 0; i <subscriptions.size() ; i++) {
                 subscriptions.get(i).unsubscribe();//取消订阅
             }
         }
