@@ -207,12 +207,19 @@
             android:text="锁状态"
             android:textSize="12sp" />
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/jstj_lv"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/jstj_xiala"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" >
+        <ListView
+            android:id="@+id/jstj_lv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
     <!--<LinearLayout-->
 
         <!--android:gravity="center"-->

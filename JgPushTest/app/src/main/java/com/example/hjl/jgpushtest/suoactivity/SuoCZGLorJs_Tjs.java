@@ -3,6 +3,7 @@ package com.example.hjl.jgpushtest.suoactivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,8 @@ import es.dmoral.toasty.Toasty;
  */
 
 public class SuoCZGLorJs_Tjs extends BaseActivity {
+   @Bind(R.id.jstj_xiala)
+    SwipeRefreshLayout swipeRefreshLayout_tjs;
     @Bind(R.id.jstj_bt1)
     Button jstjBt1;
     @Bind(R.id.jstj_et1)
@@ -51,6 +54,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         initDate();
         JstjListView();
         tiaoZhuan_fanhui();
+        swipCheak();
     }
 
     /**
@@ -58,6 +62,39 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
      */
     private void initView() {
     }
+
+    /**
+     * 下拉刷新监听
+     */
+    private void swipCheak() {
+        // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
+        // 设置下拉进度的背景颜色，默认就是白色的
+        swipeRefreshLayout_tjs.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        swipeRefreshLayout_tjs.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+
+        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+        swipeRefreshLayout_tjs.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+
+                        // 开始刷新，设置当前为刷新状态
+                        //swipeRefreshLayout.setRefreshing(true);
+                        // 这里是主线程
+                        // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
+                        // TODO 获取数据
+                        doGet();
+                        swipeRefreshLayout_tjs.setRefreshing(false);
+                    }
+                });
+    }
+/**
+ *刷新获取数据操作
+ */
+    private void doGet() {
+    }
+
     /**
      * 初始化数据
      */
