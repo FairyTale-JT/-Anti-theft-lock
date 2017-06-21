@@ -14,11 +14,11 @@ public class FdSuo extends DataSupport {
     /**
      * 状态标记
      * 0：入库
-     1：出库
-     2：预加锁
-     3：销号
-     4：报废
-     5: 加锁
+     * 1：出库
+     * 2：预加锁
+     * 3：销号
+     * 4：报废
+     * 5: 加锁
      */
     @Column(nullable = false)
     private String suo_ztBJ;//状态标记
@@ -106,8 +106,8 @@ public class FdSuo extends DataSupport {
                  String suo_bfryMZ,
                  String suo_bfSJ,
                  String suo_sgID,
-                 String suo_LX,
-                 String suo_cdTS) {
+                 String suo_LX
+    ) {
         this.suo_haoma = suo_haoma;
         this.suo_rkryMz = suo_rkryMz;
         this.suo_rkczID = suo_rkczID;
@@ -187,6 +187,7 @@ public class FdSuo extends DataSupport {
     public void setSuo_cdTS(String suo_cdTS) {
         this.suo_cdTS = suo_cdTS;
     }
+
 
     public String getSuo_haoma() {
 

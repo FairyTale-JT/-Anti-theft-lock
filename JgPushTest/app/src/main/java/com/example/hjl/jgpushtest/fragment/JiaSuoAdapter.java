@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * 加锁记录
  */
-
 public class JiaSuoAdapter extends RecyclerView.Adapter {
     public OnRecyclerViewItemClickListener mOnItemClickListener = null;//点击
     public OnRecyclerViewLongItemClickListener mOnLongItemClickListener = null;//长按
@@ -71,7 +70,6 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
                         js_tv4.setText(list.get(position).getFdSuo1_id().toString());
                 ((MyViewHolder) holder).js_tv6.setText(
                         list.get(position).getFdSuo1_ztbj().toString());
-
 
                 if (list.get(position).getFdSuo2_id() != null) {
                     ((MyViewHolder) holder).

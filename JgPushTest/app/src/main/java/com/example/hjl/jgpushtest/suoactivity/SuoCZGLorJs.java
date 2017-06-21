@@ -60,7 +60,7 @@ public class SuoCZGLorJs extends Fragment {
     private List<Jsjv> list;
     private Button js_xzs, js_tj;
     SwipeRefreshLayout swipeRefreshLayout;
-    List<Subscription> subscriptions=new ArrayList<>();
+    List<Subscription> subscriptions = new ArrayList<>();
     private EditText suo1, suo2, cx_NO, dz_Ming;
     private Button daoz_bt;
     FdSuo fdSuo1 = null;
@@ -175,14 +175,15 @@ public class SuoCZGLorJs extends Fragment {
             public void onClick(View view) {
                 if (!dz_Ming.getText().toString().equals("")) {
                     getDZ();
-                }else {
+                } else {
                     Toasty.info(getContext(), "请输入车站的名,再选择", Toast.LENGTH_SHORT).show();
                 }
 //                getDZ();
-           }
+            }
         });
 
     }
+
     void getDZ(){
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
     Subscription s=
@@ -206,7 +207,7 @@ public class SuoCZGLorJs extends Fragment {
                      x=e;
                     Log.e("TAG","e1");
                 }
-                String[] s=areas;
+                String[] s = areas;
                 subscriber.onNext(s);
                 subscriber.onCompleted();
                 subscriber.onError(x);
@@ -219,9 +220,10 @@ public class SuoCZGLorJs extends Fragment {
                     }
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
-        .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
+                .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
                 .subscribe(new Observer<String[]>() {
                     @Override
+
                     public void onNext(String[] ss) {
                         if (!(ss.length>0)) {
                             dz_Ming.setText("");
@@ -248,12 +250,14 @@ public class SuoCZGLorJs extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         customDialog.dismiss();
+
                         Log.e("TAG","e2");
                         ToastUtils.showmyToasty_Er(getContext(),"Error!");
                     }
                 });
         subscriptions.add(s);
     }
+
     //Spinner发站/类型
     private void ZSpinner() {
         js_lx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -326,7 +330,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                ToastUtils.showmyToasty_info(getContext(),s + "---点击");
+                ToastUtils.showmyToasty_info(getContext(), s + "---点击");
                 UDialog(s);
             }
         });
@@ -334,12 +338,14 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onLongItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                ToastUtils.showmyToasty_info(getContext(),s + "---长按");
+                ToastUtils.showmyToasty_info(getContext(), s + "---长按");
                 DeleteDialog(s, position);
             }
         });
     }
+    private void  OnLongClick(){
 
+    }
 
     /**
      * 选择锁以及提交按钮
@@ -400,7 +406,7 @@ public class SuoCZGLorJs extends Fragment {
                     suo2_sbbh = null;
                     suo2_ztbj = null;
                 } else {
-                    ToastUtils.showmyToasty_Er(getContext(),"请输入完整");
+                    ToastUtils.showmyToasty_Er(getContext(), "请输入完整");
                 }
 
 
@@ -417,9 +423,9 @@ public class SuoCZGLorJs extends Fragment {
         builder.setPositiveButton("加锁确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-/**
- * do what
- */
+    /**
+    * do what
+    */
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -498,7 +504,7 @@ public class SuoCZGLorJs extends Fragment {
             }
 
         } else {
-            ToastUtils.showmyToasty_info(getContext(),"返回信息有问题");
+            ToastUtils.showmyToasty_info(getContext(), "返回信息有问题");
         }
 
 
@@ -516,6 +522,7 @@ public class SuoCZGLorJs extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+
         if (subscriptions != null&&subscriptions.size()>0) {
             for (int i = 0; i <subscriptions.size() ; i++) {
                 subscriptions.get(i).unsubscribe();//取消订阅

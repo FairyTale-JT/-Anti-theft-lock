@@ -63,6 +63,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
     private void initView() {
     }
 
+
     /**
      * 下拉刷新监听
      */
@@ -95,17 +96,19 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
     private void doGet() {
     }
 
+
     /**
      * 初始化数据
      */
     private void initDate() {
         list = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
+        for (int i = 1; i < 21; i++) {
             FdSuo jsjv = new FdSuo();
             jsjv.setSuo_sbBH("10000" + i);
             jsjv.setSuo_haoma("10000" + i);
             jsjv.setSuo_cdTS("11" + i);
             jsjv.setSuo_ztBJ("出库");
+
             jsjv.setSuo_isuse(1);
             list.add(jsjv);
         }
@@ -123,6 +126,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
 //        }
 
     }
+
     private void choseSuo() {
 /*
              * 当为单选时，调用getCheckedItemPosition()获取选中的item的position
@@ -195,8 +199,8 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
     }
 
     private void JstjListView() {
-        List<FdSuo> li=new ArrayList<>();
-        li=DataSupport.where("suo_isuse > ?","0").find(FdSuo.class);
+        List<FdSuo> li = new ArrayList<>();
+        li = DataSupport.where("suo_isuse > ?", "0").find(FdSuo.class);
         jsTjAdapter = new JsTjAdapter();
         jstjLv.setAdapter(jsTjAdapter);
         jsTjAdapter.setsetDateJsTjAdapter(li);

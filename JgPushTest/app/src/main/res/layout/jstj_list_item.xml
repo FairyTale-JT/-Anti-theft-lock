@@ -9,10 +9,10 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         app:cardBackgroundColor="@color/bg_gray"
         app:cardCornerRadius="6dp"
         app:cardElevation="4dp">
@@ -23,6 +23,15 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/jstj_tv5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="序号"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/jstj_tv1"
@@ -38,7 +47,7 @@
                 android:id="@+id/jstj_tv2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:gravity="center"
                 android:text="锁号"
                 android:textSize="12sp" />
@@ -64,16 +73,6 @@
                 android:text="出厂批次"
                 android:textSize="12sp"
                 android:visibility="gone" />
-
-
-            <TextView
-                android:id="@+id/jstj_tv5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="已充电天数"
-                android:textSize="12sp" />
 
 
             <TextView

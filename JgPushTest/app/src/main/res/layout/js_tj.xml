@@ -126,6 +126,20 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="序号"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/black" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
             android:text="记录号"
@@ -141,7 +155,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:text="锁号"
             android:textSize="12sp" />
@@ -185,19 +199,6 @@
             android:layout_gravity="center_vertical"
             android:background="@color/black" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="已充电天数"
-            android:textSize="12sp" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:background="@color/black" />
 
         <TextView
             android:layout_width="0dp"
@@ -211,6 +212,7 @@
         android:id="@+id/jstj_xiala"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+
         android:layout_weight="1" >
         <ListView
             android:id="@+id/jstj_lv"
@@ -220,24 +222,25 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
 
+
     <!--<LinearLayout-->
 
-        <!--android:gravity="center"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="60dp">-->
-        <!--<android.support.v7.widget.CardView-->
-            <!--app:cardBackgroundColor="#c9c6c7"-->
-            <!--app:cardCornerRadius="6dp"-->
-            <!--app:cardElevation="10dp"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="52dp">-->
-            <!--<Button-->
-                <!--android:gravity="center"-->
-                <!--android:background="@null"-->
-                <!--android:text="我领取的锁"-->
-                <!--android:textSize="12sp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent" />-->
-        <!--</android.support.v7.widget.CardView>-->
+    <!--android:gravity="center"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="60dp">-->
+    <!--<android.support.v7.widget.CardView-->
+    <!--app:cardBackgroundColor="#c9c6c7"-->
+    <!--app:cardCornerRadius="6dp"-->
+    <!--app:cardElevation="10dp"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="52dp">-->
+    <!--<Button-->
+    <!--android:gravity="center"-->
+    <!--android:background="@null"-->
+    <!--android:text="我领取的锁"-->
+    <!--android:textSize="12sp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
+    <!--</android.support.v7.widget.CardView>-->
     <!--</LinearLayout>-->
 </LinearLayout>
