@@ -184,77 +184,77 @@ public class SuoCZGLorJs extends Fragment {
 
     }
 
-    void getDZ(){
-        final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
-    Subscription s=
-             Observable.create(new Observable.OnSubscribe<String[]>() {
-            @Override
-            public void call(Subscriber<? super String[]> subscriber) {
-                Throwable x=null;
-                try {
-                    czbList =
-                            FindTest.FindShezhiZM(getResources().
-                                            openRawResource(R.raw.czb),
-                            dz_Ming.getText().toString());
-                    areas = new String[czbList.size()];
-                    for (int i = 0; i < czbList.size(); i++) {
-                        areas[i] = czbList.get(i).getZM();
-
-                    }
-                    Log.e("TAG","try");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                     x=e;
-                    Log.e("TAG","e1");
-                }
-                String[] s = areas;
-                subscriber.onNext(s);
-                subscriber.onCompleted();
-                subscriber.onError(x);
-            }
-        }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
-                .doOnSubscribe(new Action0() {
+    void getDZ() {
+        final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
+        Subscription s =
+                Observable.create(new Observable.OnSubscribe<String[]>() {
                     @Override
-                    public void call() {
-                        customDialog.show();
-                    }
-                })
-                .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
-                .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
-                .subscribe(new Observer<String[]>() {
-                    @Override
+                    public void call(Subscriber<? super String[]> subscriber) {
+                        Throwable x = null;
+                        try {
+                            czbList =
+                                    FindTest.FindShezhiZM(getResources().
+                                                    openRawResource(R.raw.czb),
+                                            dz_Ming.getText().toString());
+                            areas = new String[czbList.size()];
+                            for (int i = 0; i < czbList.size(); i++) {
+                                areas[i] = czbList.get(i).getZM();
 
-                    public void onNext(String[] ss) {
-                        if (!(ss.length>0)) {
-                            dz_Ming.setText("");
-                            ToastUtils.showmyToasty_War(getContext(),"查无此站!");
-                        } else {
-                            new AlertDialog.Builder(getContext()).setTitle("请选择车站")
-                                    .setCancelable(true)
-                                    .setSingleChoiceItems(ss, -1, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int i) {
-                                            dz_Ming.setText(czbList.get(i).getZM());
-                                            dialog.dismiss();
-                                        }
-                                    }).show();
+                            }
+                            Log.e("TAG", "try");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            x = e;
+                            Log.e("TAG", "e1");
                         }
-                        Log.e("TAG","next");
+                        String[] s = areas;
+                        subscriber.onNext(s);
+                        subscriber.onCompleted();
+                        subscriber.onError(x);
                     }
+                }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                customDialog.show();
+                            }
+                        })
+                        .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
+                        .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
+                        .subscribe(new Observer<String[]>() {
+                            @Override
 
-                    @Override
-                    public void onCompleted() {
-                        customDialog.dismiss();
-                    }
+                            public void onNext(String[] ss) {
+                                if (!(ss.length > 0)) {
+                                    dz_Ming.setText("");
+                                    ToastUtils.showmyToasty_War(getContext(), "查无此站!");
+                                } else {
+                                    new AlertDialog.Builder(getContext()).setTitle("请选择车站")
+                                            .setCancelable(true)
+                                            .setSingleChoiceItems(ss, -1, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int i) {
+                                                    dz_Ming.setText(czbList.get(i).getZM());
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+                                }
+                                Log.e("TAG", "next");
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        customDialog.dismiss();
+                            @Override
+                            public void onCompleted() {
+                                customDialog.dismiss();
+                            }
 
-                        Log.e("TAG","e2");
-                        ToastUtils.showmyToasty_Er(getContext(),"Error!");
-                    }
-                });
+                            @Override
+                            public void onError(Throwable e) {
+                                customDialog.dismiss();
+
+                                Log.e("TAG", "e2");
+                                ToastUtils.showmyToasty_Er(getContext(), "Error!");
+                            }
+                        });
         subscriptions.add(s);
     }
 
@@ -343,7 +343,8 @@ public class SuoCZGLorJs extends Fragment {
             }
         });
     }
-    private void  OnLongClick(){
+
+    private void OnLongClick() {
 
     }
 
@@ -423,9 +424,9 @@ public class SuoCZGLorJs extends Fragment {
         builder.setPositiveButton("加锁确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-    /**
-    * do what
-    */
+                /**
+                 * do what
+                 */
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -523,8 +524,8 @@ public class SuoCZGLorJs extends Fragment {
     public void onPause() {
         super.onPause();
 
-        if (subscriptions != null&&subscriptions.size()>0) {
-            for (int i = 0; i <subscriptions.size() ; i++) {
+        if (subscriptions != null && subscriptions.size() > 0) {
+            for (int i = 0; i < subscriptions.size(); i++) {
                 subscriptions.get(i).unsubscribe();//取消订阅
             }
         }
