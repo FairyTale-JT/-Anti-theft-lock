@@ -19,15 +19,17 @@ import java.util.List;
 
 public class JsTjAdapter extends BaseAdapter {
     private List<FdSuo> list;
+
     public JsTjAdapter() {
 
 
     }
 
-public void setsetDateJsTjAdapter(List<FdSuo> list){
-    this.list=list;
-    notifyDataSetChanged();
-}
+    public void setsetDateJsTjAdapter(List<FdSuo> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list == null ? 0 : list.size();
@@ -57,7 +59,7 @@ public void setsetDateJsTjAdapter(List<FdSuo> list){
         tv2.setText(fdSuo.getSuo_haoma());
 //        tv3.setText(fdSuo.getSuo_sbBH());
 //        tv4.setText(fdSuo.getSuo_sbBH());
-        tv5.setText(fdSuo.getSuo_cdTS());
+        tv5.setText(Integer.toString(i + 1));
         tv6.setText(fdSuo.getSuo_ztBJ());
         return view;
     }
