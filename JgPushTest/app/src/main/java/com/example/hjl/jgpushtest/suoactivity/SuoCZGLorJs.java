@@ -185,79 +185,80 @@ public class SuoCZGLorJs extends Fragment {
 
     }
 
-    void getDZ(){
-        final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
-    Subscription s=
-             Observable.create(new Observable.OnSubscribe<List<BinCZB>>() {
-            @Override
-            public void call(Subscriber<? super List<BinCZB>> subscriber) {
-                Throwable x=null;
-                try {
-                    czbList =
-                            FindTest.FindShezhiZM(getResources().
-                                            openRawResource(R.raw.czb),
-                            dz_Ming.getText().toString());
-
-                    Log.e("TAG","try");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                     x=e;
-                    Log.e("TAG","e1");
-                }
-                subscriber.onNext(czbList);
-                subscriber.onCompleted();
-                subscriber.onError(x);
-            }
-        }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
-                .doOnSubscribe(new Action0() {
+    void getDZ() {
+        final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
+        Subscription s =
+                Observable.create(new Observable.OnSubscribe<List<BinCZB>>() {
                     @Override
-                    public void call() {
-                        customDialog.show();
-                    }
-                })
-                .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
-                .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
-                .subscribe(new Observer<List<BinCZB>>() {
-                    @Override
+                    public void call(Subscriber<? super List<BinCZB>> subscriber) {
+                        Throwable x = null;
+                        try {
+                            czbList =
+                                    FindTest.FindShezhiZM(getResources().
+                                                    openRawResource(R.raw.czb),
+                                            dz_Ming.getText().toString());
 
-                    public void onNext(final List<BinCZB> li) {
-                        if (!(li.size()>0)) {
-                            dz_Ming.setText("");
-                            ToastUtils.showmyToasty_War(getContext(),"查无此站!");
-                        } else {
-                            areas = new String[li.size()];
-                            for (int i = 0; i < li.size(); i++) {
-                                areas[i] = li.get(i).getZM();
+                            Log.e("TAG", "try");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            x = e;
+                            Log.e("TAG", "e1");
 
-                            }
-                            new AlertDialog.Builder(getContext()).setTitle("请选择车站")
-                                    .setCancelable(true)
-                                    .setSingleChoiceItems(areas, -1, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int i) {
-                                            dz_Ming.setText(li.get(i).getZM());
-                                            cz_DBM=li.get(i).getCZID();//电报码
-                                            Log.e("TAG","电报码=="+cz_DBM);
-                                            dialog.dismiss();
-                                        }
-                                    }).show();
                         }
-                        Log.e("TAG","next");
+                        subscriber.onNext(czbList);
+                        subscriber.onCompleted();
+                        subscriber.onError(x);
                     }
+                }).subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                customDialog.show();
+                            }
+                        })
+                        .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
+                        .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
+                        .subscribe(new Observer<List<BinCZB>>() {
+                            @Override
 
-                    @Override
-                    public void onCompleted() {
-                        customDialog.dismiss();
-                    }
+                            public void onNext(final List<BinCZB> li) {
+                                if (!(li.size() > 0)) {
+                                    dz_Ming.setText("");
+                                    ToastUtils.showmyToasty_War(getContext(), "查无此站!");
+                                } else {
+                                    areas = new String[li.size()];
+                                    for (int i = 0; i < li.size(); i++) {
+                                        areas[i] = li.get(i).getZM();
 
-                    @Override
-                    public void onError(Throwable e) {
-                        customDialog.dismiss();
+                                    }
+                                    new AlertDialog.Builder(getContext()).setTitle("请选择车站")
+                                            .setCancelable(true)
+                                            .setSingleChoiceItems(areas, -1, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int i) {
+                                                    dz_Ming.setText(li.get(i).getZM());
+                                                    cz_DBM = li.get(i).getCZID();
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+                                }
 
-                        Log.e("TAG","e2");
-                        ToastUtils.showmyToasty_Er(getContext(),"Error!");
-                    }
-                });
+                                Log.e("TAG", "next");
+                            }
+
+                            @Override
+                            public void onCompleted() {
+                                customDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                customDialog.dismiss();
+
+                                Log.e("TAG", "e2");
+                                ToastUtils.showmyToasty_Er(getContext(), "Error!");
+                            }
+                        });
         subscriptions.add(s);
     }
 
@@ -346,7 +347,8 @@ public class SuoCZGLorJs extends Fragment {
             }
         });
     }
-    private void  OnLongClick(){
+
+    private void OnLongClick() {
 
     }
 
@@ -426,9 +428,9 @@ public class SuoCZGLorJs extends Fragment {
         builder.setPositiveButton("加锁确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-    /**
-    * do what
-    */
+                /**
+                 * do what
+                 */
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -526,8 +528,8 @@ public class SuoCZGLorJs extends Fragment {
     public void onPause() {
         super.onPause();
 
-        if (subscriptions != null&&subscriptions.size()>0) {
-            for (int i = 0; i <subscriptions.size() ; i++) {
+        if (subscriptions != null && subscriptions.size() > 0) {
+            for (int i = 0; i < subscriptions.size(); i++) {
                 subscriptions.get(i).unsubscribe();//取消订阅
             }
         }

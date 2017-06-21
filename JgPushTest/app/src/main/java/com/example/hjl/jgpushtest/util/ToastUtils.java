@@ -32,16 +32,20 @@ public class ToastUtils {
     public static void showToast(Context context, CharSequence text) {
         showToast(context, text, Toast.LENGTH_SHORT);
     }
-    public static void showToast( CharSequence text) {
+
+    public static void showToast(CharSequence text) {
         showToast(App.getInstance().getApplicationContext(), text, Toast.LENGTH_SHORT);
     }
-    public static void showmyToasty_info(Context context, String text){
-           Toasty.info(context,text, Toast.LENGTH_LONG).show();
+
+    public static void showmyToasty_info(Context context, String text) {
+        Toasty.info(context, text, Toast.LENGTH_LONG).show();
     }
-    public static void showmyToasty_Er(Context context, String text){
-        Toasty.error(context,text, Toast.LENGTH_LONG).show();
+
+    public static void showmyToasty_Er(Context context, String text) {
+        Toasty.error(context, text, Toast.LENGTH_LONG).show();
     }
-    public static void showmyToasty_War(Context context, String text){
-        Toasty.warning(context,text, Toast.LENGTH_LONG).show();
+
+    public static void showmyToasty_War(Context context, String text) {
+        Toasty.warning(context, text, Toast.LENGTH_LONG).show();
     }
 }
