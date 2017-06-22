@@ -19,7 +19,7 @@
         <TextView
             android:layout_marginLeft="12dp"
             android:gravity="center"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:text="作业人："
             android:layout_width="wrap_content"
 
@@ -28,10 +28,18 @@
             android:id="@+id/zuoyeren_name"
             android:paddingLeft="12dp"
             android:gravity="center_vertical"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:text="xxxx"
             android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="match_parent" />
+        <Button
+            android:textSize="12sp"
+            android:id="@+id/all_tuichu"
+            android:theme="@style/ButtonTheme"
+            android:text="安全退出"
             android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="match_parent" />
     </LinearLayout>
 
@@ -80,7 +88,7 @@
                             app:cardBackgroundColor="#c9c6c7">
                             <TextView
                                 android:gravity="center"
-                                android:textSize="12dp"
+                                android:textSize="12sp"
                                 android:text="加锁权限"
                                 android:id="@+id/quanxian_jiasuo"
                                 android:layout_width="match_parent"
@@ -97,7 +105,7 @@
                             app:cardElevation="6dp">
                             <TextView
                                 android:gravity="center"
-                                android:textSize="12dp"
+                                android:textSize="12sp"
                                 android:text="拆锁权限"
                                 android:id="@+id/quanxian_caisuo"
                                 android:layout_width="match_parent"
@@ -119,7 +127,7 @@
                             app:cardBackgroundColor="#c9c6c7">
                             <TextView
                                 android:gravity="center"
-                                android:textSize="12dp"
+                                android:textSize="12sp"
                                 android:text="补锁权限"
                                 android:id="@+id/quanxian_busuo"
                                 android:layout_width="match_parent"
@@ -136,7 +144,7 @@
                             app:cardElevation="6dp">
                             <TextView
                                 android:gravity="center"
-                                android:textSize="12dp"
+                                android:textSize="12sp"
                                 android:text="强拆权限"
                                 android:id="@+id/quanxian_qiangc"
                                 android:layout_width="match_parent"
@@ -159,7 +167,7 @@
                             app:cardBackgroundColor="#c9c6c7">
                             <Button
                                 style="@style/Widget.AppCompat.Button.Borderless"
-                                android:theme="@style/ButtonTheme"
+
                                 android:gravity="center"
                                 android:textSize="12sp"
                                 android:text="获取我的权限"
@@ -200,7 +208,7 @@
                             app:cardBackgroundColor="#c9c6c7">
                             <TextView
                                 android:gravity="center"
-                                android:textSize="12dp"
+                                android:textSize="12sp"
                                 android:text="站1"
                                 android:id="@+id/zm_1"
                                 android:layout_width="match_parent"
@@ -217,7 +225,7 @@
                             app:cardElevation="6dp">
                             <TextView
                                 android:gravity="center"
-                                android:textSize="12dp"
+                                android:textSize="12sp"
                                 android:text="站2"
                                 android:id="@+id/zm_2"
                                 android:layout_width="match_parent"
@@ -239,7 +247,7 @@
                             app:cardBackgroundColor="#c9c6c7">
                             <TextView
                                 android:gravity="center"
-                                android:textSize="12dp"
+                                android:textSize="12sp"
                                 android:text="站3"
                                 android:id="@+id/zm_3"
                                 android:layout_width="match_parent"
@@ -256,7 +264,7 @@
                             app:cardElevation="6dp">
                             <TextView
                                 android:gravity="center"
-                                android:textSize="12dp"
+                                android:textSize="12sp"
                                 android:text="站4"
                                 android:id="@+id/zm_4"
                                 android:layout_width="match_parent"
