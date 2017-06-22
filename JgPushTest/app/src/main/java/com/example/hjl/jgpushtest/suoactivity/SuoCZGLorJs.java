@@ -134,7 +134,7 @@ public class SuoCZGLorJs extends Fragment {
      * 初始化本地数据
      */
     private void initdata() {
-//        DataSupport.deleteAll(FdSuo.class);
+        // DataSupport.deleteAll(FdSuo.class);
 
         List<Jsjv> li = DataSupport.where("isOk > ?", "0").find(Jsjv.class);
         if (li.size() > 0) {
@@ -176,7 +176,7 @@ public class SuoCZGLorJs extends Fragment {
         fa_list.add(new FaZhan("成都"));
         spinnerAdapter = new SpinnerAdapter(getContext(), fa_list);
         js_fz.setAdapter(spinnerAdapter);
-//        js_dz.setEnabled(false);
+        //   js_dz.setEnabled(false);
     }
 
     /**
@@ -191,7 +191,7 @@ public class SuoCZGLorJs extends Fragment {
                 } else {
                     Toasty.info(getContext(), "请输入车站的名,再选择", Toast.LENGTH_SHORT).show();
                 }
-//                getDZ();
+        //    getDZ();
             }
         });
 
@@ -357,7 +357,6 @@ public class SuoCZGLorJs extends Fragment {
         });
 
         //提交
-
         js_tj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="bottom"
-                android:background="@color/tv_white"
+                android:background="@color/bg_gray"
                 app:layout_collapseMode="pin">
 
                 <include layout="@layout/suo_js_bar_head" />
