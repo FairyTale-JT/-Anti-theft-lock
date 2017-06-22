@@ -167,7 +167,7 @@
                             app:cardBackgroundColor="#c9c6c7">
                             <Button
                                 style="@style/Widget.AppCompat.Button.Borderless"
-
+                                android:theme="@style/ButtonTheme"
                                 android:gravity="center"
                                 android:textSize="12sp"
                                 android:text="获取我的权限"

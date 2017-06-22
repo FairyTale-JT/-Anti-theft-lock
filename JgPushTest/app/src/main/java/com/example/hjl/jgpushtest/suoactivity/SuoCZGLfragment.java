@@ -50,8 +50,8 @@ public class SuoCZGLfragment extends Fragment{
         List<Fragment> list=new ArrayList<>();
         list.add(SuoCZGLorJs.getnewInstance_Js("JS"));
         list.add(SuoCZGLorCs.getnewInstance_Cs("CS"));
-        list.add(SuoCZGLorBs.getnewInstance_Bs("BS"));
         list.add(SuoCZGLorQc.getnewInstance_Qc("QC"));
+        list.add(SuoCZGLorBs.getnewInstance_Bs("BS"));
         viewPager.setAdapter(new MyViewPagerAdapter(getChildFragmentManager(),list));
         viewPager.setCurrentItem(0);
         tb.setupWithViewPager(viewPager);
