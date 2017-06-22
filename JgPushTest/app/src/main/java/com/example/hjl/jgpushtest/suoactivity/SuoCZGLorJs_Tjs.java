@@ -50,20 +50,11 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         setContentView(R.layout.js_tj);
         ButterKnife.bind(this);
         jstjLv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        initView();
-        initDate();
-        JstjListView();
+        list=new ArrayList<>();
+        JstjListView();//获取本地数据 并加载界面
         tiaoZhuan_fanhui();
         swipCheak();
     }
-
-    /**
-     * 初始化界面
-     */
-    private void initView() {
-    }
-
-
     /**
      * 下拉刷新监听
      */
@@ -94,24 +85,30 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
  *刷新获取数据操作
  */
     private void doGet() {
+        initDate();
     }
 
 
     /**
-     * 初始化数据
+     * 获取数据
      */
     private void initDate() {
-        list = new ArrayList<>();
-        for (int i = 1; i < 21; i++) {
+        List<FdSuo> li=new ArrayList<>();
+        list.clear();
+        for (int i = 1; i < 10; i++) {
             FdSuo jsjv = new FdSuo();
             jsjv.setSuo_sbBH("10000" + i);
             jsjv.setSuo_haoma("10000" + i);
             jsjv.setSuo_cdTS("11" + i);
             jsjv.setSuo_ztBJ("出库");
-
             jsjv.setSuo_isuse(1);
-            list.add(jsjv);
+            li.add(jsjv);
         }
+        if (li.size()> 0) {
+            list.addAll(li);
+        }
+        jstjLv.setAdapter(jsTjAdapter);
+        jsTjAdapter.setsetDateJsTjAdapter(list);
         DataSupport.deleteAll(FdSuo.class);
         DataSupport.saveAll(list);
 //        if (list!=null&&list.size()>0) {
@@ -201,8 +198,11 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
     private void JstjListView() {
         List<FdSuo> li = new ArrayList<>();
         li = DataSupport.where("suo_isuse > ?", "0").find(FdSuo.class);
+        if (li.size()>0) {
+            list.addAll(li);
+        }
         jsTjAdapter = new JsTjAdapter();
         jstjLv.setAdapter(jsTjAdapter);
-        jsTjAdapter.setsetDateJsTjAdapter(li);
+        jsTjAdapter.setsetDateJsTjAdapter(list);
     }
 }

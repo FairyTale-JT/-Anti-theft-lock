@@ -67,5 +67,8 @@
         <item name="android:windowBackground">@color/dailogbk</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
-
+    <style name="ButtonTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorButtonNormal">#d1ccce</item><!--正常状态下的颜色  -->
+        <item name="colorControlHighlight">#0b32f2</item><!--覆盖色，按下的颜色  -->
+    </style>
 </resources>

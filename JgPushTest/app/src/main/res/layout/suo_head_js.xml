@@ -96,6 +96,8 @@
                             android:imeOptions="flagNoExtractUi" />
 
                         <Button
+
+                            android:theme="@style/ButtonTheme"
                             android:id="@+id/suo_daoz_bt"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -184,6 +186,8 @@
                     android:orientation="horizontal">
 
                     <Button
+                        style="@style/Widget.AppCompat.Button"
+                        android:theme="@style/ButtonTheme"
                         android:id="@+id/suo_js_tijiao"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
@@ -199,6 +203,8 @@
                         android:layout_height="40dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="50dp"
+                        style="@style/Widget.AppCompat.Button"
+                        android:theme="@style/ButtonTheme"
                         android:text="选择锁"
 
                         android:textSize="16sp" />

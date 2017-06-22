@@ -215,6 +215,7 @@ public class SuoCZGLorJs extends Fragment {
                             e.printStackTrace();
                             x = e;
                             Log.e("TAG", "e1");
+
                         }
                         subscriber.onNext(czbList);
                         subscriber.onCompleted();
