@@ -127,6 +127,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
        <LinearLayout
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+       <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="30dp"
            android:layout_marginLeft="2dp"
@@ -136,6 +140,7 @@
            android:orientation="horizontal">
 
            <TextView
+               android:id="@+id/textView2"
                android:layout_width="0dp"
                android:layout_height="match_parent"
                android:layout_weight="2"
@@ -153,7 +158,7 @@
            <TextView
                android:layout_width="0dp"
                android:layout_height="match_parent"
-               android:layout_weight="1"
+               android:layout_weight="1.04"
                android:gravity="center"
                android:text="站"
                android:textSize="12sp" />
@@ -194,7 +199,20 @@
                android:textSize="12sp"
                android:visibility="gone" />
        </LinearLayout>
-
+           <android.support.v7.widget.CardView
+               android:layout_margin="8dp"
+               app:cardBackgroundColor="#c9c6c7"
+               app:cardCornerRadius="10dp"
+               app:cardElevation="15dp"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/re_csuo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+           </android.support.v7.widget.CardView>
+       </LinearLayout>
    </android.support.v7.widget.CardView>
+
 
 </LinearLayout>
