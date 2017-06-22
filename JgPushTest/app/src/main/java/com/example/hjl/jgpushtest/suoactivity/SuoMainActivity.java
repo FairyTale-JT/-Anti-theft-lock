@@ -117,25 +117,25 @@ public class SuoMainActivity extends BaseActivity {
         switch (position) {
             case 0:
                 if (czgLfragment == null) {
-                    czgLfragment = SuoCZGLfragment.getnewInstance_czgl("加锁");
+                    czgLfragment = SuoCZGLfragment.getnewInstance_czgl("作业");
                 }
                 transaction.replace(R.id.layFrame, czgLfragment);
                 break;
             case 1:
                 if (crKfragment == null) {
-                    crKfragment = SuoCRKfragment.getnewInstance_crk("解锁");
+                    crKfragment = SuoCRKfragment.getnewInstance_crk("出入库");
                 }
                 transaction.replace(R.id.layFrame, crKfragment);
                 break;
             case 2:
                 if (tzcXfragment == null) {
-                    tzcXfragment = SuoTZCXfragment.getnewInstance_tzcx("强拆");
+                    tzcXfragment = SuoTZCXfragment.getnewInstance_tzcx("查询");
                 }
                 transaction.replace(R.id.layFrame, tzcXfragment);
                 break;
             case 3:
                 if (wDfragment == null) {
-                    wDfragment = SuoWDfragment.getnewInstance_wd("补锁");
+                    wDfragment = SuoWDfragment.getnewInstance_wd("我的");
                 }
                 transaction.replace(R.id.layFrame, wDfragment);
                 break;
