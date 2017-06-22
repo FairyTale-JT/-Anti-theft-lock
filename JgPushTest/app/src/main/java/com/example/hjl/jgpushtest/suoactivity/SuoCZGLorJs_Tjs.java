@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.TestACT;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
@@ -50,11 +53,95 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         setContentView(R.layout.js_tj);
         ButterKnife.bind(this);
         jstjLv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        jsTjAdapter = new JsTjAdapter();
         list=new ArrayList<>();
+        chaXunSuoId();//锁号查询按钮监听
         JstjListView();//获取本地数据 并加载界面
-        tiaoZhuan_fanhui();
+        tiaoZhuan_fanhui();//确定按钮监听
+        initview();
         swipCheak();
     }
+
+    private void initview() {
+
+
+///////////////////////////////////
+        TextWatcher textWatch = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s,
+                                          int start,
+                                          int count,
+                                          int after) {
+                //s:变化前的所有字符； start:字符开始的位置；
+                // count:变化前的总字节数；after:变化后的字节数
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s,
+                                      int start,
+                                      int before,
+                                      int count) {
+                //S：变化后的所有字符；start：字符起始的位置；
+                // before: 变化之前的总字节数；count:变化后的字节数
+                if (s.toString().contains(" ")) {
+                    String[] str = s.toString().split(" ");
+                    String str1 = "";
+                    for (int i = 0; i < str.length; i++) {
+                        str1 += str[i];
+                    }
+                    jstjEt1.setText(str1);
+                    jstjEt1.setSelection(start);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //s:变化后的所有字符
+                String s1;
+                s1 = jstjEt1.getText().toString().trim();
+
+                if (s1 != null  && s1.length() > 0 ) {
+                    //设置按钮可点击
+                    jstjBt1.setEnabled(true);
+                    //设置按钮为正常状态
+//                    denglu.setPressed(true);
+
+                } else {
+                    //设置按钮不可点击
+                    jstjBt1.setEnabled(false);
+                    //设置按钮为按下状态
+//                    denglu.setPressed(false);
+
+                }
+            }
+        };
+//监听EditText内容变化设置Button是否可点击
+        jstjEt1.addTextChangedListener(textWatch);
+
+    }
+
+    private void chaXunSuoId() {
+
+        jstjBt1.setEnabled(false);
+        jstjBt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String stID=null;
+                stID=jstjEt1.getText().toString();
+                if (list != null&&list.size()>0) {
+                    for (int i = 0; i < list.size(); i++) {
+                        if (stID.equals(list.get(i).getSuo_haoma())) {
+                            jstjLv.setAdapter(jsTjAdapter);
+                            jsTjAdapter.setArg(i);
+                            jstjLv.setSelection(i);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     /**
      * 下拉刷新监听
      */
@@ -95,7 +182,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
     private void initDate() {
         List<FdSuo> li=new ArrayList<>();
         list.clear();
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 33; i++) {
             FdSuo jsjv = new FdSuo();
             jsjv.setSuo_sbBH("10000" + i);
             jsjv.setSuo_haoma("10000" + i);
@@ -201,7 +288,6 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         if (li.size()>0) {
             list.addAll(li);
         }
-        jsTjAdapter = new JsTjAdapter();
         jstjLv.setAdapter(jsTjAdapter);
         jsTjAdapter.setsetDateJsTjAdapter(list);
     }
