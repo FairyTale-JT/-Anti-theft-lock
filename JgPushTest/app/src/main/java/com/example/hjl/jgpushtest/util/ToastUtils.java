@@ -37,6 +37,10 @@ public class ToastUtils {
         showToast(App.getInstance().getApplicationContext(), text, Toast.LENGTH_SHORT);
     }
 
+    public static void showmyToasty_success(Context context, String text) {
+        Toasty.success(context, text, Toast.LENGTH_LONG).show();
+    }
+
     public static void showmyToasty_info(Context context, String text) {
         Toasty.info(context, text, Toast.LENGTH_LONG).show();
     }

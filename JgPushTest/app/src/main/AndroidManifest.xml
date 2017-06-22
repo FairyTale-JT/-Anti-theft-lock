@@ -32,6 +32,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--登录界面-->
         <activity
             android:name=".TestACT"
             android:windowSoftInputMode="adjustPan|stateHidden">
@@ -42,13 +44,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".ShowNotificationTv" />
+        <!-- 主界面-->
         <activity
             android:name=".suoactivity.SuoMainActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!-- 选择锁界面-->
         <activity
             android:name=".suoactivity.SuoCZGLorJs_Tjs"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <receiver
             android:name=".MyReceiver"
             android:enabled="true"

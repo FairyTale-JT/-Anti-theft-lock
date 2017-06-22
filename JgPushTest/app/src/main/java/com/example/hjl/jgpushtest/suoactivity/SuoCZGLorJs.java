@@ -19,7 +19,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewItemClickListener;
@@ -29,6 +32,7 @@ import com.example.hjl.jgpushtest.enity.BinCZB;
 import com.example.hjl.jgpushtest.enity.FaZhan;
 import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
+import com.example.hjl.jgpushtest.enity.VerCode;
 import com.example.hjl.jgpushtest.fragment.JiaSuoAdapter;
 import com.example.hjl.jgpushtest.fragment.SpinnerAdapter;
 import com.example.hjl.jgpushtest.myview.CustomDialog;
@@ -74,6 +78,11 @@ public class SuoCZGLorJs extends Fragment {
     private List<FaZhan> fa_list;
     private SpinnerAdapter spinnerAdapter;
     private String jslx, fz;
+    private ImageView iv_showCode;
+    private EditText et_phoneCode;
+    private Button but_toSetCode;
+    private TextView custom_sc, custom_qzjs;
+    private String realCode;
 
     public static SuoCZGLorJs getnewInstance_Js(String param1) {
         SuoCZGLorJs my = new SuoCZGLorJs();
@@ -138,6 +147,9 @@ public class SuoCZGLorJs extends Fragment {
 
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         swipeRefreshLayout =
                 (SwipeRefreshLayout) view.findViewById(R.id.suo_swip_item);
@@ -261,15 +273,16 @@ public class SuoCZGLorJs extends Fragment {
         subscriptions.add(s);
     }
 
-    //Spinner发站/类型
+    /**
+     * Spinner发站/类型
+     */
     private void ZSpinner() {
+        //类型
         js_lx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] fa = getResources().getStringArray(R.array.spingarr);
                 jslx = fa[i];
-
-//                Toasty.info(context, "你点击的是:" + jslx, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -277,6 +290,7 @@ public class SuoCZGLorJs extends Fragment {
 
             }
         });
+        //发站
         js_fz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -323,31 +337,6 @@ public class SuoCZGLorJs extends Fragment {
      * 获取数据
      */
     private void doGet() {
-
-    }
-
-    //Listview item监听
-    private void JsListview() {
-
-        jiaSuoAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                String s = list.get(position).getCxh();
-                ToastUtils.showmyToasty_info(getContext(), s + "---点击");
-                UDialog(s);
-            }
-        });
-        jiaSuoAdapter.setOnLongItemClickListener(new OnRecyclerViewLongItemClickListener() {
-            @Override
-            public void onLongItemClick(View view, int position) {
-                String s = list.get(position).getCxh();
-                ToastUtils.showmyToasty_info(getContext(), s + "---长按");
-                DeleteDialog(s, position);
-            }
-        });
-    }
-
-    private void OnLongClick() {
 
     }
 
@@ -419,7 +408,34 @@ public class SuoCZGLorJs extends Fragment {
 
     }
 
-    //加锁确认对话框
+    /**
+     * Listview item 点击与长按
+     */
+
+    private void JsListview() {
+
+        jiaSuoAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String s = list.get(position).getCxh();
+                UDialog(s);
+            }
+        });
+        jiaSuoAdapter.setOnLongItemClickListener(new OnRecyclerViewLongItemClickListener() {
+            @Override
+            public void onLongItemClick(View view, int position) {
+                String s = list.get(position).getCxh();
+                showCustomViewDialog(view, s, position);
+                //DeleteDialog(s, position);
+            }
+        });
+    }
+
+    /**
+     * 加锁确认对话框
+     *
+     * @param cxh
+     */
     private void UDialog(String cxh) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("车号/箱号为" + cxh + "加锁确认?");
@@ -435,14 +451,19 @@ public class SuoCZGLorJs extends Fragment {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                builder.create().dismiss();
+                builder.show().dismiss();
             }
         });
         builder.create().show();
 
     }
 
-    //删除对话框
+    /**
+     * 删除对话框
+     *
+     * @param cxh
+     * @param position
+     */
     private void DeleteDialog(String cxh, final int position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("确定删除车号/箱号为" + cxh + "的记录?");
@@ -462,16 +483,113 @@ public class SuoCZGLorJs extends Fragment {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                builder.create().dismiss();
+                builder.show().dismiss();
             }
         });
         builder.create().show();
 
     }
 
+    /**
+     * 长按弹出删除与强制加锁Dialog
+     *
+     * @param view
+     * @param cxh
+     * @param position
+     */
+    private void showCustomViewDialog(View view, final String cxh, final int position) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("车号/箱号为" + cxh + ":");
+        /**
+         * 设置内容区域为自定义View
+         */
+        LinearLayout CustomDialog = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.custom_view, null);
+        builder.setView(CustomDialog);
+
+        custom_sc = (TextView) CustomDialog.findViewById(R.id.custom_sc);
+        custom_qzjs = (TextView) CustomDialog.findViewById(R.id.custom_qzjs);
+        builder.setCancelable(true);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        custom_sc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                DeleteDialog(cxh, position);
+            }
+        });
+        custom_qzjs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                CodeDialog(view, cxh, position);
+            }
+        });
+
+    }
+
+    /**
+     * 强制加锁Dialog
+     *
+     * @param view
+     * @param cxh
+     * @param position
+     */
+    private void CodeDialog(View view, final String cxh, int position) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("车号/箱号为" + cxh + "强制加锁");
+        LinearLayout CustomDialog = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.custom_code, null);
+        builder.setView(CustomDialog);
+        iv_showCode = (ImageView) CustomDialog.findViewById(R.id.iv_showCode);
+        iv_showCode.setImageBitmap(VerCode.getInstance().createBitmap());
+        realCode = VerCode.getInstance().getCode().toLowerCase();
+        et_phoneCode = (EditText) CustomDialog.findViewById(R.id.et_phoneCodes);
+        but_toSetCode = (Button) CustomDialog.findViewById(R.id.but_forgetpass_toSetCodes);
+        builder.setCancelable(true);
+        final AlertDialog dialog = builder.create();
+        CodeOnClick(dialog, position);
+        dialog.show();
+
+    }
+
+    /**
+     * 验证码
+     *
+     * @param dialog
+     */
+    private void CodeOnClick(final AlertDialog dialog, final int position) {
+
+        iv_showCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iv_showCode.setImageBitmap(VerCode.getInstance().createBitmap());
+                realCode = VerCode.getInstance().getCode().toLowerCase();
+            }
+        });
+        but_toSetCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phoneCode = et_phoneCode.getText().toString().toLowerCase();
+                String msg = "生成的验证码：" + realCode + "输入的验证码:" + phoneCode;
+
+                if (phoneCode.equals(realCode)) {
+                    ToastUtils.showmyToasty_success(getContext(), phoneCode + "--position--" + position + "验证码正确");
+                    dialog.dismiss();
+                } else {
+                    ToastUtils.showmyToasty_Er(getContext(), phoneCode + "验证码错误");
+                    et_phoneCode.setText("");
+                    iv_showCode.setImageBitmap(VerCode.getInstance().createBitmap());
+                    realCode = VerCode.getInstance().getCode().toLowerCase();
+                }
+            }
+        });
+
+
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 
         super.onActivityResult(requestCode, resultCode, data);
         suo1_sbbh = null;
