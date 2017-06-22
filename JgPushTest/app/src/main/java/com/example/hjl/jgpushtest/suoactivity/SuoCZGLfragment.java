@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class SuoCZGLfragment extends Fragment{
-    String[] st={"加锁","解锁","强拆","补锁"};
+    String[] st={"加锁","拆锁","强拆","补锁"};
     public static SuoCZGLfragment getnewInstance_czgl(String param1){
         SuoCZGLfragment suoCZGLfragment=new SuoCZGLfragment();
         Bundle args = new Bundle();

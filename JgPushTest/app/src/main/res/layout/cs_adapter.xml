@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.hjl.jgpushtest.myview.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,25 +8,22 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         app:cardBackgroundColor="@color/bg_gray"
         app:cardCornerRadius="6dp"
-        app:cardElevation="5dp">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:background="@color/bg_gray"
             android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/js_list_tv1"
+                android:id="@+id/suo_cs_ch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
@@ -41,7 +38,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/js_list_tv2"
+                    android:id="@+id/suo_cs_fz"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -56,15 +53,16 @@
                     android:background="@color/black" />
 
                 <TextView
-                    android:paddingBottom="5dp"
-                    android:id="@+id/js_list_tv3"
+                    android:id="@+id/suo_cs_dz"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:paddingBottom="5dp"
                     android:text="到站"
                     android:textSize="12sp" />
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -73,7 +71,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/js_list_tv4"
+                    android:id="@+id/suo_cs_suo1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -88,7 +86,7 @@
                     android:background="@color/black" />
 
                 <TextView
-                    android:id="@+id/js_list_tv5"
+                    android:id="@+id/suo_cs_suo2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -96,26 +94,30 @@
                     android:text="锁2"
                     android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/js_list_tv6"
+                    android:id="@+id/suo_cs_zt1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="无"
                     android:textSize="12sp" />
+
                 <View
                     android:layout_width="50dp"
                     android:layout_height="0.5dp"
                     android:layout_gravity="center"
                     android:background="@color/black" />
+
                 <TextView
-                    android:id="@+id/js_list_tv6_2"
+                    android:id="@+id/suo_cs_zt2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -124,15 +126,12 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-
-
             <TextView
-                android:id="@+id/js_list_tv7"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="加锁时间"
                 android:textSize="12sp"
                 android:visibility="gone" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</com.example.hjl.jgpushtest.myview.CheckableLinearLayout>

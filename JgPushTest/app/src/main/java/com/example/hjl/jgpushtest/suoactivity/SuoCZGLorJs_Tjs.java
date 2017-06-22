@@ -125,9 +125,9 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
     }
 
     private void choseSuo() {
-/*
-             * 当为单选时，调用getCheckedItemPosition()获取选中的item的position
-             */
+       /*
+        * 当为单选时，调用getCheckedItemPosition()获取选中的item的position
+        */
         //为多选时方法如下
         SparseBooleanArray array = jstjLv.getCheckedItemPositions();
         isChoseList = new ArrayList<>();
