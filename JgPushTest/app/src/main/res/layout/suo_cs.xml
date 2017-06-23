@@ -41,8 +41,7 @@
                             android:layout_marginRight="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginRight="5dp"
+
                             android:layout_weight="1"
                             app:cardBackgroundColor="#c9c6c7"
                             app:cardCornerRadius="4dp"
@@ -58,7 +57,7 @@
                         </android.support.v7.widget.CardView>
 
                         <android.support.v7.widget.CardView
-                            android:layout_marginLeft="5dp"
+
                             android:layout_marginRight="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -99,7 +98,7 @@
                         android:id="@+id/chaxunhaoma"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/bg_gray"
+                        android:background="@color/tv_white"
                         android:hint="车号/箱号/发站/到站"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="text"
