@@ -32,6 +32,7 @@ import com.example.hjl.jgpushtest.enity.BinCZB;
 import com.example.hjl.jgpushtest.enity.FaZhan;
 import com.example.hjl.jgpushtest.enity.FdSuo;
 import com.example.hjl.jgpushtest.enity.Jsjv;
+import com.example.hjl.jgpushtest.enity.NowUser;
 import com.example.hjl.jgpushtest.enity.VerCode;
 import com.example.hjl.jgpushtest.fragment.JiaSuoAdapter;
 import com.example.hjl.jgpushtest.fragment.SpinnerAdapter;
@@ -69,7 +70,7 @@ public class SuoCZGLorJs extends Fragment {
     private Button daoz_bt;
     FdSuo fdSuo1 = null;
     FdSuo fdSuo2 = null;
-    private String cz_DBM;
+    private String dz_DBM="",fz_DBM="";
 
     private String suo1_sbbh = null, suo1_id = null, suo1_ztbj = null, suo2_id = null, suo2_sbbh = null, suo2_ztbj = null;
     private List<BinCZB> czbList;
@@ -136,7 +137,7 @@ public class SuoCZGLorJs extends Fragment {
     private void initdata() {
         // DataSupport.deleteAll(FdSuo.class);
 
-        List<Jsjv> li = DataSupport.where("isOk > ?", "0").find(Jsjv.class);
+        List<Jsjv> li = DataSupport.where("isOk > ? and user = ?", "0",NowUser.getuser()).find(Jsjv.class);
         if (li.size() > 0) {
             for (int i = 0; i < li.size(); i++) {
                 list.add(li.get(i));
@@ -172,8 +173,8 @@ public class SuoCZGLorJs extends Fragment {
         //选择发站
         js_fz = (Spinner) view.findViewById(R.id.suo_js_dz);
         fa_list = new ArrayList<FaZhan>();
-        fa_list.add(new FaZhan("北京"));
-        fa_list.add(new FaZhan("成都"));
+        fa_list.add(new FaZhan("北京","beij"));
+        fa_list.add(new FaZhan("成都","chengdu"));
         spinnerAdapter = new SpinnerAdapter(getContext(), fa_list);
         js_fz.setAdapter(spinnerAdapter);
         //   js_dz.setEnabled(false);
@@ -183,6 +184,7 @@ public class SuoCZGLorJs extends Fragment {
      * 车站选择
      */
     private void DzXz() {
+        //到站选择
         daoz_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,13 +193,13 @@ public class SuoCZGLorJs extends Fragment {
                 } else {
                     Toasty.info(getContext(), "请输入车站的名,再选择", Toast.LENGTH_SHORT).show();
                 }
-        //    getDZ();
             }
         });
 
     }
 
     void getDZ() {
+
         final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
         Subscription s =
                 Observable.create(new Observable.OnSubscribe<List<BinCZB>>() {
@@ -249,7 +251,7 @@ public class SuoCZGLorJs extends Fragment {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int i) {
                                                     dz_Ming.setText(li.get(i).getZM());
-                                                    cz_DBM = li.get(i).getCZID();
+                                                    dz_DBM = li.get(i).getCZID();
                                                     dialog.dismiss();
                                                 }
                                             }).show();
@@ -296,6 +298,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 fz = fa_list.get(i).getFz();
+                fz_DBM=fa_list.get(i).getFzDBM();
             }
 
             @Override
@@ -379,8 +382,11 @@ public class SuoCZGLorJs extends Fragment {
                         jsjv.setFdSuo2_ztbj(suo2_ztbj);
                     }
                     jsjv.setDz(dz_Ming.getText().toString());
+                    jsjv.setDzdbm(dz_DBM);
                     jsjv.setCxh(cx_NO.getText().toString());
                     jsjv.setFz(getFZ_bendi());
+                    jsjv.setFzdbm(fz_DBM);
+                    jsjv.setUser(NowUser.getuser());
                     jsjv.setIsOk(1);
 
                     //添加数据，重新绑定Adater刷新界面
@@ -388,6 +394,7 @@ public class SuoCZGLorJs extends Fragment {
                     jsjv.save();
                     js_rv.setAdapter(jiaSuoAdapter);
                     jiaSuoAdapter.setDateJiaSuoAdapter(list);
+                    Log.e("TAGJS",jsjv.toString());
                     cx_NO.setText("");
                     dz_Ming.setText("");
                     suo1.setText("");
@@ -418,7 +425,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                UDialog(s);
+                UDialog(s,position);
             }
         });
         jiaSuoAdapter.setOnLongItemClickListener(new OnRecyclerViewLongItemClickListener() {
@@ -436,7 +443,7 @@ public class SuoCZGLorJs extends Fragment {
      *
      * @param cxh
      */
-    private void UDialog(String cxh) {
+    private void UDialog(String cxh, final int position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("车号/箱号为" + cxh + "加锁确认?");
         builder.setTitle("提示");
@@ -446,6 +453,14 @@ public class SuoCZGLorJs extends Fragment {
                 /**
                  * do what
                  */
+                String suo1_sbbh=list.get(position).getFdSuo1_sbbh();
+                String suo2_sbbh=list.get(position).getFdSuo2_sbbh();
+                DataSupport.deleteAll(FdSuo.class, "suo_sbBH = ?", suo1_sbbh.toString());
+                if (suo2_sbbh!=null&&!suo2_sbbh.equals("")) {
+                    DataSupport.deleteAll(FdSuo.class, "suo_sbBH = ?", suo2_sbbh.toString());
+
+                }
+                Log.e("TAG1",list.get(position).toString());
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

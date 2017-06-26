@@ -11,7 +11,8 @@ import org.litepal.crud.DataSupport;
 public class Jsjv extends DataSupport {
     @Column(nullable = true)
     private int id;
-
+    @Column(nullable = false)
+    private String user;
     @Column(nullable = false)
     private int isOk;//该任务链状态（-1=已经提交，1=暂没提交缓存在本地）
 
@@ -19,10 +20,15 @@ public class Jsjv extends DataSupport {
     private String cxh;//车号
 
     @Column(nullable = false)
+
     private String fz;//发站
+    @Column(nullable = false)
+    private String fzdbm;//发站
 
     @Column(nullable = false)
     private String dz;//到站
+    @Column(nullable = false)
+    private String dzdbm;//发站
 
     @Column(nullable = false)
     private String fdSuo1_id;//
@@ -35,7 +41,7 @@ public class Jsjv extends DataSupport {
     private String fdSuo2_id;//
     @Column(nullable = true)
     private String fdSuo2_sbbh;//
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String fdSuo2_ztbj;//
 
     @Column(nullable = true)
@@ -89,7 +95,21 @@ public class Jsjv extends DataSupport {
         this.dz = dz;
     }
 
+    public String getFzdbm() {
+        return fzdbm;
+    }
 
+    public void setFzdbm(String fzdbm) {
+        this.fzdbm = fzdbm;
+    }
+
+    public void setDzdbm(String dzdbm) {
+        this.dzdbm = dzdbm;
+    }
+
+    public String getDzdbm() {
+        return dzdbm;
+    }
     public String getCxh() {
         return cxh;
     }
@@ -130,11 +150,40 @@ public class Jsjv extends DataSupport {
         return fdSuo2_ztbj;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
     public void setFdSuo1_ztbj(String fdSuo1_ztbj) {
         this.fdSuo1_ztbj = fdSuo1_ztbj;
     }
 
     public void setFdSuo2_ztbj(String fdSuo2_ztbj) {
         this.fdSuo2_ztbj = fdSuo2_ztbj;
+    }
+
+    @Override
+    public String toString() {
+        return "Jsjv{" +
+                "id=" + id +
+                ", user='" + user + '\'' +
+                ", isOk=" + isOk +
+                ", cxh='" + cxh + '\'' +
+                ", fz='" + fz + '\'' +
+                ", fzdbm='" + fzdbm + '\'' +
+                ", dz='" + dz + '\'' +
+                ", dzdbm='" + dzdbm + '\'' +
+                ", fdSuo1_id='" + fdSuo1_id + '\'' +
+                ", fdSuo1_sbbh='" + fdSuo1_sbbh + '\'' +
+                ", fdSuo1_ztbj='" + fdSuo1_ztbj + '\'' +
+                ", fdSuo2_id='" + fdSuo2_id + '\'' +
+                ", fdSuo2_sbbh='" + fdSuo2_sbbh + '\'' +
+                ", fdSuo2_ztbj='" + fdSuo2_ztbj + '\'' +
+                ", cxType='" + cxType + '\'' +
+                '}';
     }
 }

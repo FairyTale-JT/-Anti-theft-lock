@@ -9,8 +9,11 @@ import org.litepal.crud.DataSupport;
  */
 
 public class FdSuo extends DataSupport {
+
     @Column(nullable = true)
     private int id;
+    @Column(nullable = false)
+    private String user;
     /**
      * 状态标记
      * 0：入库
@@ -34,7 +37,7 @@ public class FdSuo extends DataSupport {
      * 2==已经编辑
      * -9==已使用
      */
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int suo_isuse;//锁的使用状态
 
     @Column(nullable = true)
@@ -71,27 +74,38 @@ public class FdSuo extends DataSupport {
     private String suo_cdTS;//充电天数
 
 
+    public FdSuo() {
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "FdSuo{" +
-                "suo_haoma='" + suo_haoma + '\'' +
+                "id=" + id +
+                ", user='" + user + '\'' +
+                ", suo_ztBJ='" + suo_ztBJ + '\'' +
+                ", suo_haoma='" + suo_haoma + '\'' +
+                ", suo_sbBH='" + suo_sbBH + '\'' +
+                ", suo_isuse=" + suo_isuse +
                 ", suo_rkryMz='" + suo_rkryMz + '\'' +
                 ", suo_rkczID='" + suo_rkczID + '\'' +
                 ", suo_rkSJ='" + suo_rkSJ + '\'' +
-                ", suo_ztBJ='" + suo_ztBJ + '\'' +
                 ", suo_ckryMZ='" + suo_ckryMZ + '\'' +
                 ", suo_ckSJ='" + suo_ckSJ + '\'' +
                 ", suo_lqrMZ='" + suo_lqrMZ + '\'' +
-                ", suo_sbBH='" + suo_sbBH + '\'' +
                 ", suo_bfryMZ='" + suo_bfryMZ + '\'' +
                 ", suo_bfSJ='" + suo_bfSJ + '\'' +
                 ", suo_sgID='" + suo_sgID + '\'' +
                 ", suo_LX='" + suo_LX + '\'' +
                 ", suo_cdTS='" + suo_cdTS + '\'' +
                 '}';
-    }
-
-    public FdSuo() {
     }
 
     public FdSuo(String suo_haoma,
@@ -192,6 +206,14 @@ public class FdSuo extends DataSupport {
     public String getSuo_haoma() {
 
         return suo_haoma;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSuo_rkryMz() {
