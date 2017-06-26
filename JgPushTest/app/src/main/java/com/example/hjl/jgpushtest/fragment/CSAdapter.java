@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.hjl.jgpushtest.R;
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewItemClickListener;
 import com.example.hjl.jgpushtest.enity.CsLb;
