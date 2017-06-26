@@ -95,7 +95,7 @@
                         android:id="@+id/qc_chxh"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/bg_gray"
+                        android:background="@color/tv_white"
                         android:hint="车号/箱号"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="text"

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.example.hjl.jgpushtest.R;
 import com.example.hjl.jgpushtest.TestACT;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.enity.FdSuo;
+import com.example.hjl.jgpushtest.enity.NowUser;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
 import com.example.hjl.jgpushtest.util.ToastUtils;
 
@@ -181,6 +183,8 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
      */
     private void initDate() {
         List<FdSuo> li=new ArrayList<>();
+//        List<FdSuo> liBenDi=new ArrayList<>();
+//        liBenDi=DataSupport.where("suo_isuse > ?", "0").find(FdSuo.class);
         list.clear();
         for (int i = 1; i < 33; i++) {
             FdSuo jsjv = new FdSuo();
@@ -189,26 +193,22 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
             jsjv.setSuo_cdTS("11" + i);
             jsjv.setSuo_ztBJ("出库");
             jsjv.setSuo_isuse(1);
+            jsjv.setUser(NowUser.getuser());
             li.add(jsjv);
         }
+//        if (liBenDi.size() > 0) {
+//
+//        }else {
+//
+//        }
         if (li.size()> 0) {
+//            List<FdSuo> s=new ArrayList<>();
             list.addAll(li);
         }
         jstjLv.setAdapter(jsTjAdapter);
         jsTjAdapter.setsetDateJsTjAdapter(list);
         DataSupport.deleteAll(FdSuo.class);
         DataSupport.saveAll(list);
-//        if (list!=null&&list.size()>0) {
-//            List<FdSuo> li=new ArrayList<>();
-//            for (int i = 0; i <list.size() ; i++) {
-//               String sbbh= list.get(i).getSuo_sbBH();
-//     if( DataSupport.where("suo_sbBH = ?",sbbh).find(FdSuo.class)==null){
-//         li.add(list.get(i));
-//            }
-//            }
-//            DataSupport.saveAll(li);
-//        }
-
     }
 
     private void choseSuo() {
@@ -284,11 +284,13 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
 
     private void JstjListView() {
         List<FdSuo> li = new ArrayList<>();
-        li = DataSupport.where("suo_isuse > ?", "0").find(FdSuo.class);
+        li = DataSupport.where("suo_isuse = ? and user = ?", "1",NowUser.getuser()).find(FdSuo.class);
         if (li.size()>0) {
             list.addAll(li);
         }
         jstjLv.setAdapter(jsTjAdapter);
         jsTjAdapter.setsetDateJsTjAdapter(list);
+        Log.e("TAG+LIST",li.toString());
+        Log.e("TAG+LIST",list.toString());
     }
 }
