@@ -68,6 +68,9 @@ public class SuoWDfragment extends Fragment {
     @Bind(R.id.all_tuichu)
     Button tuichu;
 
+    @Bind(R.id.zuoyeren_name)
+    TextView user;
+
 
     public static SuoWDfragment getnewInstance_wd(String param1) {
         SuoWDfragment fragment = new SuoWDfragment();
@@ -101,6 +104,7 @@ public class SuoWDfragment extends Fragment {
         ButterKnife.bind(this, view);
         Bundle bundle = getArguments();
         String agrs1 = bundle.getString("agrs1");
+        inituserAndToken();
         initview();
 
       zMget.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +127,15 @@ public class SuoWDfragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void inituserAndToken() {
+        Log.e("TAG+USER+TOKEN",SharePreferencesHelper.getInstance(getContext()).getString("user")+":+"+SharePreferencesHelper.getInstance(getContext()).getString("token"));
+        if (SharePreferencesHelper.getInstance(getContext()).getString("user") != null&&
+               ! SharePreferencesHelper.getInstance(getContext()).getString("user").equals("")) {
+            user.setText(SharePreferencesHelper.getInstance(getContext()).getString("user"));
+        }
+
     }
 
     private void initview() {
@@ -148,33 +161,33 @@ public class SuoWDfragment extends Fragment {
                 zm_4.setText("发站2："+li.get(3).getFz().toString());
             }
         }
-
-      if(  SharePreferencesHelper.getInstance(getContext()).getString("加锁权限")!=null
-              &&SharePreferencesHelper.getInstance(getContext()).getString("加锁权限").equals("10"))
+String st=SharePreferencesHelper.getInstance(getContext()).getString("user");
+      if(  SharePreferencesHelper.getInstance(getContext()).getString(st+"加锁权限")!=null
+              &&SharePreferencesHelper.getInstance(getContext()).getString(st+"加锁权限").equals("10"))
           {
               qx_js.setTextColor(getContext().getResources().getColor(R.color.my));
       }else {
           qx_js.setTextColor(getContext().getResources().getColor(R.color.dark));
       }
 
-        if(  SharePreferencesHelper.getInstance(getContext()).getString("拆锁权限")!=null
-                &&SharePreferencesHelper.getInstance(getContext()).getString("拆锁权限").equals("11"))
+        if(  SharePreferencesHelper.getInstance(getContext()).getString(st+"拆锁权限")!=null
+                &&SharePreferencesHelper.getInstance(getContext()).getString(st+"拆锁权限").equals("11"))
         {
             qx_cs.setTextColor(getContext().getResources().getColor(R.color.my));
         }else {
             qx_cs.setTextColor(getContext().getResources().getColor(R.color.dark));
         }
 
-        if(  SharePreferencesHelper.getInstance(getContext()).getString("补锁权限")!=null
-                &&SharePreferencesHelper.getInstance(getContext()).getString("补锁权限").equals("12"))
+        if(  SharePreferencesHelper.getInstance(getContext()).getString(st+"补锁权限")!=null
+                &&SharePreferencesHelper.getInstance(getContext()).getString(st+"补锁权限").equals("12"))
         {
             qx_bs.setTextColor(getContext().getResources().getColor(R.color.my));
         }else {
             qx_bs.setTextColor(getContext().getResources().getColor(R.color.dark));
         }
 
-        if(  SharePreferencesHelper.getInstance(getContext()).getString("强拆权限")!=null
-                &&SharePreferencesHelper.getInstance(getContext()).getString("强拆权限").equals("13"))
+        if(  SharePreferencesHelper.getInstance(getContext()).getString(st+"强拆权限")!=null
+                &&SharePreferencesHelper.getInstance(getContext()).getString(st+"强拆权限").equals("13"))
         {
             qx_qc.setTextColor(getContext().getResources().getColor(R.color.my));
         }else {
@@ -223,27 +236,28 @@ public class SuoWDfragment extends Fragment {
     }
 
     private void qx_dowhat(String[] s) {
+        String st=SharePreferencesHelper.getInstance(getContext()).getString("user");
         if (useLoop(s,"10")) {
-            SharePreferencesHelper.getInstance(getContext()).putString("加锁权限","10");
+            SharePreferencesHelper.getInstance(getContext()).putString(st+"加锁权限","10");
             qx_js.setTextColor(getContext().getResources().getColor(R.color.my));
         }  else {
             qx_js.setTextColor(getContext().getResources().getColor(R.color.dark));
         }
         if (useLoop(s,"11")) {
-            SharePreferencesHelper.getInstance(getContext()).putString("拆锁权限","11");
+            SharePreferencesHelper.getInstance(getContext()).putString(st+"拆锁权限","11");
             qx_cs.setTextColor(getContext().getResources().getColor(R.color.my));
         }  else {
             qx_cs.setTextColor(getContext().getResources().getColor(R.color.dark));
         }
         if (useLoop(s,"12")) {
-            SharePreferencesHelper.getInstance(getContext()).putString("补锁权限","12");
+            SharePreferencesHelper.getInstance(getContext()).putString(st+"补锁权限","12");
             qx_bs.setTextColor(getContext().getResources().getColor(R.color.my));
         }  else {
             qx_bs.setTextColor(getContext().getResources().getColor(R.color.dark));
         }
 
         if (useLoop(s,"13")) {
-            SharePreferencesHelper.getInstance(getContext()).putString("强拆权限","13");
+            SharePreferencesHelper.getInstance(getContext()).putString(st+"强拆权限","13");
             qx_qc.setTextColor(getContext().getResources().getColor(R.color.my));
         }  else {
             qx_qc.setTextColor(getContext().getResources().getColor(R.color.dark));
