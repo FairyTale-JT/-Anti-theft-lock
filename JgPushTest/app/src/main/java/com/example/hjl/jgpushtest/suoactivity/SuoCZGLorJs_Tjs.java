@@ -40,6 +40,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
@@ -61,6 +62,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
     ListView jstjLv;
     private List<FdSuo> list, isChoseList;
     private JsTjAdapter jsTjAdapter;
+    private List<Subscription> subscriptions = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -188,11 +190,9 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
  */
     private void getDate(){
         final CustomDialog customDialog=new CustomDialog(SuoCZGLorJs_Tjs.this,R.style.loadstyle);
-//                 ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
-//                Toasty.success(TestACT.this, user_in + "\n" + password_in, Toast.LENGTH_SHORT).show();
-        HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,SuoCZGLorJs_Tjs.this)
+        Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,SuoCZGLorJs_Tjs.this)
                 .create(ApiService.class)
-                .getHoldingLock("UID","Token")
+                .getHoldingLock(NowUser.getuser(),NowUser.getToken())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -221,7 +221,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
 
                     @Override
                     public void onNext(List<HttpFdsuo> s) {
-//                        initDate(s);//获取s进行的操作
+
                         List<FdSuo> li=new ArrayList<>();
                         if (s.size() >0 ) {
                             for (int i = 0; i < s.size(); i++) {
@@ -235,6 +235,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                 Log.e("TAGSSS",s.get(i).getDeviceNo()+"\n"+s.get(i).getLockNo()+"\n"+s.get(i).getStateName()+"\n");
                             }
                         }
+                        Log.e("TAGli","li+++"+li.toString());
                         //网络获取到数据后 进行本地数据库操作
                         if (li.size()>0) {
                             for (int i = 0; i <li.size() ; i++) {
@@ -242,12 +243,14 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                         DataSupport
                                                 .where("suo_sbBH = ? and user = ?", li.get(i).getSuo_sbBH(),NowUser.getuser())
                                                 .find(FdSuo.class);
+                                Log.e("TAGMYL","MYL__"+myL.toString());
                                 if (myL.size()>0) {
                                     ContentValues values = new ContentValues();
                                     values.put("suo_ztBJ",li.get(i).getSuo_ztBJ());
                                     DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", myL.get(0).getSuo_sbBH(),NowUser.getuser());
                                 }else {
                                     li.get(i).save();
+                                    Log.e("TAGID","li+++"+li.get(i).getId());
                                 }
                             }
                         }
@@ -256,6 +259,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                          * 操作Jsjv数据库
                          */
                         List<Jsjv> myRWlist=DataSupport.where("isOk > ? and user = ?", "0",NowUser.getuser()).find(Jsjv.class);
+                  Log.e("TAGmyRWlist","myRWlist__"+myRWlist.toString());
                         if (myRWlist.size()>0) {
                             for (int i = 0; i <myRWlist.size() ; i++) {
                                 String suo1_sbbh= myRWlist.get(i).getFdSuo1_sbbh();
@@ -263,21 +267,25 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                         .where("suo_sbBH = ? and user = ?",suo1_sbbh ,NowUser.getuser())
                                         .find(FdSuo.class);
                                 if (fdsuo1 .size()>0) {
+                                    Log.e("TAGsuo1_sbbh","suo1_sbbh----"+suo1_sbbh+"++++++"+fdsuo1.toString());
                                     ContentValues values = new ContentValues();
                                     values.put("fdSuo1_ztbj",fdsuo1.get(0).getSuo_ztBJ());
                                     DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo1_sbbh(),NowUser.getuser());
+                                    Log.e("TAGsuo1_sbbh```","SUO1++++改变");
                                 }
-                                String suo2_sbbh= myRWlist.get(i).getFdSuo2_sbbh();
-                                Log.e("TAGSuo2",suo2_sbbh);
-                                if (suo2_sbbh!= null&&!suo2_sbbh.equals("")) {
+                                if (myRWlist.get(i).getFdSuo2_sbbh()!= null
+                                        &&!myRWlist.get(i).getFdSuo2_sbbh().equals("")) {
+                                    String suo2_sbbh= myRWlist.get(i).getFdSuo2_sbbh();
                                     Log.e("TAGSuo2```",suo2_sbbh);
                                     List<FdSuo> fdsuo2=DataSupport
                                             .where("suo_sbBH = ? and user = ?",suo2_sbbh ,NowUser.getuser())
                                             .find(FdSuo.class);
                                     if (fdsuo2 .size()>0) {
+                                        Log.e("TAGSuo2```","SUO2++++"+fdsuo2.toString());
                                         ContentValues values = new ContentValues();
                                         values.put("fdSuo2_ztbj",fdsuo2.get(0).getSuo_ztBJ());
                                         DataSupport.updateAll(Jsjv.class, values, "fdSuo2_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo2_sbbh(),NowUser.getuser());
+                                        Log.e("TAGSuo2```","SUO2++++改变");
                                     }
                                 }
                             }
@@ -296,6 +304,9 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
 
                     }
                 });
+        if (s != null) {
+            subscriptions.add(s);
+        }
     }
     private void choseSuo() {
        /*
@@ -378,5 +389,15 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         jsTjAdapter.setsetDateJsTjAdapter(list);
         Log.e("TAG+LIST",li.toString());
         Log.e("TAG+LIST",list.toString());
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (subscriptions != null && subscriptions.size() > 0) {
+            for (int i = 0; i < subscriptions.size(); i++) {
+                subscriptions.get(i).unsubscribe();//取消订阅
+            }
+        }
     }
 }

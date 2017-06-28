@@ -32,6 +32,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
@@ -55,6 +56,8 @@ public class SuoCZGLorCs extends Fragment {
 
     private List<HttpJsjv> cslist;
     private CSAdapter csAdapter;
+
+    private List<Subscription> subscriptions = new ArrayList<>();
 
     public static SuoCZGLorCs getnewInstance_Cs(String param1) {
         SuoCZGLorCs my = new SuoCZGLorCs();
@@ -112,7 +115,7 @@ public class SuoCZGLorCs extends Fragment {
         if (chaxunk.getText().toString().trim() != null
                 && !chaxunk.getText().toString().trim().equals("")) {
             final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
-            HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, getContext())
+            Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, getContext())
                     .create(ApiService.class)
                     .querySealByCoach(NowUser.getUID(),NowUser.getToken(),chaxunk.getText().toString().trim() )
                     .subscribeOn(Schedulers.io())
@@ -154,7 +157,9 @@ public class SuoCZGLorCs extends Fragment {
 
                         }
                     });
-
+            if (s != null) {
+                subscriptions.add(s);
+            }
 
         }
     }
@@ -167,7 +172,7 @@ public class SuoCZGLorCs extends Fragment {
 
 
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
-        HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
+            Subscription s=   HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
                 .create(ApiService.class)
                 .querySealByStart(NowUser.getUID(),NowUser.getToken(),chaxunk.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
@@ -209,7 +214,9 @@ public class SuoCZGLorCs extends Fragment {
 
                     }
                 });
-
+            if (s != null) {
+                subscriptions.add(s);
+            }
     }
     }
 
@@ -272,7 +279,7 @@ public class SuoCZGLorCs extends Fragment {
 
 
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
-        HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
+      Subscription s=  HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
                 .create(ApiService.class)
                 .unlock(NowUser.getUID(),NowUser.getToken(),cslist.get(position).getCoachNo().toString())
                 .subscribeOn(Schedulers.io())
@@ -310,6 +317,18 @@ public class SuoCZGLorCs extends Fragment {
 
                     }
                 });
+        if (s != null) {
+            subscriptions.add(s);
+        }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
 
+        if (subscriptions != null && subscriptions.size() > 0) {
+            for (int i = 0; i < subscriptions.size(); i++) {
+                subscriptions.get(i).unsubscribe();//取消订阅
+            }
+        }
     }
 }

@@ -75,7 +75,7 @@ public class SuoCZGLorJs extends Fragment {
     private List<Jsjv> list;
     private Button js_xzs, js_tj;
     SwipeRefreshLayout swipeRefreshLayout;
-    List<Subscription> subscriptions = new ArrayList<>();
+   private List<Subscription> subscriptions = new ArrayList<>();
     private EditText suo1, suo2, cx_NO, dz_Ming;
     private Button daoz_bt;
     FdSuo fdSuo1 = null;
@@ -189,6 +189,7 @@ public class SuoCZGLorJs extends Fragment {
         fa_list = new ArrayList<FaZhan>();
        List<FaZhan> fazhanlist=DataSupport.where("user = ?",NowUser.getuser()).find(FaZhan.class);
         if (fazhanlist!=null&&fazhanlist.size()>0) {
+            fa_list.clear();
             fa_list.addAll(fazhanlist);
         }else {
             fa_list.add(new FaZhan("城厢","CFW"));
@@ -358,13 +359,117 @@ public class SuoCZGLorJs extends Fragment {
      * 获取数据
      */
     private void doGet() {
-//        ContentValues values = new ContentValues();
-//        values.put("fdSuo1_ztbj","-1");
-//        DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", "100001",NowUser.getuser());
-        list.clear();
-        list=DataSupport.where("user = ?",NowUser.getuser()).find(Jsjv.class);
-        js_rv.setAdapter(jiaSuoAdapter);
-        jiaSuoAdapter.setDateJiaSuoAdapter(list);
+        final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
+        Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
+                .create(ApiService.class)
+                .getHoldingLock(NowUser.getuser(),NowUser.getToken())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        customDialog.show();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<HttpFdsuo>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("TAG","获取锁连接");
+                        if (customDialog != null) {
+                            customDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG","获取锁错误222");
+                        if (customDialog != null) {
+                            customDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(List<HttpFdsuo> s) {
+
+                        List<FdSuo> li = new ArrayList<>();
+                        if (s.size() > 0) {
+                            for (int i = 0; i < s.size(); i++) {
+                                FdSuo jsjv = new FdSuo();
+                                jsjv.setSuo_sbBH(s.get(i).getDeviceNo());
+                                jsjv.setSuo_haoma(s.get(i).getLockNo());
+                                jsjv.setSuo_ztBJ(s.get(i).getStateName());
+                                jsjv.setSuo_isuse(1);
+                                jsjv.setUser(NowUser.getuser());
+                                li.add(jsjv);
+                                Log.e("TAGSSS", s.get(i).getDeviceNo() + "\n" + s.get(i).getLockNo() + "\n" + s.get(i).getStateName() + "\n");
+                            }
+                        }
+                        Log.e("TAGli", "li+++" + li.toString());
+                        //网络获取到数据后 进行本地数据库操作
+                        if (li.size() > 0) {
+                            for (int i = 0; i < li.size(); i++) {
+                                List<FdSuo> myL =
+                                        DataSupport
+                                                .where("suo_sbBH = ? and user = ?", li.get(i).getSuo_sbBH(), NowUser.getuser())
+                                                .find(FdSuo.class);
+                                Log.e("TAGMYL", "MYL__" + myL.toString());
+                                if (myL.size() > 0) {
+                                    ContentValues values = new ContentValues();
+                                    values.put("suo_ztBJ", li.get(i).getSuo_ztBJ());
+                                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", myL.get(0).getSuo_sbBH(), NowUser.getuser());
+                                } else {
+                                    li.get(i).save();
+                                    Log.e("TAGID", "li+++" + li.get(i).getId());
+                                }
+                            }
+                        }
+
+                        /**
+                         * 操作Jsjv数据库
+                         */
+                        List<Jsjv> myRWlist = DataSupport.where("isOk > ? and user = ?", "0", NowUser.getuser()).find(Jsjv.class);
+                        Log.e("TAGmyRWlist", "myRWlist__" + myRWlist.toString());
+                        if (myRWlist.size() > 0) {
+                            for (int i = 0; i < myRWlist.size(); i++) {
+                                String suo1_sbbh = myRWlist.get(i).getFdSuo1_sbbh();
+                                List<FdSuo> fdsuo1 = DataSupport
+                                        .where("suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser())
+                                        .find(FdSuo.class);
+                                if (fdsuo1.size() > 0) {
+                                    Log.e("TAGsuo1_sbbh", "suo1_sbbh----" + suo1_sbbh + "++++++" + fdsuo1.toString());
+                                    ContentValues values = new ContentValues();
+                                    values.put("fdSuo1_ztbj", fdsuo1.get(0).getSuo_ztBJ());
+                                    DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo1_sbbh(), NowUser.getuser());
+                                    Log.e("TAGsuo1_sbbh```", "SUO1++++改变");
+                                }
+                                if (myRWlist.get(i).getFdSuo2_sbbh() != null
+                                        && !myRWlist.get(i).getFdSuo2_sbbh().equals("")) {
+                                    String suo2_sbbh = myRWlist.get(i).getFdSuo2_sbbh();
+                                    Log.e("TAGSuo2```", suo2_sbbh);
+                                    List<FdSuo> fdsuo2 = DataSupport
+                                            .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser())
+                                            .find(FdSuo.class);
+                                    if (fdsuo2.size() > 0) {
+                                        Log.e("TAGSuo2```", "SUO2++++" + fdsuo2.toString());
+                                        ContentValues values = new ContentValues();
+                                        values.put("fdSuo2_ztbj", fdsuo2.get(0).getSuo_ztBJ());
+                                        DataSupport.updateAll(Jsjv.class, values, "fdSuo2_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo2_sbbh(), NowUser.getuser());
+                                        Log.e("TAGSuo2```", "SUO2++++改变");
+                                    }
+                                }
+                            }
+                        }
+                        list.clear();
+                        list=DataSupport.where("user = ?",NowUser.getuser()).find(Jsjv.class);
+                        js_rv.setAdapter(jiaSuoAdapter);
+                        jiaSuoAdapter.setDateJiaSuoAdapter(list);
+                    }
+                });
+
+        if (s != null) {
+            subscriptions.add(s);
+        }
     }
 
     /**
@@ -494,11 +599,15 @@ public class SuoCZGLorJs extends Fragment {
                             list.get(position).getFdSuo2_ztbj().equals("加锁")) {
 
                         doJiaSsuo2(position,1);
+                    }else {
+                        ToastUtils.showmyToasty_info(getContext(),"有锁未确认成功");
                     }
 
                 }else {
                     if (list.get(position).getFdSuo1_ztbj().equals("加锁")) {
                         doJiaSsuo(position,1);
+                    }else {
+                        ToastUtils.showmyToasty_info(getContext(),"有锁未确认成功");
                     }
                 }
 
@@ -516,7 +625,7 @@ public class SuoCZGLorJs extends Fragment {
     private void doJiaSsuo2(final int position,final  int a) {
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
         Log.e("TAGLIST",list.get(position).toString());
-        HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
+        Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
                 .create(ApiService.class)
                 .submitSealT(NowUser.getUID(),NowUser.getToken(),list.get(position).getCxh(),list.get(position).getFzdbm(),list.get(position).getDzdbm(),list.get(position).getFdSuo1_sbbh(),a,list.get(position).getFdSuo2_sbbh(),1)
                 .subscribeOn(Schedulers.io())
@@ -561,11 +670,14 @@ public class SuoCZGLorJs extends Fragment {
 
                     }
                 });
+        if (s != null) {
+            subscriptions.add(s);
+        }
     }
 private void doJiaSsuo(final int position,final int a){
     final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
      Log.e("TAGLIST",list.get(position).toString());
-    HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
+    Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
             .create(ApiService.class)
             .submitSealF(NowUser.getUID(),NowUser.getToken(),list.get(position).getCxh(),list.get(position).getFzdbm(),list.get(position).getDzdbm(),list.get(position).getFdSuo1_sbbh(),a)
             .subscribeOn(Schedulers.io())
@@ -608,6 +720,9 @@ private void doJiaSsuo(final int position,final int a){
 
                 }
             });
+    if (s != null) {
+        subscriptions.add(s);
+    }
 }
 
     /**
