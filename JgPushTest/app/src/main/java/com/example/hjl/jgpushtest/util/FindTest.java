@@ -42,22 +42,22 @@ public class FindTest {
                     BinCZB binCZB = new BinCZB();
                     binCZB.setCZID(zh(element.getElementsByTagName("CZID")
                             .item(0)));//
-                    binCZB.setJD(zh(element.getElementsByTagName("JD")
-                            .item(0)));//
-                    binCZB.setWD(zh(element.getElementsByTagName("WD")
-                            .item(0)));//
+//                    binCZB.setJD(zh(element.getElementsByTagName("JD")
+//                            .item(0)));//
+//                    binCZB.setWD(zh(element.getElementsByTagName("WD")
+//                            .item(0)));//
                     binCZB.setZM(zh(element.getElementsByTagName("ZM")
                             .item(0)));//
                     binCZB.setJM(zh(element.getElementsByTagName("JM")
                             .item(0)));//
-                    binCZB.setJBM(zh(element.getElementsByTagName("JBM")
-                            .item(0)));//
-                    binCZB.setJDM(zh(element.getElementsByTagName("JDM")
-                            .item(0)));//
-                    binCZB.setCZLX(zh(element.getElementsByTagName("CZLX")
-                            .item(0)));//
-                    binCZB.setGJ(zh(element.getElementsByTagName("GJ")
-                            .item(0)));//
+//                    binCZB.setJBM(zh(element.getElementsByTagName("JBM")
+//                            .item(0)));//
+//                    binCZB.setJDM(zh(element.getElementsByTagName("JDM")
+//                            .item(0)));//
+//                    binCZB.setCZLX(zh(element.getElementsByTagName("CZLX")
+//                            .item(0)));//
+//                    binCZB.setGJ(zh(element.getElementsByTagName("GJ")
+//                            .item(0)));//
                     li_str.add(binCZB);
                 }
             }
@@ -73,7 +73,6 @@ public class FindTest {
         } else {
             return book.getFirstChild().getNodeValue();
         }
-
     }
 
 }

@@ -8,25 +8,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.bendiapi.CallbackActivity;
 import com.example.hjl.jgpushtest.enity.CsLb;
+
 import java.util.List;
 
 /**
  * 强拆
  */
 
-public class QCAdapter extends RecyclerView.Adapter {
+public class QCAdapter extends RecyclerView.Adapter implements View.OnClickListener {
     private List<CsLb> list;
-    private Context context;
+    private CallbackActivity qcCallback;
 //    public void setDateJiaSuoAdapter(List<Jsjv> list) {
 //        this.list = list;
 //        notifyDataSetChanged();
 //    }
 
-    public QCAdapter(List<CsLb> list, Context context) {
+    public QCAdapter(List<CsLb> list, CallbackActivity qcCallback) {
         this.list = list;
-        this.context = context;
+        this.qcCallback = qcCallback;
     }
 
     @Override
@@ -61,38 +64,39 @@ public class QCAdapter extends RecyclerView.Adapter {
                 ((MyViewHolder) holder).suo_qc_dz.setText(list.get(position).getDz());
                 ((MyViewHolder) holder).
                         suo_qc_suo1.setText(list.get(position).getSuo1_id().toString());
-                ((MyViewHolder) holder).suo_qc_suo1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        QCialog(list.get(position).getSuo1_id());
-                    }
-                });
+                ((MyViewHolder) holder).
+                        suo_qc_suo1.setOnClickListener(this);
+                ((MyViewHolder) holder).
+                        suo_qc_suo1.setTag(position);
+
+
+//                ((MyViewHolder) holder).suo_qc_suo1.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        QCialog(list.get(position).getSuo1_id());
+//                    }
+//                });
                 ((MyViewHolder) holder).suo_qc_zt1.setText(
                         list.get(position).getSuo1_ztbj().toString());
-                ((MyViewHolder) holder).suo_qc_zt1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        QCialog(list.get(position).getSuo1_id());
-                    }
-                });
+
 
                 if (list.get(position).getSuo2_id() != null) {
                     ((MyViewHolder) holder).
                             suo_qc_suo2.setText(list.get(position).getSuo2_id().toString());
-                    ((MyViewHolder) holder).suo_qc_suo2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            QCialog(list.get(position).getSuo2_id());
-                        }
-                    });
+
+                    ((MyViewHolder) holder).suo_qc_suo2.setOnClickListener(this);
+                    ((MyViewHolder) holder).suo_qc_suo2.setTag(position);
+
+
+//                    ((MyViewHolder) holder).suo_qc_suo2.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            QCialog(list.get(position).getSuo2_id());
+//                        }
+//                    });
                     ((MyViewHolder) holder).suo_qc_zt2.setText(
                             list.get(position).getSuo2_ztbj().toString());
-                    ((MyViewHolder) holder).suo_qc_zt2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            QCialog(list.get(position).getSuo2_id());
-                        }
-                    });
+
 
                 }
             }
@@ -134,29 +138,13 @@ public class QCAdapter extends RecyclerView.Adapter {
 
 
     /**
-     * 强拆拆锁对话框
+     * 响应按钮点击事件,调用子定义接口，并传入View
      *
-     * @param cxh
+     * @param view
      */
-    private void QCialog(String cxh) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("车号/箱号为" + cxh + "强制拆锁?");
-        builder.setTitle("提示");
-        builder.setPositiveButton("加锁确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                /**
-                 * do what
-                 */
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                builder.show().dismiss();
-            }
-        });
-        builder.create().show();
-
+    @Override
+    public void onClick(View view) {
+        qcCallback.click(view);
     }
+
 }

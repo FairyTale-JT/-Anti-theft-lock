@@ -32,11 +32,11 @@ import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 
 /**
- * Created by Administrator on 2017/6/13.
+ * 选择锁
  */
 
 public class SuoCZGLorJs_Tjs extends BaseActivity {
-   @Bind(R.id.jstj_xiala)
+    @Bind(R.id.jstj_xiala)
     SwipeRefreshLayout swipeRefreshLayout_tjs;
     @Bind(R.id.jstj_bt1)
     Button jstjBt1;
@@ -56,7 +56,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         ButterKnife.bind(this);
         jstjLv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         jsTjAdapter = new JsTjAdapter();
-        list=new ArrayList<>();
+        list = new ArrayList<>();
         chaXunSuoId();//锁号查询按钮监听
         JstjListView();//获取本地数据 并加载界面
         tiaoZhuan_fanhui();//确定按钮监听
@@ -103,7 +103,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                 String s1;
                 s1 = jstjEt1.getText().toString().trim();
 
-                if (s1 != null  && s1.length() > 0 ) {
+                if (s1 != null && s1.length() > 0) {
                     //设置按钮可点击
                     jstjBt1.setEnabled(true);
                     //设置按钮为正常状态
@@ -129,9 +129,9 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         jstjBt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String stID=null;
-                stID=jstjEt1.getText().toString();
-                if (list != null&&list.size()>0) {
+                String stID = null;
+                stID = jstjEt1.getText().toString();
+                if (list != null && list.size() > 0) {
                     for (int i = 0; i < list.size(); i++) {
                         if (stID.equals(list.get(i).getSuo_haoma())) {
                             jstjLv.setAdapter(jsTjAdapter);
@@ -170,9 +170,10 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                     }
                 });
     }
-/**
- *刷新获取数据操作
- */
+
+    /**
+     * 刷新获取数据操作
+     */
     private void doGet() {
         initDate();
     }
@@ -182,7 +183,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
      * 获取数据
      */
     private void initDate() {
-        List<FdSuo> li=new ArrayList<>();
+        List<FdSuo> li = new ArrayList<>();
 //        List<FdSuo> liBenDi=new ArrayList<>();
 //        liBenDi=DataSupport.where("suo_isuse > ?", "0").find(FdSuo.class);
         list.clear();
@@ -201,7 +202,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
 //        }else {
 //
 //        }
-        if (li.size()> 0) {
+        if (li.size() > 0) {
 //            List<FdSuo> s=new ArrayList<>();
             list.addAll(li);
         }
@@ -284,13 +285,13 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
 
     private void JstjListView() {
         List<FdSuo> li = new ArrayList<>();
-        li = DataSupport.where("suo_isuse = ? and user = ?", "1",NowUser.getuser()).find(FdSuo.class);
-        if (li.size()>0) {
+        li = DataSupport.where("suo_isuse = ? and user = ?", "1", NowUser.getuser()).find(FdSuo.class);
+        if (li.size() > 0) {
             list.addAll(li);
         }
         jstjLv.setAdapter(jsTjAdapter);
         jsTjAdapter.setsetDateJsTjAdapter(list);
-        Log.e("TAG+LIST",li.toString());
-        Log.e("TAG+LIST",list.toString());
+        Log.e("TAG+LIST", li.toString());
+        Log.e("TAG+LIST", list.toString());
     }
 }

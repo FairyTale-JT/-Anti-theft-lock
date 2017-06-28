@@ -70,7 +70,7 @@ public class SuoCZGLorJs extends Fragment {
     private Button daoz_bt;
     FdSuo fdSuo1 = null;
     FdSuo fdSuo2 = null;
-    private String dz_DBM="",fz_DBM="";
+    private String dz_DBM = "", fz_DBM = "";
 
     private String suo1_sbbh = null, suo1_id = null, suo1_ztbj = null, suo2_id = null, suo2_sbbh = null, suo2_ztbj = null;
     private List<BinCZB> czbList;
@@ -116,6 +116,7 @@ public class SuoCZGLorJs extends Fragment {
         Bundle bundle = getArguments();
         String agrs1 = bundle.getString("agrs1");
         list = new ArrayList<>();
+        czbList=new ArrayList<>();
         initView();
         initdata();
         JsListview();
@@ -137,7 +138,7 @@ public class SuoCZGLorJs extends Fragment {
     private void initdata() {
         // DataSupport.deleteAll(FdSuo.class);
 
-        List<Jsjv> li = DataSupport.where("isOk > ? and user = ?", "0",NowUser.getuser()).find(Jsjv.class);
+        List<Jsjv> li = DataSupport.where("isOk > ? and user = ?", "0", NowUser.getuser()).find(Jsjv.class);
         if (li.size() > 0) {
             for (int i = 0; i < li.size(); i++) {
                 list.add(li.get(i));
@@ -173,8 +174,8 @@ public class SuoCZGLorJs extends Fragment {
         //选择发站
         js_fz = (Spinner) view.findViewById(R.id.suo_js_dz);
         fa_list = new ArrayList<FaZhan>();
-        fa_list.add(new FaZhan("北京","beij"));
-        fa_list.add(new FaZhan("成都","chengdu"));
+        fa_list.add(new FaZhan("北京", "beij"));
+        fa_list.add(new FaZhan("成都", "chengdu"));
         spinnerAdapter = new SpinnerAdapter(getContext(), fa_list);
         js_fz.setAdapter(spinnerAdapter);
         //   js_dz.setEnabled(false);
@@ -198,8 +199,9 @@ public class SuoCZGLorJs extends Fragment {
 
     }
 
-    void getDZ() {
 
+    void getDZ() {
+        czbList.clear();
         final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
         Subscription s =
                 Observable.create(new Observable.OnSubscribe<List<BinCZB>>() {
@@ -209,7 +211,7 @@ public class SuoCZGLorJs extends Fragment {
                         try {
                             czbList =
                                     FindTest.FindShezhiZM(getResources().
-                                                    openRawResource(R.raw.czb),
+                                                    openRawResource(R.raw.czb1),
                                             dz_Ming.getText().toString());
 
                             Log.e("TAG", "try");
@@ -298,7 +300,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 fz = fa_list.get(i).getFz();
-                fz_DBM=fa_list.get(i).getFzDBM();
+                fz_DBM = fa_list.get(i).getFzDBM();
             }
 
             @Override
@@ -394,7 +396,7 @@ public class SuoCZGLorJs extends Fragment {
                     jsjv.save();
                     js_rv.setAdapter(jiaSuoAdapter);
                     jiaSuoAdapter.setDateJiaSuoAdapter(list);
-                    Log.e("TAGJS",jsjv.toString());
+                    Log.e("TAGJS", jsjv.toString());
                     cx_NO.setText("");
                     dz_Ming.setText("");
                     suo1.setText("");
@@ -425,7 +427,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                UDialog(s,position);
+                UDialog(s, position);
             }
         });
         jiaSuoAdapter.setOnLongItemClickListener(new OnRecyclerViewLongItemClickListener() {
@@ -453,14 +455,14 @@ public class SuoCZGLorJs extends Fragment {
                 /**
                  * do what
                  */
-                String suo1_sbbh=list.get(position).getFdSuo1_sbbh();
-                String suo2_sbbh=list.get(position).getFdSuo2_sbbh();
+                String suo1_sbbh = list.get(position).getFdSuo1_sbbh();
+                String suo2_sbbh = list.get(position).getFdSuo2_sbbh();
                 DataSupport.deleteAll(FdSuo.class, "suo_sbBH = ?", suo1_sbbh.toString());
-                if (suo2_sbbh!=null&&!suo2_sbbh.equals("")) {
+                if (suo2_sbbh != null && !suo2_sbbh.equals("")) {
                     DataSupport.deleteAll(FdSuo.class, "suo_sbBH = ?", suo2_sbbh.toString());
 
                 }
-                Log.e("TAG1",list.get(position).toString());
+                Log.e("TAG1", list.get(position).toString());
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

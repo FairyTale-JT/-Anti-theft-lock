@@ -1,25 +1,31 @@
 package com.example.hjl.jgpushtest;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.suoactivity.SuoMainActivity;
+import com.example.hjl.jgpushtest.util.SharePreferencesHelper;
+import com.example.hjl.jgpushtest.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import es.dmoral.toasty.Toasty;
 
 /**
- * Created by hjl on 2017/6/8.
+ * 登录界面
  */
 
 public class TestACT extends BaseActivity {
@@ -31,7 +37,13 @@ public class TestACT extends BaseActivity {
     Button denglu;
     boolean isDJ = false;
     String user_in, password_in;
-    private Boolean isEmpty = true;
+    @Bind(R.id.linearLayout4)
+    LinearLayout linearLayout4;
+    @Bind(R.id.jzmm)
+    CheckBox jzmm;
+    private boolean isEmpty;
+    private SharedPreferences CheckSP;
+    private Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,33 +51,73 @@ public class TestACT extends BaseActivity {
         setContentView(R.layout.login_suo);
         ButterKnife.bind(this);
         ImmersionBar.with(this).transparentBar().init();
-        initview();
+        CheckSP = getSharedPreferences("TestACT", Context.MODE_PRIVATE);
+        editor = CheckSP.edit();
+        CheckBoxchat();
         initdate();
+        initview();
 
     }
 
     private void initview() {
-        denglu.setEnabled(isDJ);//设置登录按钮不可点击
+        if (CheckSP.getBoolean("ISCHECK", false)) {
+            jzmm.setChecked(true);
+            useName.setText(CheckSP.getString("useName", ""));
+            password.setText(CheckSP.getString("password", ""));
+        } else {
+            denglu.setEnabled(isDJ);//设置登录按钮不可点击
+        }
+
         //设置登录按钮的监听事件
         denglu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user_in = useName.getText().toString();
-                password_in = password.getText().toString();
 //                 ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
 //                Toasty.success(TestACT.this, user_in + "\n" + password_in, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(TestACT.this, SuoMainActivity.class);
-                startActivity(intent);
-                finish();
-
+                CheckBox();
             }
         });
     }
 
+    /**
+     * 记住密码
+     */
+    private void CheckBox() {
+
+        user_in = useName.getText().toString();
+        password_in = password.getText().toString();
+        editor.putString("useName", user_in);
+        editor.putString("password", password_in);
+        editor.commit();
+        Intent intent = new Intent(TestACT.this, SuoMainActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+    /**
+     * 判断
+     */
+    private void CheckBoxchat() {
+        jzmm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (jzmm.isChecked()) {
+                    editor.putBoolean("ISCHECK", true);
+                    editor.commit();
+                } else {
+                    editor.putString("useName", null);
+                    editor.putString("password", null);
+                    editor.putBoolean("ISCHECK", false);
+                    editor.commit();
+                }
+            }
+        });
+
+    }
+
     private void initdate() {
 
-
-///////////////////////////////////
         TextWatcher textWatch = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s,

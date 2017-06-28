@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="66dp"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="5dp"
         app:cardBackgroundColor="#c9c6c7"
@@ -22,11 +22,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="2.4"
+                android:layout_weight="3"
                 android:gravity="center">
 
                 <android.support.v7.widget.CardView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="5dp"
@@ -39,8 +39,8 @@
                         android:layout_height="match_parent">
 
                         <android.support.v7.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
                             app:cardBackgroundColor="#c9c6c7"
@@ -49,18 +49,18 @@
 
                             <Button
                                 android:id="@+id/haomachaxun"
+                                style="@style/Widget.AppCompat.Button.Borderless"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:background="@null"
                                 android:text="号码查询"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:theme="@style/ButtonTheme" />
                         </android.support.v7.widget.CardView>
 
                         <android.support.v7.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
                             android:layout_weight="1"
                             app:cardBackgroundColor="#c9c6c7"
                             app:cardCornerRadius="4dp"
@@ -70,9 +70,10 @@
                                 android:id="@+id/chezhanchaxun"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:background="@null"
+                                style="@style/Widget.AppCompat.Button.Borderless"
                                 android:text="站名查询"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:theme="@style/ButtonTheme" />
                         </android.support.v7.widget.CardView>
                     </LinearLayout>
 
@@ -87,7 +88,7 @@
 
                 <android.support.v7.widget.CardView
                     android:layout_width="0dp"
-                    android:layout_height="48dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="3"
                     app:cardCornerRadius="6dp"
@@ -107,7 +108,7 @@
                         android:textColorHint="@color/wbk_no"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textScaleX="1"
-                        android:textSize="12sp"></EditText>
+                        android:textSize="12sp" />
                 </android.support.v7.widget.CardView>
 
                 <LinearLayout
@@ -230,6 +231,5 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
-
 
 </LinearLayout>

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 自定义Toolbar
          */
-        Toolbar toolbar=(Toolbar)findViewById(R.id.id_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         setSupportActionBar(toolbar);//继承自ActionBarActivity
         //隐藏Toolbar的标题
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
