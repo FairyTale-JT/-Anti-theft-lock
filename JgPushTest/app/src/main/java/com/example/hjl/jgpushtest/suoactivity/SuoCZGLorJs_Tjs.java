@@ -38,7 +38,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import es.dmoral.toasty.Toasty;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -77,13 +76,11 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         tiaoZhuan_fanhui();//确定按钮监听
         initview();
         swipCheak();
-        Log.e("TAGTOKEN+USER:",NowUser.getuser(this)+"----"+NowUser.getToken(this));
+        Log.e("TAGTOKEN+USER:", NowUser.getuser(this) + "----" + NowUser.getToken(this));
     }
 
     private void initview() {
 
-
-///////////////////////////////////
         TextWatcher textWatch = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s,
@@ -193,7 +190,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
      */
     private void getDate() {
         final CustomDialog customDialog = new CustomDialog(SuoCZGLorJs_Tjs.this, R.style.loadstyle);
-    Subscription s=    HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, SuoCZGLorJs_Tjs.this)
+        Subscription s = HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, SuoCZGLorJs_Tjs.this)
                 .create(ApiService.class)
                 .getHoldingLock("UID", "Token")
                 .subscribeOn(Schedulers.io())
@@ -236,11 +233,11 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                 jsjv.setSuo_isuse(1);
                                 jsjv.setUser(NowUser.getuser(SuoCZGLorJs_Tjs.this));
                                 li.add(jsjv);
-                                Log.e("TAGUSER",NowUser.getuser(SuoCZGLorJs_Tjs.this));
+                                Log.e("TAGUSER", NowUser.getuser(SuoCZGLorJs_Tjs.this));
                                 Log.e("TAGSSS", s.get(i).getDeviceNo() + "\n" + s.get(i).getLockNo() + "\n" + s.get(i).getStateName() + "\n");
                             }
                         }
-                        Log.e("TAGli","li+++"+li.toString());
+                        Log.e("TAGli", "li+++" + li.toString());
                         //网络获取到数据后 进行本地数据库操作
                         if (li.size() > 0) {
                             for (int i = 0; i < li.size(); i++) {
@@ -248,14 +245,14 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                         DataSupport
                                                 .where("suo_sbBH = ? and user = ?", li.get(i).getSuo_sbBH(), NowUser.getuser(SuoCZGLorJs_Tjs.this))
                                                 .find(FdSuo.class);
-                                Log.e("TAGMYL","MYL__"+myL.toString());
+                                Log.e("TAGMYL", "MYL__" + myL.toString());
                                 if (myL.size() > 0) {
                                     ContentValues values = new ContentValues();
                                     values.put("suo_ztBJ", li.get(i).getSuo_ztBJ());
                                     DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", myL.get(0).getSuo_sbBH(), NowUser.getuser(SuoCZGLorJs_Tjs.this));
                                 } else {
                                     li.get(i).save();
-                                    Log.e("TAGID","li+++"+li.get(i).getId());
+                                    Log.e("TAGID", "li+++" + li.get(i).getId());
                                 }
                             }
                         }
@@ -281,6 +278,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                     String suo2_sbbh = myRWlist.get(i).getFdSuo2_sbbh();
                                     Log.e("TAGSuo2", suo2_sbbh);
                                     List<FdSuo> fdsuo2 = DataSupport
+
                                             .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser(SuoCZGLorJs_Tjs.this))
                                             .find(FdSuo.class);
                                     if (fdsuo2.size() > 0) {
@@ -393,6 +391,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         Log.e("TAG+LIST", li.toString());
         Log.e("TAG+LIST", list.toString());
     }
+
     @Override
     public void onPause() {
         super.onPause();
