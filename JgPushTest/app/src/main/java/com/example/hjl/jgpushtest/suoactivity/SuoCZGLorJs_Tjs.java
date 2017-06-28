@@ -274,10 +274,10 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                     values.put("fdSuo1_ztbj", fdsuo1.get(0).getSuo_ztBJ());
                                     DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo1_sbbh(), NowUser.getuser());
                                 }
-                                String suo2_sbbh = myRWlist.get(i).getFdSuo2_sbbh();
-                                Log.e("TAGSuo2", suo2_sbbh);
-                                if (suo2_sbbh != null && !suo2_sbbh.equals("")) {
-                                    Log.e("TAGSuo2```", suo2_sbbh);
+                                if (myRWlist.get(i).getFdSuo2_sbbh() != null &&
+                                        !myRWlist.get(i).getFdSuo2_sbbh().equals("")) {
+                                    String suo2_sbbh = myRWlist.get(i).getFdSuo2_sbbh();
+                                    Log.e("TAGSuo2", suo2_sbbh);
                                     List<FdSuo> fdsuo2 = DataSupport
                                              .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser())
                                             .find(FdSuo.class);
