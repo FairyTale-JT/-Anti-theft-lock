@@ -48,10 +48,13 @@
                             app:cardElevation="6dp">
 
                             <Button
+
                                 android:id="@+id/haomachaxun"
                                 style="@style/Widget.AppCompat.Button.Borderless"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:gravity="center"
+
                                 android:text="号码查询"
                                 android:textSize="12sp"
                                 android:theme="@style/ButtonTheme" />
@@ -67,10 +70,11 @@
                             app:cardElevation="6dp">
 
                             <Button
+
                                 android:id="@+id/chezhanchaxun"
+                                style="@style/Widget.AppCompat.Button.Borderless"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                style="@style/Widget.AppCompat.Button.Borderless"
                                 android:text="站名查询"
                                 android:textSize="12sp"
                                 android:theme="@style/ButtonTheme" />
@@ -95,6 +99,7 @@
                     app:cardElevation="10dp">
 
                     <EditText
+
                         android:id="@+id/chaxunhaoma"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

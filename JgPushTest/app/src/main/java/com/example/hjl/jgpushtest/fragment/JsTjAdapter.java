@@ -74,7 +74,12 @@ public void setArg(int arg1){
         }else {
             util = (Util) view.getTag();
         }
-        util.tv1.setText(fdSuo.getSuo_sbBH());
+        if (fdSuo.getSuo_isuse() >0) {
+            util.tv1.setText("待用");
+        }else {
+            util.tv1.setText("已编辑");
+
+        }
         util.tv2.setText(fdSuo.getSuo_haoma());
 //        util.tv3.setText(fdSuo.getSuo_sbBH());
 //        tv4.setText(fdSuo.getSuo_sbBH());

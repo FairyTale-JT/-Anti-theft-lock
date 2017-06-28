@@ -8,10 +8,11 @@
     <!--加锁记录表-->
     <dbname value="demo" ></dbname>
 
-    <version value="8" ></version>
+    <version value="10" ></version>
 
     <list>
         <mapping class="com.example.hjl.jgpushtest.enity.FdSuo"></mapping>
         <mapping class="com.example.hjl.jgpushtest.enity.Jsjv"></mapping>
+        <mapping class="com.example.hjl.jgpushtest.enity.FaZhan"></mapping>
     </list>
 </litepal>

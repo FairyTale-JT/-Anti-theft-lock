@@ -1,8 +1,10 @@
 package com.example.hjl.jgpushtest.suoactivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,9 +19,16 @@ import android.widget.Toast;
 import com.example.hjl.jgpushtest.R;
 import com.example.hjl.jgpushtest.TestACT;
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
+import com.example.hjl.jgpushtest.beanClass.HttpFaZhan;
+import com.example.hjl.jgpushtest.beanClass.HttpFdsuo;
 import com.example.hjl.jgpushtest.enity.FdSuo;
+import com.example.hjl.jgpushtest.enity.Jsjv;
 import com.example.hjl.jgpushtest.enity.NowUser;
 import com.example.hjl.jgpushtest.fragment.JsTjAdapter;
+import com.example.hjl.jgpushtest.http.ApiService;
+import com.example.hjl.jgpushtest.http.HttpUtils;
+import com.example.hjl.jgpushtest.http.Url;
+import com.example.hjl.jgpushtest.myview.CustomDialog;
 import com.example.hjl.jgpushtest.util.ToastUtils;
 
 import org.litepal.crud.DataSupport;
@@ -30,6 +39,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 /**
  * 选择锁
@@ -165,7 +178,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                         // 这里是主线程
                         // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
                         // TODO 获取数据
-                        doGet();
+                        getDate();
                         swipeRefreshLayout_tjs.setRefreshing(false);
                     }
                 });
@@ -174,42 +187,117 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
     /**
      * 刷新获取数据操作
      */
-    private void doGet() {
-        initDate();
-    }
+    private void getDate() {
+        final CustomDialog customDialog = new CustomDialog(SuoCZGLorJs_Tjs.this, R.style.loadstyle);
+//                 ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
+//                Toasty.success(TestACT.this, user_in + "\n" + password_in, Toast.LENGTH_SHORT).show();
+        HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, SuoCZGLorJs_Tjs.this)
+                .create(ApiService.class)
+                .getHoldingLock("UID", "Token")
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        customDialog.show();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<HttpFdsuo>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("TAG", "获取锁连接");
+                        if (customDialog != null) {
+                            customDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG", "获取锁错误222");
+                        if (customDialog != null) {
+                            customDialog.dismiss();
+                        }
+                    }
 
 
-    /**
-     * 获取数据
-     */
-    private void initDate() {
-        List<FdSuo> li = new ArrayList<>();
-//        List<FdSuo> liBenDi=new ArrayList<>();
-//        liBenDi=DataSupport.where("suo_isuse > ?", "0").find(FdSuo.class);
-        list.clear();
-        for (int i = 1; i < 33; i++) {
-            FdSuo jsjv = new FdSuo();
-            jsjv.setSuo_sbBH("10000" + i);
-            jsjv.setSuo_haoma("10000" + i);
-            jsjv.setSuo_cdTS("11" + i);
-            jsjv.setSuo_ztBJ("出库");
-            jsjv.setSuo_isuse(1);
-            jsjv.setUser(NowUser.getuser());
-            li.add(jsjv);
-        }
-//        if (liBenDi.size() > 0) {
-//
-//        }else {
-//
-//        }
-        if (li.size() > 0) {
-//            List<FdSuo> s=new ArrayList<>();
-            list.addAll(li);
-        }
-        jstjLv.setAdapter(jsTjAdapter);
-        jsTjAdapter.setsetDateJsTjAdapter(list);
-        DataSupport.deleteAll(FdSuo.class);
-        DataSupport.saveAll(list);
+                    @Override
+                    public void onNext(List<HttpFdsuo> s) {
+//                        initDate(s);//获取s进行的操作
+                        List<FdSuo> li = new ArrayList<>();
+                        if (s.size() > 0) {
+                            for (int i = 0; i < s.size(); i++) {
+                                FdSuo jsjv = new FdSuo();
+                                jsjv.setSuo_sbBH(s.get(i).getDeviceNo());
+                                jsjv.setSuo_haoma(s.get(i).getLockNo());
+                                jsjv.setSuo_ztBJ(s.get(i).getStateName());
+                                jsjv.setSuo_isuse(1);
+                                jsjv.setUser(NowUser.getuser());
+                                li.add(jsjv);
+                                Log.e("TAGSSS", s.get(i).getDeviceNo() + "\n" + s.get(i).getLockNo() + "\n" + s.get(i).getStateName() + "\n");
+                            }
+                        }
+                        //网络获取到数据后 进行本地数据库操作
+                        if (li.size() > 0) {
+                            for (int i = 0; i < li.size(); i++) {
+                                List<FdSuo> myL =
+                                        DataSupport
+                                                .where("suo_sbBH = ? and user = ?", li.get(i).getSuo_sbBH(), NowUser.getuser())
+                                                .find(FdSuo.class);
+                                if (myL.size() > 0) {
+                                    ContentValues values = new ContentValues();
+                                    values.put("suo_ztBJ", li.get(i).getSuo_ztBJ());
+                                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", myL.get(0).getSuo_sbBH(), NowUser.getuser());
+                                } else {
+                                    li.get(i).save();
+                                }
+                            }
+                        }
+
+                        /**
+                         * 操作Jsjv数据库
+                         */
+                        List<Jsjv> myRWlist = DataSupport.where("isOk > ? and user = ?", "0", NowUser.getuser()).find(Jsjv.class);
+                        if (myRWlist.size() > 0) {
+                            for (int i = 0; i < myRWlist.size(); i++) {
+                                String suo1_sbbh = myRWlist.get(i).getFdSuo1_sbbh();
+                                List<FdSuo> fdsuo1 = DataSupport
+                                        .where("suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser())
+                                        .find(FdSuo.class);
+                                if (fdsuo1.size() > 0) {
+                                    ContentValues values = new ContentValues();
+                                    values.put("fdSuo1_ztbj", fdsuo1.get(0).getSuo_ztBJ());
+                                    DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo1_sbbh(), NowUser.getuser());
+                                }
+                                String suo2_sbbh = myRWlist.get(i).getFdSuo2_sbbh();
+                                Log.e("TAGSuo2", suo2_sbbh);
+                                if (suo2_sbbh != null && !suo2_sbbh.equals("")) {
+                                    Log.e("TAGSuo2```", suo2_sbbh);
+                                    List<FdSuo> fdsuo2 = DataSupport
+                                            .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser())
+                                            .find(FdSuo.class);
+                                    if (fdsuo2.size() > 0) {
+                                        ContentValues values = new ContentValues();
+                                        values.put("fdSuo2_ztbj", fdsuo2.get(0).getSuo_ztBJ());
+                                        DataSupport.updateAll(Jsjv.class, values, "fdSuo2_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo2_sbbh(), NowUser.getuser());
+                                    }
+                                }
+                            }
+                        }
+                        Intent intent = new Intent("jerry");
+                        intent.putExtra("change", "yes");
+                        LocalBroadcastManager.getInstance(SuoCZGLorJs_Tjs.this).sendBroadcast(intent);
+                        sendBroadcast(intent);
+                        list.clear();
+                        List<FdSuo> liBenDi = new ArrayList<>();
+                        liBenDi = DataSupport.where("user = ?", NowUser.getuser()).find(FdSuo.class);
+                        list.addAll(liBenDi);
+                        jstjLv.setAdapter(jsTjAdapter);
+                        jsTjAdapter.setsetDateJsTjAdapter(list);
+                        Log.e("TAG", "获取锁成功:" + s.toString());
+
+                    }
+                });
     }
 
     private void choseSuo() {
@@ -285,7 +373,8 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
 
     private void JstjListView() {
         List<FdSuo> li = new ArrayList<>();
-        li = DataSupport.where("suo_isuse = ? and user = ?", "1", NowUser.getuser()).find(FdSuo.class);
+
+        li = DataSupport.where("user = ?", NowUser.getuser()).find(FdSuo.class);
         if (li.size() > 0) {
             list.addAll(li);
         }

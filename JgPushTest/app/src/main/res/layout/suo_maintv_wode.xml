@@ -213,7 +213,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="站1"
+                                android:text="站1:无"
                                 android:textSize="12sp" />
                         </android.support.v7.widget.CardView>
 
@@ -231,7 +231,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="站2"
+                                android:text="站2:无"
                                 android:textSize="12sp" />
                         </android.support.v7.widget.CardView>
                     </LinearLayout>
@@ -255,7 +255,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="站3"
+                                android:text="站3:无"
                                 android:textSize="12sp" />
                         </android.support.v7.widget.CardView>
 
@@ -273,7 +273,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="站4"
+                                android:text="站4:无"
                                 android:textSize="12sp" />
                         </android.support.v7.widget.CardView>
                     </LinearLayout>

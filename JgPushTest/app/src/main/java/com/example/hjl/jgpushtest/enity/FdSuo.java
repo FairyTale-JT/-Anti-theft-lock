@@ -34,7 +34,7 @@ public class FdSuo extends DataSupport {
 
     /**
      * 1==出库
-     * 2==已经编辑
+     * -1==已经编辑
      * -9==已使用
      */
     @Column(nullable = true)
