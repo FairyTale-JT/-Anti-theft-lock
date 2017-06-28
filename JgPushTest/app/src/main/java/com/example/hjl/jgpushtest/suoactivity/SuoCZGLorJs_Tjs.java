@@ -77,6 +77,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         tiaoZhuan_fanhui();//确定按钮监听
         initview();
         swipCheak();
+        Log.e("TAGTOKEN+USER:",NowUser.getuser(this)+"----"+NowUser.getToken(this));
     }
 
     private void initview() {
@@ -233,8 +234,9 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                 jsjv.setSuo_haoma(s.get(i).getLockNo());
                                 jsjv.setSuo_ztBJ(s.get(i).getStateName());
                                 jsjv.setSuo_isuse(1);
-                                jsjv.setUser(NowUser.getuser());
+                                jsjv.setUser(NowUser.getuser(SuoCZGLorJs_Tjs.this));
                                 li.add(jsjv);
+                                Log.e("TAGUSER",NowUser.getuser(SuoCZGLorJs_Tjs.this));
                                 Log.e("TAGSSS", s.get(i).getDeviceNo() + "\n" + s.get(i).getLockNo() + "\n" + s.get(i).getStateName() + "\n");
                             }
                         }
@@ -244,13 +246,13 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                             for (int i = 0; i < li.size(); i++) {
                                 List<FdSuo> myL =
                                         DataSupport
-                                                .where("suo_sbBH = ? and user = ?", li.get(i).getSuo_sbBH(), NowUser.getuser())
+                                                .where("suo_sbBH = ? and user = ?", li.get(i).getSuo_sbBH(), NowUser.getuser(SuoCZGLorJs_Tjs.this))
                                                 .find(FdSuo.class);
                                 Log.e("TAGMYL","MYL__"+myL.toString());
                                 if (myL.size() > 0) {
                                     ContentValues values = new ContentValues();
                                     values.put("suo_ztBJ", li.get(i).getSuo_ztBJ());
-                                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", myL.get(0).getSuo_sbBH(), NowUser.getuser());
+                                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", myL.get(0).getSuo_sbBH(), NowUser.getuser(SuoCZGLorJs_Tjs.this));
                                 } else {
                                     li.get(i).save();
                                     Log.e("TAGID","li+++"+li.get(i).getId());
@@ -262,29 +264,29 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                          * 操作Jsjv数据库
                          */
 
-                        List<Jsjv> myRWlist = DataSupport.where("isOk > ? and user = ?", "0", NowUser.getuser()).find(Jsjv.class);
+                        List<Jsjv> myRWlist = DataSupport.where("isOk > ? and user = ?", "0", NowUser.getuser(SuoCZGLorJs_Tjs.this)).find(Jsjv.class);
                         if (myRWlist.size() > 0) {
                             for (int i = 0; i < myRWlist.size(); i++) {
                                 String suo1_sbbh = myRWlist.get(i).getFdSuo1_sbbh();
                                 List<FdSuo> fdsuo1 = DataSupport
-                                        .where("suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser())
+                                        .where("suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser(SuoCZGLorJs_Tjs.this))
                                         .find(FdSuo.class);
                                 if (fdsuo1.size() > 0) {
                                     ContentValues values = new ContentValues();
                                     values.put("fdSuo1_ztbj", fdsuo1.get(0).getSuo_ztBJ());
-                                    DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo1_sbbh(), NowUser.getuser());
+                                    DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo1_sbbh(), NowUser.getuser(SuoCZGLorJs_Tjs.this));
                                 }
                                 if (myRWlist.get(i).getFdSuo2_sbbh() != null &&
                                         !myRWlist.get(i).getFdSuo2_sbbh().equals("")) {
                                     String suo2_sbbh = myRWlist.get(i).getFdSuo2_sbbh();
                                     Log.e("TAGSuo2", suo2_sbbh);
                                     List<FdSuo> fdsuo2 = DataSupport
-                                            .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser())
+                                            .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser(SuoCZGLorJs_Tjs.this))
                                             .find(FdSuo.class);
                                     if (fdsuo2.size() > 0) {
                                         ContentValues values = new ContentValues();
                                         values.put("fdSuo2_ztbj", fdsuo2.get(0).getSuo_ztBJ());
-                                        DataSupport.updateAll(Jsjv.class, values, "fdSuo2_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo2_sbbh(), NowUser.getuser());
+                                        DataSupport.updateAll(Jsjv.class, values, "fdSuo2_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo2_sbbh(), NowUser.getuser(SuoCZGLorJs_Tjs.this));
                                     }
                                 }
                             }
@@ -295,11 +297,12 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                         sendBroadcast(intent);
                         list.clear();
                         List<FdSuo> liBenDi = new ArrayList<>();
-                        liBenDi = DataSupport.where("user = ?", NowUser.getuser()).find(FdSuo.class);
+                        liBenDi = DataSupport.where("user = ?", NowUser.getuser(SuoCZGLorJs_Tjs.this)).find(FdSuo.class);
                         list.addAll(liBenDi);
                         jstjLv.setAdapter(jsTjAdapter);
                         jsTjAdapter.setsetDateJsTjAdapter(list);
                         Log.e("TAG", "获取锁成功:" + s.toString());
+                        Log.e("TAG", "获取锁成功:" + list.toString());
 
                     }
                 });
@@ -381,8 +384,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
 
     private void JstjListView() {
         List<FdSuo> li = new ArrayList<>();
-
-        li = DataSupport.where("user = ?", NowUser.getuser()).find(FdSuo.class);
+        li = DataSupport.where("user = ?", NowUser.getuser(SuoCZGLorJs_Tjs.this)).find(FdSuo.class);
         if (li.size() > 0) {
             list.addAll(li);
         }

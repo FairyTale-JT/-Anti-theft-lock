@@ -67,8 +67,8 @@ public class TestACT extends BaseActivity {
     private void initview() {
         if (SharePreferencesHelper.getInstance(TestACT.this).getBoolean("ISCHECK", false)) {
             jzmm.setChecked(true);
-            useName.setText(SharePreferencesHelper.getInstance(TestACT.this).getString("useName", user_in));
-            password.setText(SharePreferencesHelper.getInstance(TestACT.this).getString("password", ""));
+            useName.setText(SharePreferencesHelper.getInstance(TestACT.this).getString("useName"));
+            password.setText(SharePreferencesHelper.getInstance(TestACT.this).getString("password"));
         } else {
             denglu.setEnabled(isDJ);//设置登录按钮不可点击
         }
@@ -141,7 +141,8 @@ public class TestACT extends BaseActivity {
     }
 
     private void dowhat(String s) {
-
+     SharePreferencesHelper.getInstance(TestACT.this).putString("token",s);
+        SharePreferencesHelper.getInstance(TestACT.this).putString("user",user_in);
     }
 
     private void initdate() {

@@ -126,7 +126,7 @@ public class SuoWDfragment extends Fragment {
     }
 
     private void initview() {
-        List<FaZhan> li =   DataSupport.where("user = ?",NowUser.getuser()).find(FaZhan.class);
+        List<FaZhan> li =   DataSupport.where("user = ?",NowUser.getuser(getContext())).find(FaZhan.class);
 
         if (li!=null&&li.size()>0) {
             if (li.size() == 1) {
@@ -186,7 +186,7 @@ public class SuoWDfragment extends Fragment {
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
         HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
                 .create(ApiService.class)
-                .queryPerm(NowUser.getUID(),NowUser.getToken())
+                .queryPerm(NowUser.getuser(getContext()),NowUser.getToken(getContext()))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -261,7 +261,7 @@ public class SuoWDfragment extends Fragment {
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
         HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
                 .create(ApiService.class)
-                .queryRelativeStation(NowUser.getUID(),NowUser.getToken())
+                .queryRelativeStation(NowUser.getuser(getContext()),NowUser.getToken(getContext()))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -295,7 +295,7 @@ public class SuoWDfragment extends Fragment {
                              DataSupport.deleteAll(FaZhan.class);
                             for (int i = 0; i <s.size() ; i++) {
                                 FaZhan faz=new FaZhan();
-                                faz.setUser(NowUser.getuser());
+                                faz.setUser(NowUser.getuser(getContext()));
                                 faz.setFz(s.get(i).getName().toString());
                                 faz.setFzDBM(s.get(i).getId().toString());
                                 faz.save();

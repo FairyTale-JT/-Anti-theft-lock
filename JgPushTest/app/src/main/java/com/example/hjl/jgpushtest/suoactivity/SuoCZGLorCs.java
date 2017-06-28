@@ -117,7 +117,7 @@ public class SuoCZGLorCs extends Fragment {
             final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
             Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, getContext())
                     .create(ApiService.class)
-                    .querySealByCoach(NowUser.getUID(),NowUser.getToken(),chaxunk.getText().toString().trim() )
+                    .querySealByCoach(NowUser.getuser(getContext()),NowUser.getToken(getContext()),chaxunk.getText().toString().trim() )
                     .subscribeOn(Schedulers.io())
                     .doOnSubscribe(new Action0() {
                         @Override
@@ -174,7 +174,7 @@ public class SuoCZGLorCs extends Fragment {
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
             Subscription s=   HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
                 .create(ApiService.class)
-                .querySealByStart(NowUser.getUID(),NowUser.getToken(),chaxunk.getText().toString().trim())
+                .querySealByStart(NowUser.getuser(getContext()),NowUser.getToken(getContext()),chaxunk.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -281,7 +281,7 @@ public class SuoCZGLorCs extends Fragment {
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
       Subscription s=  HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
                 .create(ApiService.class)
-                .unlock(NowUser.getUID(),NowUser.getToken(),cslist.get(position).getCoachNo().toString())
+                .unlock(NowUser.getuser(getContext()),NowUser.getToken(getContext()),cslist.get(position).getCoachNo().toString())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
