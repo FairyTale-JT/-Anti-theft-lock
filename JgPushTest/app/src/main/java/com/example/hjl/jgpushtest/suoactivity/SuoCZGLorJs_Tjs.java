@@ -279,7 +279,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                                 if (suo2_sbbh != null && !suo2_sbbh.equals("")) {
                                     Log.e("TAGSuo2```", suo2_sbbh);
                                     List<FdSuo> fdsuo2 = DataSupport
-                                            .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser())
+                                             .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser())
                                             .find(FdSuo.class);
                                     if (fdsuo2.size() > 0) {
                                         ContentValues values = new ContentValues();
