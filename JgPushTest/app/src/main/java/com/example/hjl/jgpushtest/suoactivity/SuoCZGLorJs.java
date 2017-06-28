@@ -864,7 +864,7 @@ public class SuoCZGLorJs extends Fragment {
                 String msg = "生成的验证码：" + realCode + "输入的验证码:" + phoneCode;
 
                 if (phoneCode.equals(realCode)) {
-                    if (list.get(position).getFdSuo1_sbbh() != null &&
+                    if (list.get(position).getFdSuo2_sbbh() != null &&
                             !list.get(position).getFdSuo2_sbbh().equals("")) {
                         doJiaSsuo2(position, 5);
                     } else {
