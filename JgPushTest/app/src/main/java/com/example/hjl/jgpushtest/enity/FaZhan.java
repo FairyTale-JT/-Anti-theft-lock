@@ -1,12 +1,13 @@
 package com.example.hjl.jgpushtest.enity;
 
 import org.litepal.annotation.Column;
+import org.litepal.crud.DataSupport;
 
 /**
  * Created by Administrator on 2017/6/19.
  */
 
-public class FaZhan {
+public class FaZhan extends DataSupport {
     @Column(nullable = true)
     private int  id;
 
@@ -38,7 +39,9 @@ public class FaZhan {
     public void setFz(String fz) {
         this.fz = fz;
     }
+    public FaZhan() {
 
+    }
     public FaZhan(String fz, String fzDBM) {
         this.fz = fz;
         this.fzDBM = fzDBM;

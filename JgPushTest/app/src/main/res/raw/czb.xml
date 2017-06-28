@@ -19631,6 +19631,18 @@
 		<CZLX>0</CZLX>
 		<GJ>CHINA</GJ>
 	</BHPZMZD0>
+    <BHPZMZD0>
+        <CZID>FJC</CZID>
+        <JD>121.881</JD>
+        <WD>43.636448</WD>
+        <ZM>福巨</ZM>
+        <PYM>FJ</PYM>
+        <JM>呼和浩特局</JM>
+        <JBM>C</JBM>
+        <JDM>4</JDM>
+        <CZLX>0</CZLX>
+        <GJ>CHINA</GJ>
+    </BHPZMZD0>
 	<BHPZMZD0>
 		<CZID>FIB</CZID>
 		<JD>132.045339</JD>
@@ -68023,18 +68035,7 @@
 		<CZLX>0</CZLX>
 		<GJ>CHINA</GJ>
 	</BHPZMZD0>
-	<BHPZMZD0>
-		<CZID>FJC</CZID>
-		<JD>121.881</JD>
-		<WD>43.636448</WD>
-		<ZM>福巨</ZM>
-		<PYM>FJ</PYM>
-		<JM>呼和浩特局</JM>
-		<JBM>C</JBM>
-		<JDM>4</JDM>
-		<CZLX>0</CZLX>
-		<GJ>CHINA</GJ>
-	</BHPZMZD0>
+
 	<BHPZMZD0>
 		<CZID>FXC</CZID>
 		<JD>120.19254</JD>

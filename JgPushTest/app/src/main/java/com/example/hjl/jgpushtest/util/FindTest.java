@@ -1,5 +1,7 @@
 package com.example.hjl.jgpushtest.util;
 
+import android.util.Log;
+
 import com.example.hjl.jgpushtest.enity.BinCZB;
 
 import org.w3c.dom.Document;
@@ -31,33 +33,25 @@ public class FindTest {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new InputSource(is));
         NodeList books1 = doc.getElementsByTagName("BHPZMZD0");
+
+//        Log.e("TAGbook","BOOK1::"+books1.getLength()+"");
         List<BinCZB> li_str = new ArrayList<BinCZB>();
         if (books1 != null) {
             for (int i = 0; i < books1.getLength(); i++) {
                 Element element = (Element) books1.item(i);
-                if (zh(element.getElementsByTagName("PYM").item(0)).equals(
+//                Log.e("TAGbook","iTEM0::"+element.getElementsByTagName("PYM").item(0).toString()+"");
+                if (zh(element.getElementsByTagName("PYM").item(0)).toUpperCase().equals(
                         str.toUpperCase())
                         || zh(element.getElementsByTagName("ZM").item(0))
                         .equals(str)) {
                     BinCZB binCZB = new BinCZB();
+//                    Log.e("TAGbook","iTEM0::"+(zh(element.getElementsByTagName("PYM").item(0))).toString()+""+str+i);
                     binCZB.setCZID(zh(element.getElementsByTagName("CZID")
                             .item(0)));//
-                    binCZB.setJD(zh(element.getElementsByTagName("JD")
-                            .item(0)));//
-                    binCZB.setWD(zh(element.getElementsByTagName("WD")
-                            .item(0)));//
+                    Log.e("TAGID","iTEM0::"+(zh(element.getElementsByTagName("CZID").item(0))).toString()+""+str+i);
                     binCZB.setZM(zh(element.getElementsByTagName("ZM")
                             .item(0)));//
-                    binCZB.setJM(zh(element.getElementsByTagName("JM")
-                            .item(0)));//
-                    binCZB.setJBM(zh(element.getElementsByTagName("JBM")
-                            .item(0)));//
-                    binCZB.setJDM(zh(element.getElementsByTagName("JDM")
-                            .item(0)));//
-                    binCZB.setCZLX(zh(element.getElementsByTagName("CZLX")
-                            .item(0)));//
-                    binCZB.setGJ(zh(element.getElementsByTagName("GJ")
-                            .item(0)));//
+//                    Log.e("TAGID","iTEM0::"+(zh(element.getElementsByTagName("ZM").item(0))).toString()+""+str+i);
                     li_str.add(binCZB);
                 }
             }

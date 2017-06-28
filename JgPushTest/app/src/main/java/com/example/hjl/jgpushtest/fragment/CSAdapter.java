@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.beanClass.HttpJsjv;
 import com.example.hjl.jgpushtest.bendiapi.OnRecyclerViewItemClickListener;
 import com.example.hjl.jgpushtest.enity.CsLb;
 
@@ -17,14 +18,14 @@ import java.util.List;
 
 public class CSAdapter extends RecyclerView.Adapter {
     public OnRecyclerViewItemClickListener mOnItemClickListener = null;//点击
-    private List<CsLb> list;
-//    public void setDateJiaSuoAdapter(List<Jsjv> list) {
-//        this.list = list;
-//        notifyDataSetChanged();
-//    }
-
-    public CSAdapter(List<CsLb> list) {
+    private List<HttpJsjv> list;
+    public void setDateCSAdapter(List<HttpJsjv> list) {
         this.list = list;
+        notifyDataSetChanged();
+    }
+
+    public CSAdapter() {
+
     }
 
     @Override
@@ -57,19 +58,19 @@ public class CSAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (list != null && list.size() > 0) {
             if (holder instanceof MyViewHolder) {
-                ((MyViewHolder) holder).suo_cs_ch.setText(list.get(position).getCxh());
-                ((MyViewHolder) holder).suo_cs_fz.setText(list.get(position).getFz());
-                ((MyViewHolder) holder).suo_cs_dz.setText(list.get(position).getDz());
+                ((MyViewHolder) holder).suo_cs_ch.setText(list.get(position).getCoachNo());
+                ((MyViewHolder) holder).suo_cs_fz.setText(list.get(position).getStartStationName());
+                ((MyViewHolder) holder).suo_cs_dz.setText(list.get(position).getDestStationName());
                 ((MyViewHolder) holder).
-                        suo_cs_suo1.setText(list.get(position).getSuo1_id().toString());
+                        suo_cs_suo1.setText(list.get(position).getDetails().get(0).getLockNo().toString());
                 ((MyViewHolder) holder).suo_cs_zt1.setText(
-                        list.get(position).getSuo1_ztbj().toString());
+                        list.get(position).getDetails().get(0).getStateName().toString());
 
-                if (list.get(position).getSuo2_id() != null) {
+                if (list.get(position).getDetails().size()>1) {
                     ((MyViewHolder) holder).
-                            suo_cs_suo2.setText(list.get(position).getSuo2_id().toString());
+                            suo_cs_suo2.setText(list.get(position).getDetails().get(1).getLockNo().toString());
                     ((MyViewHolder) holder).suo_cs_zt2.setText(
-                            list.get(position).getSuo2_ztbj().toString());
+                            list.get(position).getDetails().get(1).getStateName().toString());
                 }
             }
         }

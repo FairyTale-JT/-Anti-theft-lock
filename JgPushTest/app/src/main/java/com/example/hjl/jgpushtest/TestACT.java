@@ -5,18 +5,27 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
+import com.example.hjl.jgpushtest.http.ApiService;
+import com.example.hjl.jgpushtest.http.HttpUtils;
+import com.example.hjl.jgpushtest.http.Url;
+import com.example.hjl.jgpushtest.myview.CustomDialog;
 import com.example.hjl.jgpushtest.suoactivity.SuoMainActivity;
 import com.gyf.barlibrary.ImmersionBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by hjl on 2017/6/8.
@@ -52,14 +61,51 @@ public class TestACT extends BaseActivity {
             public void onClick(View view) {
                 user_in = useName.getText().toString();
                 password_in = password.getText().toString();
-//                 ToastUtils.showToast(TestACT.this,user_in+"\n"+password_in);
-//                Toasty.success(TestACT.this, user_in + "\n" + password_in, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(TestACT.this, SuoMainActivity.class);
-                startActivity(intent);
-                finish();
+                final CustomDialog customDialog=new CustomDialog(TestACT.this,R.style.loadstyle);
+                HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,TestACT.this)
+                        .create(ApiService.class)
+                        .login(user_in,password_in)
+                        .subscribeOn(Schedulers.io())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                customDialog.show();
+                            }
+                        })
+                        .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<String>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.e("TAG","登录连接");
+                                if (customDialog != null) {
+                                    customDialog.dismiss();
+                                }
+                            }
 
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("TAG","登录错误");
+                                if (customDialog != null) {
+                                    customDialog.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onNext(String s) {
+                                 dowhat(s);//获取token进行的操作
+                                Log.e("TAG","登录成功:"+s);
+                                Intent intent = new Intent(TestACT.this, SuoMainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
             }
         });
+    }
+
+    private void dowhat(String s) {
+
     }
 
     private void initdate() {
@@ -101,7 +147,7 @@ public class TestACT extends BaseActivity {
                 String s1, s2;
                 s1 = useName.getText().toString().trim();
                 s2 = password.getText().toString().trim();
-                if (s1 != null && s2 != null && s1.length() > 8 && s2.length() > 8) {
+                if (s1 != null && s2 != null && s1.length() > 3 && s2.length() > 3) {
                     //设置按钮可点击
                     denglu.setEnabled(true);
                     //设置按钮为正常状态
@@ -152,7 +198,7 @@ public class TestACT extends BaseActivity {
                 String s1, s2;
                 s1 = useName.getText().toString().trim();
                 s2 = password.getText().toString().trim();
-                if (s1 != null && s2 != null && s1.length() > 8 && s2.length() > 8) {
+                if (s1 != null && s2 != null && s1.length() > 3 && s2.length() > 3) {
                     //设置按钮可点击
                     denglu.setEnabled(true);
                     //设置按钮为正常状态
