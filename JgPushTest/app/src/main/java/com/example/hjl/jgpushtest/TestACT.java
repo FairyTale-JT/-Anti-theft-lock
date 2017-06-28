@@ -135,7 +135,8 @@ public class TestACT extends BaseActivity {
     }
 
     private void dowhat(String s) {
-
+     SharePreferencesHelper.getInstance(TestACT.this).putString("token",s);
+        SharePreferencesHelper.getInstance(TestACT.this).putString("user",user_in);
     }
 
     private void initdate() {

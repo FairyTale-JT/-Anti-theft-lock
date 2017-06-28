@@ -142,6 +142,7 @@ public class SuoCZGLorJs extends Fragment {
         DzXz();
         //类型和发站选择
         ZSpinner();
+        Log.e("TAGTOKEN+USER:",NowUser.getuser(getContext())+"----"+NowUser.getToken(getContext()));
         return view;
     }
 
@@ -152,7 +153,7 @@ public class SuoCZGLorJs extends Fragment {
         // DataSupport.deleteAll(FdSuo.class);
 
 
-        List<Jsjv> li = DataSupport.where("user = ?", NowUser.getuser()).find(Jsjv.class);
+        List<Jsjv> li = DataSupport.where("user = ?", NowUser.getuser(getContext())).find(Jsjv.class);
         if (li.size() > 0) {
             for (int i = 0; i < li.size(); i++) {
                 list.add(li.get(i));
@@ -190,7 +191,7 @@ public class SuoCZGLorJs extends Fragment {
         fa_list = new ArrayList<FaZhan>();
 
 
-        List<FaZhan> fazhanlist = DataSupport.where("user = ?", NowUser.getuser()).find(FaZhan.class);
+        List<FaZhan> fazhanlist = DataSupport.where("user = ?", NowUser.getuser(getContext())).find(FaZhan.class);
         if (fazhanlist != null && fazhanlist.size() > 0) {
 
             fa_list.addAll(fazhanlist);
@@ -365,7 +366,7 @@ public class SuoCZGLorJs extends Fragment {
         final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
         Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
                 .create(ApiService.class)
-                .getHoldingLock(NowUser.getuser(),NowUser.getToken())
+                .getHoldingLock(NowUser.getuser(getContext()),NowUser.getToken(getContext()))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -403,7 +404,7 @@ public class SuoCZGLorJs extends Fragment {
                                 jsjv.setSuo_haoma(s.get(i).getLockNo());
                                 jsjv.setSuo_ztBJ(s.get(i).getStateName());
                                 jsjv.setSuo_isuse(1);
-                                jsjv.setUser(NowUser.getuser());
+                                jsjv.setUser(NowUser.getuser(getContext()));
                                 li.add(jsjv);
                                 Log.e("TAGSSS", s.get(i).getDeviceNo() + "\n" + s.get(i).getLockNo() + "\n" + s.get(i).getStateName() + "\n");
                             }
@@ -414,13 +415,13 @@ public class SuoCZGLorJs extends Fragment {
                             for (int i = 0; i < li.size(); i++) {
                                 List<FdSuo> myL =
                                         DataSupport
-                                                .where("suo_sbBH = ? and user = ?", li.get(i).getSuo_sbBH(), NowUser.getuser())
+                                                .where("suo_sbBH = ? and user = ?", li.get(i).getSuo_sbBH(), NowUser.getuser(getContext()))
                                                 .find(FdSuo.class);
                                 Log.e("TAGMYL", "MYL__" + myL.toString());
                                 if (myL.size() > 0) {
                                     ContentValues values = new ContentValues();
                                     values.put("suo_ztBJ", li.get(i).getSuo_ztBJ());
-                                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", myL.get(0).getSuo_sbBH(), NowUser.getuser());
+                                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", myL.get(0).getSuo_sbBH(), NowUser.getuser(getContext()));
                                 } else {
                                     li.get(i).save();
                                     Log.e("TAGID", "li+++" + li.get(i).getId());
@@ -431,19 +432,19 @@ public class SuoCZGLorJs extends Fragment {
                         /**
                          * 操作Jsjv数据库
                          */
-                        List<Jsjv> myRWlist = DataSupport.where("isOk > ? and user = ?", "0", NowUser.getuser()).find(Jsjv.class);
+                        List<Jsjv> myRWlist = DataSupport.where("isOk > ? and user = ?", "0", NowUser.getuser(getContext())).find(Jsjv.class);
                         Log.e("TAGmyRWlist", "myRWlist__" + myRWlist.toString());
                         if (myRWlist.size() > 0) {
                             for (int i = 0; i < myRWlist.size(); i++) {
                                 String suo1_sbbh = myRWlist.get(i).getFdSuo1_sbbh();
                                 List<FdSuo> fdsuo1 = DataSupport
-                                        .where("suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser())
+                                        .where("suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser(getContext()))
                                         .find(FdSuo.class);
                                 if (fdsuo1.size() > 0) {
                                     Log.e("TAGsuo1_sbbh", "suo1_sbbh----" + suo1_sbbh + "++++++" + fdsuo1.toString());
                                     ContentValues values = new ContentValues();
                                     values.put("fdSuo1_ztbj", fdsuo1.get(0).getSuo_ztBJ());
-                                    DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo1_sbbh(), NowUser.getuser());
+                                    DataSupport.updateAll(Jsjv.class, values, "fdSuo1_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo1_sbbh(), NowUser.getuser(getContext()));
                                     Log.e("TAGsuo1_sbbh```", "SUO1++++改变");
                                 }
                                 if (myRWlist.get(i).getFdSuo2_sbbh() != null
@@ -451,20 +452,20 @@ public class SuoCZGLorJs extends Fragment {
                                     String suo2_sbbh = myRWlist.get(i).getFdSuo2_sbbh();
                                     Log.e("TAGSuo2```", suo2_sbbh);
                                     List<FdSuo> fdsuo2 = DataSupport
-                                            .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser())
+                                            .where("suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser(getContext()))
                                             .find(FdSuo.class);
                                     if (fdsuo2.size() > 0) {
                                         Log.e("TAGSuo2```", "SUO2++++" + fdsuo2.toString());
                                         ContentValues values = new ContentValues();
                                         values.put("fdSuo2_ztbj", fdsuo2.get(0).getSuo_ztBJ());
-                                        DataSupport.updateAll(Jsjv.class, values, "fdSuo2_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo2_sbbh(), NowUser.getuser());
+                                        DataSupport.updateAll(Jsjv.class, values, "fdSuo2_sbbh = ? and user = ?", myRWlist.get(i).getFdSuo2_sbbh(), NowUser.getuser(getContext()));
                                         Log.e("TAGSuo2```", "SUO2++++改变");
                                     }
                                 }
                             }
                         }
                         list.clear();
-                        list=DataSupport.where("user = ?",NowUser.getuser()).find(Jsjv.class);
+                        list=DataSupport.where("user = ?",NowUser.getuser(getContext())).find(Jsjv.class);
                         js_rv.setAdapter(jiaSuoAdapter);
                         jiaSuoAdapter.setDateJiaSuoAdapter(list);
                     }
@@ -517,7 +518,7 @@ public class SuoCZGLorJs extends Fragment {
                     jsjv.setCxh(cx_NO.getText().toString());
                     jsjv.setFz(getFZ_bendi());
                     jsjv.setFzdbm(fz_DBM);
-                    jsjv.setUser(NowUser.getuser());
+                    jsjv.setUser(NowUser.getuser(getContext()));
                     jsjv.setIsOk(1);
 
 
@@ -525,12 +526,12 @@ public class SuoCZGLorJs extends Fragment {
                     if (suo1_id != null) {
                         ContentValues values = new ContentValues();
                         values.put("suo_isuse", -1);
-                        DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser());
+                        DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser(getContext()));
                     }
                     if (suo2_id != null && !suo2_id.equals("")) {
                         ContentValues values = new ContentValues();
                         values.put("suo_isuse", -1);
-                        DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser());
+                        DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser(getContext()));
                     }
                     //添加数据，重新绑定Adater刷新界面
                     list.add(jsjv);
@@ -633,7 +634,7 @@ public class SuoCZGLorJs extends Fragment {
         Log.e("TAGLIST", list.get(position).toString());
         Subscription s=    HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, getContext())
                 .create(ApiService.class)
-                .submitSealT(NowUser.getUID(), NowUser.getToken(), list.get(position).getCxh(), list.get(position).getFzdbm(), list.get(position).getDzdbm(), list.get(position).getFdSuo1_sbbh(), a, list.get(position).getFdSuo2_sbbh(), 1)
+                .submitSealT(NowUser.getuser(getContext()), NowUser.getToken(getContext()), list.get(position).getCxh(), list.get(position).getFzdbm(), list.get(position).getDzdbm(), list.get(position).getFdSuo1_sbbh(), a, list.get(position).getFdSuo2_sbbh(), 1)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -686,7 +687,7 @@ public class SuoCZGLorJs extends Fragment {
         Log.e("TAGLIST", list.get(position).toString());
      Subscription s=   HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, getContext())
                 .create(ApiService.class)
-                .submitSealF(NowUser.getUID(), NowUser.getToken(), list.get(position).getCxh(), list.get(position).getFzdbm(), list.get(position).getDzdbm(), list.get(position).getFdSuo1_sbbh(), a)
+                .submitSealF(NowUser.getuser(getContext()), NowUser.getToken(getContext()), list.get(position).getCxh(), list.get(position).getFzdbm(), list.get(position).getDzdbm(), list.get(position).getFdSuo1_sbbh(), a)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -753,13 +754,13 @@ public class SuoCZGLorJs extends Fragment {
                         !list.get(position).getFdSuo1_sbbh().equals("")) {
                     ContentValues values = new ContentValues();
                     values.put("suo_isuse", 1);
-                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", list.get(position).getFdSuo1_sbbh(), NowUser.getuser());
+                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", list.get(position).getFdSuo1_sbbh(), NowUser.getuser(getContext()));
                 }
                 if (list.get(position).getFdSuo2_sbbh() != null &&
                         !list.get(position).getFdSuo2_sbbh().equals("")) {
                     ContentValues values = new ContentValues();
                     values.put("suo_isuse", 1);
-                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", list.get(position).getFdSuo2_sbbh(), NowUser.getuser());
+                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", list.get(position).getFdSuo2_sbbh(), NowUser.getuser(getContext()));
                 }
 
                 int a = list.get(position).getId();
@@ -977,7 +978,7 @@ public class SuoCZGLorJs extends Fragment {
 //在这里来写你需要刷新的地方
                         //例如：testView.setText("恭喜你成功了");
                         list.clear();
-                        list = DataSupport.where("user = ?", NowUser.getuser()).find(Jsjv.class);
+                        list = DataSupport.where("user = ?", NowUser.getuser(getContext())).find(Jsjv.class);
                         js_rv.setAdapter(jiaSuoAdapter);
                         jiaSuoAdapter.setDateJiaSuoAdapter(list);
                     }
