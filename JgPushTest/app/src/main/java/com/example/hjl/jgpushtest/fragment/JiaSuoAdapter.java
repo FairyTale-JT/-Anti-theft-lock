@@ -17,8 +17,8 @@ import java.util.List;
  * 加锁记录
  */
 public class JiaSuoAdapter extends RecyclerView.Adapter {
-    public OnRecyclerViewItemClickListener mOnItemClickListener = null;//点击
-    public OnRecyclerViewLongItemClickListener mOnLongItemClickListener = null;//长按
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;//点击
+    private OnRecyclerViewLongItemClickListener mOnLongItemClickListener = null;//长按
     private List<Jsjv> list;
 
     public void setDateJiaSuoAdapter(List<Jsjv> list) {

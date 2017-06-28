@@ -1,15 +1,19 @@
 package com.example.hjl.jgpushtest;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.example.hjl.jgpushtest.astuetz.BaseActivity;
 import com.example.hjl.jgpushtest.http.ApiService;
@@ -17,10 +21,13 @@ import com.example.hjl.jgpushtest.http.HttpUtils;
 import com.example.hjl.jgpushtest.http.Url;
 import com.example.hjl.jgpushtest.myview.CustomDialog;
 import com.example.hjl.jgpushtest.suoactivity.SuoMainActivity;
+import com.example.hjl.jgpushtest.util.SharePreferencesHelper;
+import com.example.hjl.jgpushtest.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import es.dmoral.toasty.Toasty;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,7 +35,7 @@ import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by hjl on 2017/6/8.
+ * 登录界面
  */
 
 public class TestACT extends BaseActivity {
@@ -40,7 +47,11 @@ public class TestACT extends BaseActivity {
     Button denglu;
     boolean isDJ = false;
     String user_in, password_in;
-    private Boolean isEmpty = true;
+    @Bind(R.id.linearLayout4)
+    LinearLayout linearLayout4;
+    @Bind(R.id.jzmm)
+    CheckBox jzmm;
+    private boolean isEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +59,30 @@ public class TestACT extends BaseActivity {
         setContentView(R.layout.login_suo);
         ButterKnife.bind(this);
         ImmersionBar.with(this).transparentBar().init();
-        initview();
         initdate();
+        initview();
 
     }
 
     private void initview() {
-        denglu.setEnabled(isDJ);//设置登录按钮不可点击
+        if (SharePreferencesHelper.getInstance(TestACT.this).getBoolean("ISCHECK", false)) {
+            jzmm.setChecked(true);
+            useName.setText(SharePreferencesHelper.getInstance(TestACT.this).getString("useName", user_in));
+            password.setText(SharePreferencesHelper.getInstance(TestACT.this).getString("password", ""));
+        } else {
+            denglu.setEnabled(isDJ);//设置登录按钮不可点击
+        }
+
         //设置登录按钮的监听事件
         denglu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 user_in = useName.getText().toString();
                 password_in = password.getText().toString();
-                final CustomDialog customDialog=new CustomDialog(TestACT.this,R.style.loadstyle);
-                HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,TestACT.this)
+                final CustomDialog customDialog = new CustomDialog(TestACT.this, R.style.loadstyle);
+                HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, TestACT.this)
                         .create(ApiService.class)
-                        .login(user_in,password_in)
+                        .login(user_in, password_in)
                         .subscribeOn(Schedulers.io())
                         .doOnSubscribe(new Action0() {
                             @Override
@@ -77,7 +95,7 @@ public class TestACT extends BaseActivity {
                         .subscribe(new Subscriber<String>() {
                             @Override
                             public void onCompleted() {
-                                Log.e("TAG","登录连接");
+                                Log.e("TAG", "登录连接");
                                 if (customDialog != null) {
                                     customDialog.dismiss();
                                 }
@@ -85,7 +103,7 @@ public class TestACT extends BaseActivity {
 
                             @Override
                             public void onError(Throwable e) {
-                                Log.e("TAG","登录错误");
+                                Log.e("TAG", "登录错误");
                                 if (customDialog != null) {
                                     customDialog.dismiss();
                                 }
@@ -93,8 +111,9 @@ public class TestACT extends BaseActivity {
 
                             @Override
                             public void onNext(String s) {
-                                 dowhat(s);//获取token进行的操作
-                                Log.e("TAG","登录成功:"+s);
+                                dowhat(s);//获取token进行的操作
+                                Log.e("TAG", "登录成功:" + s);
+                                CheckBoxchat();
                                 Intent intent = new Intent(TestACT.this, SuoMainActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -104,14 +123,29 @@ public class TestACT extends BaseActivity {
         });
     }
 
+    /**
+     * 判断
+     */
+    private void CheckBoxchat() {
+
+        if (jzmm.isChecked()) {
+            SharePreferencesHelper.getInstance(TestACT.this).putString("useName", user_in);
+            SharePreferencesHelper.getInstance(TestACT.this).putString("password", password_in);
+            SharePreferencesHelper.getInstance(TestACT.this).putBoolean("ISCHECK", true);
+
+        } else {
+            SharePreferencesHelper.getInstance(TestACT.this).putString("useName", "");
+            SharePreferencesHelper.getInstance(TestACT.this).putString("password", "");
+            SharePreferencesHelper.getInstance(TestACT.this).putBoolean("ISCHECK", false);
+        }
+    }
+
     private void dowhat(String s) {
 
     }
 
     private void initdate() {
 
-
-///////////////////////////////////
         TextWatcher textWatch = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s,

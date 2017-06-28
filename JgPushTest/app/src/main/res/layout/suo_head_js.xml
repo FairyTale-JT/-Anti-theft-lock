@@ -96,15 +96,14 @@
                             android:imeOptions="flagNoExtractUi" />
 
                         <Button
-
-                            android:theme="@style/ButtonTheme"
                             android:id="@+id/suo_daoz_bt"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1.5"
                             android:text="选择站"
-                            android:textSize="8sp" />
+                            android:textSize="8sp"
+                            android:theme="@style/ButtonTheme" />
 
                     </LinearLayout>
 
@@ -186,28 +185,28 @@
                     android:orientation="horizontal">
 
                     <Button
-                        style="@style/Widget.AppCompat.Button"
-                        android:theme="@style/ButtonTheme"
                         android:id="@+id/suo_js_tijiao"
+                        style="@style/Widget.AppCompat.Button"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="50dp"
                         android:text="提交"
+                        android:textSize="16sp"
 
-                        android:textSize="16sp" />
+                        android:theme="@style/ButtonTheme" />
 
                     <Button
                         android:id="@+id/suo_js_xzsuo"
+                        style="@style/Widget.AppCompat.Button"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="50dp"
-                        style="@style/Widget.AppCompat.Button"
-                        android:theme="@style/ButtonTheme"
                         android:text="选择锁"
+                        android:textSize="16sp"
 
-                        android:textSize="16sp" />
+                        android:theme="@style/ButtonTheme" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -215,7 +214,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-
             android:layout_marginTop="11dp"
             android:background="@color/bg_gray"
             android:orientation="horizontal">

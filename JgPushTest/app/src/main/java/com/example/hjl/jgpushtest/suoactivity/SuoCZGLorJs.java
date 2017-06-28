@@ -65,7 +65,7 @@ import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by hjl on 2017/6/12.
+ * 加锁
  */
 
 public class SuoCZGLorJs extends Fragment {
@@ -80,7 +80,7 @@ public class SuoCZGLorJs extends Fragment {
     private Button daoz_bt;
     FdSuo fdSuo1 = null;
     FdSuo fdSuo2 = null;
-    private String dz_DBM="",fz_DBM="";
+    private String dz_DBM = "", fz_DBM = "";
 
     private String suo1_sbbh = null, suo1_id = null, suo1_ztbj = null, suo2_id = null, suo2_sbbh = null, suo2_ztbj = null;
     private List<BinCZB> czbList;
@@ -129,7 +129,7 @@ public class SuoCZGLorJs extends Fragment {
         Bundle bundle = getArguments();
         String agrs1 = bundle.getString("agrs1");
         list = new ArrayList<>();
-        czbList=new ArrayList<>();
+        czbList = new ArrayList<>();
         initView();
         initdata();
         JsListview();
@@ -151,7 +151,8 @@ public class SuoCZGLorJs extends Fragment {
     private void initdata() {
         // DataSupport.deleteAll(FdSuo.class);
 
-        List<Jsjv> li = DataSupport.where("user = ?",NowUser.getuser()).find(Jsjv.class);
+
+        List<Jsjv> li = DataSupport.where("user = ?", NowUser.getuser()).find(Jsjv.class);
         if (li.size() > 0) {
             for (int i = 0; i < li.size(); i++) {
                 list.add(li.get(i));
@@ -187,12 +188,14 @@ public class SuoCZGLorJs extends Fragment {
         //选择发站
         js_fz = (Spinner) view.findViewById(R.id.suo_js_dz);
         fa_list = new ArrayList<FaZhan>();
-       List<FaZhan> fazhanlist=DataSupport.where("user = ?",NowUser.getuser()).find(FaZhan.class);
-        if (fazhanlist!=null&&fazhanlist.size()>0) {
-            fa_list.clear();
+
+
+        List<FaZhan> fazhanlist = DataSupport.where("user = ?", NowUser.getuser()).find(FaZhan.class);
+        if (fazhanlist != null && fazhanlist.size() > 0) {
+
             fa_list.addAll(fazhanlist);
-        }else {
-            fa_list.add(new FaZhan("城厢","CFW"));
+        } else {
+            fa_list.add(new FaZhan("城厢", "CFW"));
         }
         spinnerAdapter = new SpinnerAdapter(getContext(), fa_list);
         js_fz.setAdapter(spinnerAdapter);
@@ -316,7 +319,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 fz = fa_list.get(i).getFz();
-                fz_DBM=fa_list.get(i).getFzDBM();
+                fz_DBM = fa_list.get(i).getFzDBM();
             }
 
             @Override
@@ -521,20 +524,20 @@ public class SuoCZGLorJs extends Fragment {
                     //动态修改Fdsuo本地数据库
                     if (suo1_id != null) {
                         ContentValues values = new ContentValues();
-                        values.put("suo_isuse",-1);
-                        DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo1_sbbh,NowUser.getuser());
+                        values.put("suo_isuse", -1);
+                        DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo1_sbbh, NowUser.getuser());
                     }
-                    if (suo2_id != null&&!suo2_id.equals("")) {
+                    if (suo2_id != null && !suo2_id.equals("")) {
                         ContentValues values = new ContentValues();
-                        values.put("suo_isuse",-1);
-                        DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo2_sbbh,NowUser.getuser());
+                        values.put("suo_isuse", -1);
+                        DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser());
                     }
                     //添加数据，重新绑定Adater刷新界面
                     list.add(jsjv);
                     jsjv.save();
                     js_rv.setAdapter(jiaSuoAdapter);
                     jiaSuoAdapter.setDateJiaSuoAdapter(list);
-                    Log.e("TAGJS",jsjv.toString());
+                    Log.e("TAGJS", jsjv.toString());
                     cx_NO.setText("");
                     dz_Ming.setText("");
                     suo1.setText("");
@@ -565,7 +568,7 @@ public class SuoCZGLorJs extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 String s = list.get(position).getCxh();
-                UDialog(s,position);
+                UDialog(s, position);
             }
         });
         jiaSuoAdapter.setOnLongItemClickListener(new OnRecyclerViewLongItemClickListener() {
@@ -593,23 +596,24 @@ public class SuoCZGLorJs extends Fragment {
                 /**
                  * do what
                  */
-                if (list.get(position).getFdSuo2_id() != null&&
-                        !list.get(position).getFdSuo2_id().equals("") ){
-                    if (list.get(position).getFdSuo1_ztbj().equals("加锁")&&
-                            list.get(position).getFdSuo2_ztbj().equals("加锁")) {
 
+                if (list.get(position).getFdSuo2_id() != null &&
+                        !list.get(position).getFdSuo2_id().equals("")) {
+                    if (list.get(position).getFdSuo1_ztbj().equals("加锁") &&
+                            list.get(position).getFdSuo2_ztbj().equals("加锁")) {
                         doJiaSsuo2(position,1);
                     }else {
                         ToastUtils.showmyToasty_info(getContext(),"有锁未确认成功");
                     }
 
-                }else {
+                } else {
                     if (list.get(position).getFdSuo1_ztbj().equals("加锁")) {
                         doJiaSsuo(position,1);
                     }else {
                         ToastUtils.showmyToasty_info(getContext(),"有锁未确认成功");
                     }
                 }
+
 
             }
         });
@@ -622,12 +626,14 @@ public class SuoCZGLorJs extends Fragment {
         builder.create().show();
 
     }
-    private void doJiaSsuo2(final int position,final  int a) {
-        final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
-        Log.e("TAGLIST",list.get(position).toString());
-        Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
+
+
+    private void doJiaSsuo2(final int position, final int a) {
+        final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
+        Log.e("TAGLIST", list.get(position).toString());
+        Subscription s=    HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, getContext())
                 .create(ApiService.class)
-                .submitSealT(NowUser.getUID(),NowUser.getToken(),list.get(position).getCxh(),list.get(position).getFzdbm(),list.get(position).getDzdbm(),list.get(position).getFdSuo1_sbbh(),a,list.get(position).getFdSuo2_sbbh(),1)
+                .submitSealT(NowUser.getUID(), NowUser.getToken(), list.get(position).getCxh(), list.get(position).getFzdbm(), list.get(position).getDzdbm(), list.get(position).getFdSuo1_sbbh(), a, list.get(position).getFdSuo2_sbbh(), 1)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -640,7 +646,7 @@ public class SuoCZGLorJs extends Fragment {
                 .subscribe(new Subscriber<Integer>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("TAG","2加锁连接");
+                        Log.e("TAG", "2加锁连接");
                         if (customDialog != null) {
                             customDialog.dismiss();
                         }
@@ -648,7 +654,7 @@ public class SuoCZGLorJs extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("TAG","2加锁错误");
+                        Log.e("TAG", "2加锁错误");
                         if (customDialog != null) {
                             customDialog.dismiss();
                         }
@@ -659,14 +665,14 @@ public class SuoCZGLorJs extends Fragment {
 
                         int a = list.get(position).getId();
                         DataSupport.delete(Jsjv.class, a);
-                        DataSupport.deleteAll(FdSuo.class,"suo_sbBH = ?",
-                                list.get(position).getFdSuo1_sbbh().toString() );
-                        DataSupport.deleteAll(FdSuo.class,"suo_sbBH = ?",
-                                list.get(position).getFdSuo2_sbbh().toString() );
+                        DataSupport.deleteAll(FdSuo.class, "suo_sbBH = ?",
+                                list.get(position).getFdSuo1_sbbh().toString());
+                        DataSupport.deleteAll(FdSuo.class, "suo_sbBH = ?",
+                                list.get(position).getFdSuo2_sbbh().toString());
                         list.remove(position);
                         js_rv.setAdapter(jiaSuoAdapter);
                         jiaSuoAdapter.setDateJiaSuoAdapter(list);
-                        Log.e("TAG","2加锁成功:"+s.toString());
+                        Log.e("TAG", "2加锁成功:" + s.toString());
 
                     }
                 });
@@ -674,49 +680,51 @@ public class SuoCZGLorJs extends Fragment {
             subscriptions.add(s);
         }
     }
-private void doJiaSsuo(final int position,final int a){
-    final CustomDialog customDialog=new CustomDialog(getContext(),R.style.loadstyle);
-     Log.e("TAGLIST",list.get(position).toString());
-    Subscription s= HttpUtils.getMy_Retrofit(Url.FDS_URL_MY,getContext())
-            .create(ApiService.class)
-            .submitSealF(NowUser.getUID(),NowUser.getToken(),list.get(position).getCxh(),list.get(position).getFzdbm(),list.get(position).getDzdbm(),list.get(position).getFdSuo1_sbbh(),a)
-            .subscribeOn(Schedulers.io())
-            .doOnSubscribe(new Action0() {
-                @Override
-                public void call() {
-                    customDialog.show();
-                }
-            })
-            .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Subscriber<Integer>() {
-                @Override
-                public void onCompleted() {
-                    Log.e("TAG","1加锁连接");
-                    if (customDialog != null) {
-                        customDialog.dismiss();
+
+    private void doJiaSsuo(final int position, final int a) {
+        final CustomDialog customDialog = new CustomDialog(getContext(), R.style.loadstyle);
+        Log.e("TAGLIST", list.get(position).toString());
+     Subscription s=   HttpUtils.getMy_Retrofit(Url.FDS_URL_MY, getContext())
+                .create(ApiService.class)
+                .submitSealF(NowUser.getUID(), NowUser.getToken(), list.get(position).getCxh(), list.get(position).getFzdbm(), list.get(position).getDzdbm(), list.get(position).getFdSuo1_sbbh(), a)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        customDialog.show();
                     }
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.e("TAG","1加锁错误");
-                    if (customDialog != null) {
-                        customDialog.dismiss();
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())//显示Dialog在主线程中
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("TAG", "1加锁连接");
+                        if (customDialog != null) {
+                            customDialog.dismiss();
+                        }
                     }
-                }
 
-                @Override
-                public void onNext(Integer s) {
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG", "1加锁错误");
+                        if (customDialog != null) {
+                            customDialog.dismiss();
+                        }
+                    }
 
-                    int a = list.get(position).getId();
-                    DataSupport.delete(Jsjv.class, a);
-                    DataSupport.deleteAll(FdSuo.class,"suo_sbBH = ?",
-                            list.get(position).getFdSuo1_sbbh());
-                    list.remove(position);
-                    js_rv.setAdapter(jiaSuoAdapter);
-                    jiaSuoAdapter.setDateJiaSuoAdapter(list);
-                    Log.e("TAG","1加锁成功:"+s.toString());
+                    @Override
+                    public void onNext(Integer s) {
+
+                        int a = list.get(position).getId();
+                        DataSupport.delete(Jsjv.class, a);
+                        DataSupport.deleteAll(FdSuo.class, "suo_sbBH = ?",
+                                list.get(position).getFdSuo1_sbbh());
+                        list.remove(position);
+                        js_rv.setAdapter(jiaSuoAdapter);
+                        jiaSuoAdapter.setDateJiaSuoAdapter(list);
+                        Log.e("TAG", "1加锁成功:" + s.toString());
+
 
                 }
             });
@@ -724,6 +732,8 @@ private void doJiaSsuo(final int position,final int a){
         subscriptions.add(s);
     }
 }
+
+
 
     /**
      * 删除对话框
@@ -739,17 +749,17 @@ private void doJiaSsuo(final int position,final int a){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //动态修改Fdsuo本地数据库
-                if (list.get(position).getFdSuo1_sbbh() != null&&
-                        !list.get(position).getFdSuo1_sbbh().equals("") ) {
+                if (list.get(position).getFdSuo1_sbbh() != null &&
+                        !list.get(position).getFdSuo1_sbbh().equals("")) {
                     ContentValues values = new ContentValues();
-                    values.put("suo_isuse",1);
-                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", list.get(position).getFdSuo1_sbbh(),NowUser.getuser());
+                    values.put("suo_isuse", 1);
+                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", list.get(position).getFdSuo1_sbbh(), NowUser.getuser());
                 }
-                if (list.get(position).getFdSuo2_sbbh() != null&&
+                if (list.get(position).getFdSuo2_sbbh() != null &&
                         !list.get(position).getFdSuo2_sbbh().equals("")) {
                     ContentValues values = new ContentValues();
-                    values.put("suo_isuse",1);
-                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", list.get(position).getFdSuo2_sbbh(),NowUser.getuser());
+                    values.put("suo_isuse", 1);
+                    DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", list.get(position).getFdSuo2_sbbh(), NowUser.getuser());
                 }
 
                 int a = list.get(position).getId();
@@ -853,11 +863,11 @@ private void doJiaSsuo(final int position,final int a){
                 String msg = "生成的验证码：" + realCode + "输入的验证码:" + phoneCode;
 
                 if (phoneCode.equals(realCode)) {
-                    if (list.get(position).getFdSuo1_sbbh()!=null&&
+                    if (list.get(position).getFdSuo1_sbbh() != null &&
                             !list.get(position).getFdSuo2_sbbh().equals("")) {
-                        doJiaSsuo2(position,5);
-                    }else {
-                        doJiaSsuo(position,5);
+                        doJiaSsuo2(position, 5);
+                    } else {
+                        doJiaSsuo(position, 5);
                     }
                     ToastUtils.showmyToasty_success(getContext(), phoneCode + "--position--" + position + "验证码正确");
                     dialog.dismiss();
@@ -938,11 +948,13 @@ private void doJiaSsuo(final int position,final int a){
             }
         }
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         broadcastManager = LocalBroadcastManager.getInstance(getActivity());
     }
+
     /**
      * 注册广播接收器
      */
@@ -952,6 +964,7 @@ private void doJiaSsuo(final int position,final int a){
         intentFilter.addAction("jerry");
         broadcastManager.registerReceiver(mAdDownLoadReceiver, intentFilter);
     }
+
     //
     private BroadcastReceiver mAdDownLoadReceiver = new BroadcastReceiver() {
         @Override
@@ -964,7 +977,7 @@ private void doJiaSsuo(final int position,final int a){
 //在这里来写你需要刷新的地方
                         //例如：testView.setText("恭喜你成功了");
                         list.clear();
-                        list=DataSupport.where("user = ?",NowUser.getuser()).find(Jsjv.class);
+                        list = DataSupport.where("user = ?", NowUser.getuser()).find(Jsjv.class);
                         js_rv.setAdapter(jiaSuoAdapter);
                         jiaSuoAdapter.setDateJiaSuoAdapter(list);
                     }
@@ -972,12 +985,13 @@ private void doJiaSsuo(final int position,final int a){
             }
         }
     };
+
     /**
      * 注销广播
      */
     @Override
     public void onDetach() {
         super.onDetach();
-           broadcastManager.unregisterReceiver(mAdDownLoadReceiver);
+        broadcastManager.unregisterReceiver(mAdDownLoadReceiver);
     }
 }

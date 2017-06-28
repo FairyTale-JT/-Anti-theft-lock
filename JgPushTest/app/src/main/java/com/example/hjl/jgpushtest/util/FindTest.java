@@ -48,7 +48,8 @@ public class FindTest {
 //                    Log.e("TAGbook","iTEM0::"+(zh(element.getElementsByTagName("PYM").item(0))).toString()+""+str+i);
                     binCZB.setCZID(zh(element.getElementsByTagName("CZID")
                             .item(0)));//
-                    Log.e("TAGID","iTEM0::"+(zh(element.getElementsByTagName("CZID").item(0))).toString()+""+str+i);
+
+                    Log.e("TAGID", "iTEM0::" + (zh(element.getElementsByTagName("CZID").item(0))).toString() + "" + str + i);
                     binCZB.setZM(zh(element.getElementsByTagName("ZM")
                             .item(0)));//
 //                    Log.e("TAGID","iTEM0::"+(zh(element.getElementsByTagName("ZM").item(0))).toString()+""+str+i);
@@ -67,7 +68,6 @@ public class FindTest {
         } else {
             return book.getFirstChild().getNodeValue();
         }
-
     }
 
 }

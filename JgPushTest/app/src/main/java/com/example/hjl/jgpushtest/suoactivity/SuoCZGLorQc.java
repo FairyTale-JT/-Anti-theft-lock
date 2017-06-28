@@ -1,16 +1,21 @@
 package com.example.hjl.jgpushtest.suoactivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.hjl.jgpushtest.R;
+import com.example.hjl.jgpushtest.bendiapi.CallbackActivity;
 import com.example.hjl.jgpushtest.enity.CsLb;
 import com.example.hjl.jgpushtest.fragment.QCAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +23,7 @@ import java.util.List;
  * 强拆
  */
 
-public class SuoCZGLorQc extends Fragment {
+public class SuoCZGLorQc extends Fragment implements CallbackActivity {
     private View view;
     private RecyclerView qc_csuo;
     private List<CsLb> Cslist;
@@ -75,7 +80,51 @@ public class SuoCZGLorQc extends Fragment {
             Cslist.add(csLb);
         }
         qc_csuo.setLayoutManager(new LinearLayoutManager(getContext()));
-        qcAdapter = new QCAdapter(Cslist, getContext());
+        qcAdapter = new QCAdapter(Cslist, this);
         qc_csuo.setAdapter(qcAdapter);
+    }
+
+    /**
+     * 锁1和锁2点击
+     *
+     * @param v
+     */
+    @Override
+    public void click(View v) {
+        switch (v.getId()) {
+            case R.id.suo_qc_suo1:
+                QCialog(Cslist.get((Integer) v.getTag()).getSuo1_id());
+                break;
+            case R.id.suo_qc_suo2:
+                QCialog(Cslist.get((Integer) v.getTag()).getSuo2_id());
+                break;
+        }
+    }
+
+    /**
+     * 强拆拆锁对话框
+     *
+     * @param cxh
+     */
+    private void QCialog(String cxh) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("车号/箱号为" + cxh + "强制拆锁?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("加锁确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                /**
+                 * do what
+                 */
+
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                builder.show().dismiss();
+            }
+        });
+        builder.create().show();
     }
 }
