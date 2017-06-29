@@ -1,8 +1,13 @@
 package com.example.hjl.jgpushtest.suoactivity;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -68,6 +73,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.js_tj);
         ButterKnife.bind(this);
+        broadcastManager = LocalBroadcastManager.getInstance(this);
         jstjLv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         jsTjAdapter = new JsTjAdapter();
         list = new ArrayList<>();
@@ -76,6 +82,7 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
         tiaoZhuan_fanhui();//确定按钮监听
         initview();
         swipCheak();
+        registerReceiver();
         Log.e("TAGTOKEN+USER:", NowUser.getuser(this) + "----" + NowUser.getToken(this));
     }
 
@@ -401,5 +408,42 @@ public class SuoCZGLorJs_Tjs extends BaseActivity {
                 subscriptions.get(i).unsubscribe();//取消订阅
             }
         }
+        broadcastManager.unregisterReceiver(mAdDownLoadReceiver);
     }
+    /**
+     * 注册广播接收器
+     */
+    private void registerReceiver() {
+
+        IntentFilter intentFilter2 = new IntentFilter();
+        intentFilter2.addAction("tuisong");
+        broadcastManager.registerReceiver(mAdDownLoadReceiver, intentFilter2);
+    }
+    private LocalBroadcastManager broadcastManager;
+
+    //
+    private BroadcastReceiver mAdDownLoadReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String change = intent.getStringExtra("change");
+            if ("yes".equals(change)) {
+// 这地方只能在主线程中刷新UI,子线程中无效，因此用Handler来实现
+                new Handler().post(new Runnable() {
+                    public void run() {
+//在这里来写你需要刷新的地方
+                        //例如：testView.setText("恭喜你成功了");
+                        list.clear();
+                        List<FdSuo> li = new ArrayList<>();
+                        li = DataSupport.where("user = ?", NowUser.getuser(SuoCZGLorJs_Tjs.this)).find(FdSuo.class);
+                        if (li.size() > 0) {
+                            list.addAll(li);
+                        }
+                        jstjLv.setAdapter(jsTjAdapter);
+                        jsTjAdapter.setsetDateJsTjAdapter(list);
+                    }
+                });
+            }
+        }
+    };
+
 }

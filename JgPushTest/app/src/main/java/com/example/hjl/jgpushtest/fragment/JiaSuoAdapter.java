@@ -1,5 +1,6 @@
 package com.example.hjl.jgpushtest.fragment;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,14 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
                 ((MyViewHolder) holder).js_tv3.setText(list.get(position).getDz());
                 ((MyViewHolder) holder).
                         js_tv4.setText(list.get(position).getFdSuo1_id().toString());
+                if (list.get(position).getFdSuo1_ztbj().toString().equals("加锁")) {
+                    ((MyViewHolder) holder).
+                            js_tv6.setTextColor(Color.RED);
+                }else {
+                    ((MyViewHolder) holder).
+                            js_tv6.setTextColor(Color.BLUE);
+                }
+
                 ((MyViewHolder) holder).js_tv6.setText(
                         list.get(position).getFdSuo1_ztbj().toString());
 
@@ -76,6 +85,13 @@ public class JiaSuoAdapter extends RecyclerView.Adapter {
                             js_tv5.setText(list.get(position).getFdSuo2_id().toString());
                     ((MyViewHolder) holder).js_tv7.setText(
                             list.get(position).getFdSuo2_ztbj().toString());
+                    if (list.get(position).getFdSuo2_ztbj().toString().equals("加锁")) {
+                        ((MyViewHolder) holder).
+                                js_tv7.setTextColor(Color.RED);
+                    }else {
+                        ((MyViewHolder) holder).
+                                js_tv7.setTextColor(Color.BLUE);
+                    }
                 }
             }
         }

@@ -534,21 +534,48 @@ public class SuoCZGLorJs extends Fragment {
                         DataSupport.updateAll(FdSuo.class, values, "suo_sbBH = ? and user = ?", suo2_sbbh, NowUser.getuser(getContext()));
                     }
                     //添加数据，重新绑定Adater刷新界面
-                    list.add(jsjv);
-                    jsjv.save();
-                    js_rv.setAdapter(jiaSuoAdapter);
-                    jiaSuoAdapter.setDateJiaSuoAdapter(list);
-                    Log.e("TAGJS", jsjv.toString());
-                    cx_NO.setText("");
-                    dz_Ming.setText("");
-                    suo1.setText("");
-                    suo2.setText("");
-                    suo1_sbbh = null;
-                    suo1_id = null;
-                    suo1_ztbj = null;
-                    suo2_id = null;
-                    suo2_sbbh = null;
-                    suo2_ztbj = null;
+                    if (jslx.equals("整车")) {
+                        if (cx_NO.getText().toString().length() == 7) {
+                            list.add(jsjv);
+                            jsjv.save();
+                            js_rv.setAdapter(jiaSuoAdapter);
+                            jiaSuoAdapter.setDateJiaSuoAdapter(list);
+                            Log.e("TAGJS", jsjv.toString());
+                            cx_NO.setText("");
+                            dz_Ming.setText("");
+                            suo1.setText("");
+                            suo2.setText("");
+                            suo1_sbbh = null;
+                            suo1_id = null;
+                            suo1_ztbj = null;
+                            suo2_id = null;
+                            suo2_sbbh = null;
+                            suo2_ztbj = null;
+                        }else {
+                            ToastUtils.showmyToasty_War(getContext(),"车号有误！！");
+                        }
+                    }else if (jslx.equals("集装箱")){
+                        if (cx_NO.getText().toString().length() == 11) {
+                            list.add(jsjv);
+                            jsjv.save();
+                            js_rv.setAdapter(jiaSuoAdapter);
+                            jiaSuoAdapter.setDateJiaSuoAdapter(list);
+                            Log.e("TAGJS", jsjv.toString());
+                            cx_NO.setText("");
+                            dz_Ming.setText("");
+                            suo1.setText("");
+                            suo2.setText("");
+                            suo1_sbbh = null;
+                            suo1_id = null;
+                            suo1_ztbj = null;
+                            suo2_id = null;
+                            suo2_sbbh = null;
+                            suo2_ztbj = null;
+                        }else {
+                            ToastUtils.showmyToasty_War(getContext(),"集装箱号有误！！");
+                        }
+                    }
+
                 } else {
                     ToastUtils.showmyToasty_Er(getContext(), "请输入完整");
                 }
@@ -963,7 +990,10 @@ public class SuoCZGLorJs extends Fragment {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("jerry");
+        IntentFilter intentFilter2 = new IntentFilter();
+        intentFilter2.addAction("tuisong");
         broadcastManager.registerReceiver(mAdDownLoadReceiver, intentFilter);
+        broadcastManager.registerReceiver(mAdDownLoadReceiver, intentFilter2);
     }
 
     //
