@@ -18,6 +18,7 @@ import com.example.hjl.jgpushtest.http.Url;
 import com.example.hjl.jgpushtest.myview.CustomDialog;
 import com.example.hjl.jgpushtest.suoactivity.SuoMainActivity;
 import com.example.hjl.jgpushtest.util.SharePreferencesHelper;
+import com.example.hjl.jgpushtest.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 
 import butterknife.Bind;
@@ -101,6 +102,7 @@ public class TestACT extends BaseActivity {
                                 if (customDialog != null) {
                                     customDialog.dismiss();
                                 }
+                                ToastUtils.showmyToasty_War(TestACT.this,"帐号或密码错误");
                             }
 
                             @Override

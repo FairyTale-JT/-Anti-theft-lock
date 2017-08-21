@@ -6,6 +6,6 @@ public class Url {
      */
     public static final String BASE_URL = "https://api.douban.com/v2/movie/";
     public static final String BASE_URL_TWO = "https://api.douban.com/v2/movie/";
-    public static final String FDS_URL_MY = "http://192.168.1.131:8080/";
+    public static final String FDS_URL_MY = "http://192.168.253.1:8080/";
 
 }
